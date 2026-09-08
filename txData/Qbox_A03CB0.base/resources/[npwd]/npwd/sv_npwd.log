@@ -1,0 +1,54 @@
+{"level":"debug","message":"Marketplace service started","module":"marketplace","timestamp":"2026-09-08T16:53:21.106Z"}
+{"level":"debug","message":"Call service started","module":"calls","timestamp":"2026-09-08T16:53:21.108Z"}
+{"level":"debug","message":"Player Service started","module":"player","timestamp":"2026-09-08T16:53:21.108Z"}
+{"level":"info","message":"Loading QBX bridge....","timestamp":"2026-09-08T16:53:21.108Z"}
+{"level":"info","message":"QBX bridge initialized","timestamp":"2026-09-08T16:53:21.108Z"}
+{"level":"debug","message":"Boot service started","module":"boot","timestamp":"2026-09-08T16:53:21.108Z"}
+{"level":"debug","message":"Messages service started","module":"messages","timestamp":"2026-09-08T16:53:21.109Z"}
+{"level":"debug","message":"Notes service started","module":"notes","timestamp":"2026-09-08T16:53:21.109Z"}
+{"level":"debug","message":"Contacts service started","module":"contact","timestamp":"2026-09-08T16:53:21.109Z"}
+{"level":"debug","message":"Photo service started","module":"photo","timestamp":"2026-09-08T16:53:21.119Z"}
+{"level":"debug","message":"Twitter service started","module":"twitter","timestamp":"2026-09-08T16:53:21.119Z"}
+{"level":"debug","message":"Match service started","module":"match","timestamp":"2026-09-08T16:53:21.120Z"}
+{"level":"debug","message":"Beginning database schema validation","module":"boot","timestamp":"2026-09-08T16:53:22.070Z"}
+{"level":"info","message":"Successfully started","timestamp":"2026-09-08T16:53:22.082Z"}
+{"level":"info","message":"Executed query (SELECT COUNT(*) as count\n                       FROM information_schema.tables\n                       WHERE table_schema = ?\n                         AND table_name = ? [\"Qbox_A03CB0\",\"players\"]) in 43.8621ms'","module":"DBInterface","timestamp":"2026-09-08T16:53:22.115Z"}
+{"level":"info","message":"Executed query (SHOW COLUMNS IN players []) in 122.9607ms'","module":"DBInterface","timestamp":"2026-09-08T16:53:22.238Z"}
+{"level":"debug","message":"Database schema successfully validated","module":"boot","timestamp":"2026-09-08T16:53:22.239Z"}
+{"level":"info","message":"New NPWD Player added through event (1) (N68429HO)","module":"player","timestamp":"2026-09-08T16:55:31.350Z"}
+{"level":"debug","message":{"_firstname":"Ben","_identifier":"N68429HO","_lastname":"Dover","_phoneNumber":"8946606402","source":1,"username":"NotAGirl"},"module":"player","timestamp":"2026-09-08T16:55:31.350Z"}
+{"level":"info","message":"New NPWD Player added through event (1) (N68429HO)","module":"player","timestamp":"2026-09-08T16:55:31.367Z"}
+{"level":"debug","message":{"_firstname":"Ben","_identifier":"N68429HO","_lastname":"Dover","_phoneNumber":"8946606402","source":1,"username":"NotAGirl"},"module":"player","timestamp":"2026-09-08T16:55:31.367Z"}
+{"level":"silly","message":"netPromise > npwd:fetchTweets > RequestObj","module":"events","timestamp":"2026-09-08T16:55:31.458Z"}
+{"level":"silly","message":{"data":{"pageId":0},"source":1},"module":"events","timestamp":"2026-09-08T16:55:31.458Z"}
+{"level":"info","message":"Executed query (\n        SELECT *\n        FROM npwd_twitter_profiles\n        WHERE identifier = ?\n        LIMIT 1\n\t\t [\"N68429HO\"]) in 15.7674ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.474Z"}
+{"level":"warn","message":"Aborted fetching tweets for user N68429HO because they do not have a profile.","module":"twitter","timestamp":"2026-09-08T16:55:31.474Z"}
+{"level":"silly","message":"Response Promise Event npwd:fetchTweets:78cd9eef-708e-46e7-8aa0-5ad79d814c12 (16.6637ms), Data >>","module":"events","timestamp":"2026-09-08T16:55:31.474Z"}
+{"level":"silly","message":{"data":[],"status":"ok"},"module":"events","timestamp":"2026-09-08T16:55:31.474Z"}
+{"level":"silly","message":"netPromise > npwd:getOrCreateTwitterProfile > RequestObj","module":"events","timestamp":"2026-09-08T16:55:31.552Z"}
+{"level":"silly","message":{"data":null,"source":1},"module":"events","timestamp":"2026-09-08T16:55:31.552Z"}
+{"level":"silly","message":"netPromise > phone:getMyProfile > RequestObj","module":"events","timestamp":"2026-09-08T16:55:31.553Z"}
+{"level":"silly","message":{"data":null,"source":1},"module":"events","timestamp":"2026-09-08T16:55:31.553Z"}
+{"level":"info","message":"Executed query (\n        SELECT *\n        FROM npwd_twitter_profiles\n        WHERE identifier = ?\n        LIMIT 1\n\t\t [\"N68429HO\"]) in 4.6006ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.557Z"}
+{"level":"info","message":"Creating default Twitter profile Ben_Dover for N68429HO","module":"twitter","timestamp":"2026-09-08T16:55:31.558Z"}
+{"level":"silly","message":"netPromise > npwd:fetchMessageGroups > RequestObj","module":"events","timestamp":"2026-09-08T16:55:31.568Z"}
+{"level":"silly","message":{"data":null,"source":1},"module":"events","timestamp":"2026-09-08T16:55:31.568Z"}
+{"level":"silly","message":"netPromise > npwd-contact-getAll > RequestObj","module":"events","timestamp":"2026-09-08T16:55:31.570Z"}
+{"level":"silly","message":{"data":null,"source":1},"module":"events","timestamp":"2026-09-08T16:55:31.570Z"}
+{"level":"info","message":"Executed query (\n        SELECT *\n        FROM npwd_twitter_profiles\n        WHERE identifier = ?\n        LIMIT 1\n\t\t [\"N68429HO\"]) in 2.7141ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.586Z"}
+{"level":"silly","message":"Response Promise Event npwd:getOrCreateTwitterProfile:30f664a1-7147-41d0-b6ba-c7f82014354b (34.1939ms), Data >>","module":"events","timestamp":"2026-09-08T16:55:31.586Z"}
+{"level":"info","message":"Executed query (\n        SELECT *,\n               UNIX_TIMESTAMP(updatedAt) AS lastActive\n        FROM npwd_match_profiles\n        WHERE identifier = ?\n        LIMIT 1\n\t\t [\"N68429HO\"]) in 36.4897ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.590Z"}
+{"level":"silly","message":{"data":{"avatar_url":"https://i.fivemanage.com/images/3ClWwmpwkFhL.png","createdAt":"2026-09-08T16:55:31.000Z","id":1,"identifier":"N68429HO","profile_name":"Ben_Dover","updatedAt":"2026-09-08T16:55:31.000Z"},"status":"ok"},"module":"events","timestamp":"2026-09-08T16:55:31.586Z"}
+{"level":"info","message":"Creating default match profile Ben Dover for N68429HO","module":"match","timestamp":"2026-09-08T16:55:31.590Z"}
+{"level":"info","message":"Executed query (SELECT * FROM npwd_phone_contacts WHERE identifier = ? ORDER BY display ASC [\"N68429HO\"]) in 43.189ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.613Z"}
+{"level":"silly","message":"Response Promise Event npwd-contact-getAll:b683bf99-4d1d-445f-ad73-0bd8c511120e (43.8108ms), Data >>","module":"events","timestamp":"2026-09-08T16:55:31.614Z"}
+{"level":"info","message":"Executed query (SELECT npwd_messages_conversations.id,\n                          npwd_messages_conversations.conversation_list         as conversationList,\n                          npwd_messages_participants.unread_count               as unreadCount,\n                          npwd_messages_conversations.is_group_chat             as isGroupChat,\n                          npwd_messages_conversations.label,\n                          UNIX_TIMESTAMP(npwd_messages_conversations.updatedAt) as updatedAt,\n                          npwd_messages_participants.participant\n                   FROM npwd_messages_conversations\n                            INNER JOIN npwd_messages_participants\n                                       on npwd_messages_conversations.id = npwd_messages_participants.conversation_id\n                   WHERE npwd_messages_participants.participant = ? [\"8946606402\"]) in 45.4399ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.614Z"}
+{"level":"silly","message":{"data":[],"status":"ok"},"module":"events","timestamp":"2026-09-08T16:55:31.614Z"}
+{"level":"silly","message":"Response Promise Event npwd:fetchMessageGroups:0d024f21-ef4f-4efd-afb1-278f51fdc7e6 (46.1761ms), Data >>","module":"events","timestamp":"2026-09-08T16:55:31.614Z"}
+{"level":"silly","message":{"data":[],"status":"ok"},"module":"events","timestamp":"2026-09-08T16:55:31.614Z"}
+{"level":"info","message":"Executed query (\n        SELECT *,\n               UNIX_TIMESTAMP(updatedAt) AS lastActive\n        FROM npwd_match_profiles\n        WHERE identifier = ?\n        LIMIT 1\n\t\t [\"N68429HO\"]) in 1.0978ms'","module":"DBInterface","timestamp":"2026-09-08T16:55:31.616Z"}
+{"level":"silly","message":"Response Promise Event phone:getMyProfile:f41e7518-45e0-4e09-b32a-ab72c1e1d006 (63.7519ms), Data >>","module":"events","timestamp":"2026-09-08T16:55:31.617Z"}
+{"level":"silly","message":{"data":{"bio":"","createdAt":"2026-09-08T16:55:31.000Z","id":1,"identifier":"N68429HO","image":"https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg","job":"","lastActive":1788886531,"lastActiveFormatted":"Tue, 08 Sep 2026 16:55:31 GMT","location":"","name":"Ben Dover","tagList":[],"tags":"","updatedAt":"2026-09-08T16:55:31.000Z","viewed":false,"voiceMessage":null},"status":"ok"},"module":"events","timestamp":"2026-09-08T16:55:31.617Z"}
+{"level":"info","message":"Executed query (SELECT id FROM npwd_marketplace_listings WHERE identifier = ? [\"N68429HO\"]) in 9.5959ms'","module":"DBInterface","timestamp":"2026-09-08T17:03:40.499Z"}
+{"level":"info","message":"Executed query (DELETE FROM npwd_marketplace_listings WHERE identifier = ? AND reported = 0 [\"N68429HO\"]) in 15.8906ms'","module":"DBInterface","timestamp":"2026-09-08T17:03:40.516Z"}
+{"level":"info","message":"Unloaded NPWD Player, source: (1)","module":"player","timestamp":"2026-09-08T17:03:40.516Z"}
