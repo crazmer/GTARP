@@ -117,8 +117,6 @@ function SpawnVehicle(src, data)
         return
     end
 
-
-
     local plate = newVehicle.plate
         or (newVehicle.props and newVehicle.props.plate)
         or data.plate
@@ -143,40 +141,43 @@ function SpawnVehicle(src, data)
     end
 
     if vehicleId then
-    Entity(vehicle).state:set('vehicleid', vehicleId, true)
-end
+        Entity(vehicle).state:set('vehicleid', vehicleId, true)
+    end
 
--- Ensure the vehicle has a session ID before giving keys
-if not Entity(vehicle).state.sessionId then
-    exports.qbx_core:CreateSessionId(vehicle)
-end
+    -- Purchased vehicles should start unlocked for the buyer.
+    Entity(vehicle).state:set('doorslockstate', 1, true)
+
+    -- Ensure the vehicle has a session ID before giving keys
+    if not Entity(vehicle).state.sessionId then
+        exports.qbx_core:CreateSessionId(vehicle)
+    end
 
     print(('^2[KEY DEBUG] Giving keys to %s for vehicle %s, plate %s^0')
-    :format(src, vehicle, plate))
+        :format(src, vehicle, plate))
 
-local success = pcall(function()
-    CreateThread(function()
-    local timeout = GetGameTimer() + 5000
+    local success = pcall(function()
+        CreateThread(function()
+            local timeout = GetGameTimer() + 5000
 
-    while not Entity(vehicle).state.sessionId and GetGameTimer() < timeout do
-        Wait(100)
-    end
+            while not Entity(vehicle).state.sessionId and GetGameTimer() < timeout do
+                Wait(100)
+            end
 
-    local sessionId = Entity(vehicle).state.sessionId
+            local sessionId = Entity(vehicle).state.sessionId
 
-    if not sessionId then
-        lib.print.error(('Failed to create sessionId for vehicle %s'):format(vehicle))
-        return
-    end
+            if not sessionId then
+                lib.print.error(('Failed to create sessionId for vehicle %s'):format(vehicle))
+                return
+            end
 
-    lib.print.debug(('Giving keys: vehicle=%s sessionId=%s plate=%s')
-        :format(vehicle, sessionId, plate))
+            lib.print.debug(('Giving keys: vehicle=%s sessionId=%s plate=%s')
+                :format(vehicle, sessionId, plate))
 
-    config.giveKeys(src, plate, vehicle)
-end)
-end)
+            config.giveKeys(src, plate, vehicle)
+        end)
+    end)
 
-print(('^2[KEY DEBUG] GiveKeys result: %s^0'):format(tostring(success)))
+    print(('^2[KEY DEBUG] GiveKeys result: %s^0'):format(tostring(success)))
 
     return netId
 end
