@@ -1,0 +1,8 @@
+### 2026-09-09 00:04:59.803
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server shutting down (admin request).\"}"
+### 2026-09-09 00:35:00.678
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server restarting (admin request).\"}"
+### 2026-09-09 00:43:24.064
+local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print("vehicle:", v) print("lock status:", GetVehicleDoorLockStatus(v)) print("session:", Entity(v).state.sessionId) print("keys:", LocalPlayer.state.keysList and LocalPlayer.state.keysList[Entity(v).state.sessionId])
+### 2026-09-09 00:43:24.127
+txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print(\\"vehicle:\\", v) print(\\"lock status:\\", GetVehicleDoorLockStatus(v)) print(\\"session:\\", Entity(v).state.sessionId) print(\\"keys:\\", LocalPlayer.state.keysList and LocalPlayer.state.keysList[Entity(v).state.sessionId])\",\"author\":\"NotAGirl\"}"

@@ -1,6 +1,5 @@
 fx_version 'cerulean'
 game 'gta5'
-
 name 'qbx_vehicleshop'
 description 'Vehicle shop system for Qbox'
 repository 'https://github.com/Qbox-project/qbx_vehicleshop'
@@ -20,9 +19,9 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/main.lua',
     'server/utils.lua',
-    'server/finance.lua'
+    'server/finance.lua',
+    'server/main.lua',
 }
 
 files {

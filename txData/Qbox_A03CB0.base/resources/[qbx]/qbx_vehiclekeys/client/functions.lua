@@ -40,6 +40,11 @@ function HasKeys(vehicle)
     local keysList = LocalPlayer.state.keysList
     if keysList then
         local sessionId = Entity(vehicle).state.sessionId
+        print(('[KEY CHECK] vehicle=%s sessionId=%s key=%s'):format(
+    vehicle,
+    tostring(sessionId),
+    tostring(keysList[sessionId])
+))
         if keysList[sessionId] then
             return true
         end

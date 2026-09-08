@@ -1,6 +1,13 @@
 ================================================================
-======== txAdmin v9.0.0-beta-646aba9a atop fxserver 139 Starting - 8/9/2026, 10:18:52 pm
+======== Log Rotated - 9/9/2026, 12:00:00 am                    
 ================================================================
-[10:23:22 pm] txAdmin: Logger started
-[10:25:09 pm] [7wW3H#1] NotAGirl: joined with identifiers [license:e12a…9cba, fivem:8084825, license2:e12a…9cba]
-[10:33:40 pm] [7wW3H#1] NotAGirl: disconnected (Client closed application.)
+================================================================
+======== txAdmin v9.0.0-beta-646aba9a atop fxserver 139 Starting - 9/9/2026, 12:19:41 am
+================================================================
+[12:19:49 am] txAdmin: Logger started
+[12:21:31 am] [CQfw3#1] NotAGirl: joined with identifiers [license:e12a…9cba, fivem:8084825, license2:e12a…9cba]
+[12:25:56 am] txAdmin: Logger started
+[12:28:02 am] [ByTAh#1] NotAGirl: joined with identifiers [license:e12a…9cba, fivem:8084825, license2:e12a…9cba]
+[12:35:12 am] txAdmin: Logger started
+[12:38:19 am] [6Wdjj#1] NotAGirl: joined with identifiers [license:e12a…9cba, fivem:8084825, license2:e12a…9cba]
+[12:43:19 am] [6Wdjj#1] NotAGirl: said "/local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print("vehicle:", v) print("lock status:", GetVehicleDoorLockStatus(v)) print("session:", Entity(v).state.sessionId) print("keys:", LocalPlayer.state.keysList and LocalPlayer.state.keysList[Entity(v).state.sessionId])"

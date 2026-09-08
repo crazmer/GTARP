@@ -216,24 +216,52 @@ end)
 -- Set vehicle props
 ---@param netId number
 ---@param props table<any, any>
+
 RegisterNetEvent('qbx_core:client:setVehicleProperties', function(netId, props)
     if not props then return end
+
+    print('^3[VEHICLE DEBUG] Received netId:', netId)
+    print('^3[VEHICLE DEBUG] Props:', json.encode(props))
+
     local timeOut = GetGameTimer() + config.setVehicleProperties.timeout
     local vehicle = NetworkGetEntityFromNetworkId(netId)
+
+    print('^3[VEHICLE DEBUG] Initial vehicle entity:', vehicle)
+    print('^3[VEHICLE DEBUG] Initial owner:', NetworkGetEntityOwner(vehicle))
+    print('^3[VEHICLE DEBUG] My player ID:', cache.playerId)
+
     while true do
-        if NetworkGetEntityOwner(vehicle) == cache.playerId then
-            if lib.setVehicleProperties(vehicle, props) then
-                return
+        if DoesEntityExist(vehicle) then
+            print('^2[VEHICLE DEBUG] Vehicle exists^0')
+
+            if NetworkGetEntityOwner(vehicle) == cache.playerId then
+                print('^2[VEHICLE DEBUG] Client owns vehicle, applying properties^0')
+
+                local success = lib.setVehicleProperties(vehicle, props)
+
+                print('^2[VEHICLE DEBUG] setVehicleProperties result:', success)
+
+                if success then
+                    print('^2[VEHICLE DEBUG] Properties applied successfully^0')
+                    return
+                end
+            else
+                print('^1[VEHICLE DEBUG] Client does NOT own vehicle^0')
             end
+        else
+            print('^1[VEHICLE DEBUG] Vehicle entity does not exist yet^0')
         end
+
         if GetGameTimer() > timeOut then
+            print('^1[VEHICLE DEBUG] TIMED OUT setting vehicle properties^0')
             return
         end
 
         Wait(config.setVehicleProperties.waitInterval)
+
+        vehicle = NetworkGetEntityFromNetworkId(netId)
     end
 end)
-
 -- Clear vehicle peds
 ---@param vehicle number
 ---@param init boolean

@@ -99,12 +99,37 @@ end
 function SpawnVehicle(src, data)
     local coords, vehicleId = data.coords, data.vehicleId
     local newVehicle = vehicleId and exports.qbx_vehicles:GetPlayerVehicle(vehicleId) or data
-    if not newVehicle then return end
 
-    local plate = newVehicle.plate or newVehicle.props.plate
+    if not newVehicle then
+        print('^1[QBX VEHICLE DEBUG] Failed to get vehicle data. vehicleId: ' .. tostring(vehicleId) .. '^0')
+        return
+    end
+
+    print('^3[QBX VEHICLE DEBUG] vehicleId: ' .. tostring(vehicleId) .. '^0')
+    print('^3[QBX VEHICLE DEBUG] vehicle data: ' .. json.encode(newVehicle) .. '^0')
+    print('^3[QBX VEHICLE DEBUG] modelName: ' .. tostring(newVehicle.modelName) .. '^0')
+    print('^3[QBX VEHICLE DEBUG] model: ' .. tostring(newVehicle.model) .. '^0')
+
+    local modelName = newVehicle.modelName or newVehicle.model or data.modelName
+
+    if not modelName or modelName == '' then
+        print('^1[QBX VEHICLE DEBUG] No vehicle model found!^0')
+        return
+    end
+
+
+
+    local plate = newVehicle.plate
+        or (newVehicle.props and newVehicle.props.plate)
+        or data.plate
+
+    if not plate then
+        print('^1[QBX VEHICLE DEBUG] No plate found for vehicle: ' .. modelName .. '^0')
+        return
+    end
 
     local netId, vehicle = qbx.spawnVehicle({
-        model = newVehicle.modelName,
+        model = modelName,
         spawnSource = coords,
         warp = GetPlayerPed(src),
         props = {
@@ -112,13 +137,46 @@ function SpawnVehicle(src, data)
         }
     })
 
-    if not netId or netId == 0 or not vehicle or vehicle == 0 then return end
-
-    if vehicleId then
-        Entity(vehicle).state:set('vehicleid', vehicleId, false)
+    if not netId or netId == 0 or not vehicle or vehicle == 0 then
+        print('^1[QBX VEHICLE DEBUG] qbx.spawnVehicle failed for: ' .. modelName .. '^0')
+        return
     end
 
+    if vehicleId then
+    Entity(vehicle).state:set('vehicleid', vehicleId, true)
+end
+
+-- Ensure the vehicle has a session ID before giving keys
+if not Entity(vehicle).state.sessionId then
+    exports.qbx_core:CreateSessionId(vehicle)
+end
+
+    print(('^2[KEY DEBUG] Giving keys to %s for vehicle %s, plate %s^0')
+    :format(src, vehicle, plate))
+
+local success = pcall(function()
+    CreateThread(function()
+    local timeout = GetGameTimer() + 5000
+
+    while not Entity(vehicle).state.sessionId and GetGameTimer() < timeout do
+        Wait(100)
+    end
+
+    local sessionId = Entity(vehicle).state.sessionId
+
+    if not sessionId then
+        lib.print.error(('Failed to create sessionId for vehicle %s'):format(vehicle))
+        return
+    end
+
+    lib.print.debug(('Giving keys: vehicle=%s sessionId=%s plate=%s')
+        :format(vehicle, sessionId, plate))
+
     config.giveKeys(src, plate, vehicle)
+end)
+end)
+
+print(('^2[KEY DEBUG] GiveKeys result: %s^0'):format(tostring(success)))
 
     return netId
 end
