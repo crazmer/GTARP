@@ -245,6 +245,9 @@ lib.addCommand('transfervehicle', {
     if buyerId == 0 then
         return exports.qbx_core:Notify(source, locale('error.Invalid_ID'), 'error')
     end
+    if sellAmount < 0 then
+        return exports.qbx_core:Notify(source, locale('error.invalid_amount'), 'error')
+    end
 
     local ped = GetPlayerPed(source)
     local targetPed = GetPlayerPed(buyerId)
@@ -264,6 +267,10 @@ lib.addCommand('transfervehicle', {
 
     local player = exports.qbx_core:GetPlayer(source)
     local target = exports.qbx_core:GetPlayer(buyerId)
+    if not player or not target then
+        return exports.qbx_core:Notify(source, locale('error.buyerinfo'), 'error')
+    end
+
     local row = exports.qbx_vehicles:GetPlayerVehicle(vehicleId)
     local isFinanced = sharedConfig.finance.enable and financeStorage.fetchIsFinanced(vehicleId)
 
@@ -282,9 +289,6 @@ lib.addCommand('transfervehicle', {
     end
 
     local targetcid = target.PlayerData.citizenid
-    if not target then
-        return exports.qbx_core:Notify(source, locale('error.buyerinfo'), 'error')
-    end
 
     saleTimeout[source] = true
 
