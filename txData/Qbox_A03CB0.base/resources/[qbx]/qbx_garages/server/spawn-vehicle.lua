@@ -101,22 +101,25 @@ lib.callback.register('qbx_garages:server:spawnVehicle', function (source, vehic
         end
     end
 
-    playerVehicle.props.lockState = 1 -- Modify the veh props lock state here to avoid conflicts with the vehicleConfig.noLock system.
+    -- Always spawn owned vehicles unlocked. The player receives keys below.
+    playerVehicle.props.lockState = 1
 
     local warpPed = Config.warpInVehicle and GetPlayerPed(source)
     local netId, veh = qbx.spawnVehicle({ spawnSource = spawnCoords, model = playerVehicle.props.model, props = playerVehicle.props, warp = warpPed})
-
-    if Config.doorsLocked then
-        if GetResourceState('qbx_vehiclekeys') == 'started' then
-            TriggerEvent('qb-vehiclekeys:server:setVehLockState', netId, 2)
-        else
-            SetVehicleDoorsLocked(veh, 2)
-        end
+    if not netId or netId == 0 or not veh or veh == 0 then
+        return
     end
 
-    TriggerClientEvent('vehiclekeys:client:SetOwner', source, playerVehicle.props.plate)
+    -- Keep the lock state replicated so qbx_vehiclekeys and the client agree.
+    Entity(veh).state:set('doorslockstate', 1, true)
 
-    Entity(veh).state:set('vehicleid', vehicleId, false)
+    -- Preserve the vehicle id and ownership state for key/vehicle systems.
+    Entity(veh).state:set('vehicleid', vehicleId, true)
+
+    if GetResourceState('qbx_vehiclekeys') == 'started' then
+        exports.qbx_vehiclekeys:GiveKeys(source, veh, true)
+    end
+
     setVehicleStateToOut(vehicleId, veh, playerVehicle.modelName)
     TriggerEvent('qbx_garages:server:vehicleSpawned', veh)
     return netId
