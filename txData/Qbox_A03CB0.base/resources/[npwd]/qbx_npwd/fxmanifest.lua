@@ -5,6 +5,11 @@ description 'A simple bridge resource for Qbox Compatibility for NPWD'
 version '1.0.0'
 repository 'https://github.com/Qbox-Project/qbx_npwd'
 
+dependency 'npwd'
+
+dependency 'ox_lib'
+dependency 'oxmysql'
+
 shared_scripts {
     '@ox_lib/init.lua',
     'config.lua'
