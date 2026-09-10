@@ -6,7 +6,6 @@ version '1.0.0'
 repository 'https://github.com/Qbox-Project/qbx_npwd'
 
 dependency 'npwd'
-
 dependency 'ox_lib'
 dependency 'oxmysql'
 
@@ -15,7 +14,10 @@ shared_scripts {
     'config.lua'
 }
 
-client_script 'client.lua'
+client_scripts {
+    'client.lua',
+    'devtools.lua'
+}
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
