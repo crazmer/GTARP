@@ -1,8 +1,24 @@
-### 2026-09-09 00:04:59.803
-txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server shutting down (admin request).\"}"
-### 2026-09-09 00:35:00.678
-txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server restarting (admin request).\"}"
 ### 2026-09-09 00:43:24.064
 local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print("vehicle:", v) print("lock status:", GetVehicleDoorLockStatus(v)) print("session:", Entity(v).state.sessionId) print("keys:", LocalPlayer.state.keysList and LocalPlayer.state.keysList[Entity(v).state.sessionId])
 ### 2026-09-09 00:43:24.127
 txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print(\\"vehicle:\\", v) print(\\"lock status:\\", GetVehicleDoorLockStatus(v)) print(\\"session:\\", Entity(v).state.sessionId) print(\\"keys:\\", LocalPlayer.state.keysList and LocalPlayer.state.keysList[Entity(v).state.sessionId])\",\"author\":\"NotAGirl\"}"
+### 2026-09-09 22:38:30.594
+refresh 
+### 2026-09-09 23:50:50.022
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server shutting down (admin request).\"}"
+### 2026-09-10 00:55:06.493
+vehiclestatus PLATE.
+### 2026-09-10 00:55:06.526
+txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"vehiclestatus PLATE.\",\"author\":\"NotAGirl\"}"
+### 2026-09-10 00:55:30.818
+vehiclestatus 6XJUQH1A
+### 2026-09-10 00:55:30.855
+txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"vehiclestatus 6XJUQH1A\",\"author\":\"NotAGirl\"}"
+### 2026-09-10 00:59:49.075
+ensure qbx_vehicleinsurance
+### 2026-09-10 00:59:49.135
+txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"ensure qbx_vehicleinsurance\",\"author\":\"NotAGirl\"}"
+### 2026-09-10 22:24:15.759
+txaReportResources 
+### 2026-09-10 22:51:32.276
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server restarting (admin request).\"}"

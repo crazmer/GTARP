@@ -1,1 +1,1 @@
-{"version":1,"log":[{"ts":1788894312023,"type":"svBoot","duration":5}]}
+{"version":1,"log":[{"ts":1788978744346,"type":"svClose","reason":"the server needs to be restarted, please reconnect"},{"ts":1789060904226,"type":"svBoot","duration":6}]}
