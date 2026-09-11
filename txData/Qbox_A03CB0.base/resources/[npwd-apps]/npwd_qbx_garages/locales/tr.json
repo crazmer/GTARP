@@ -1,0 +1,9 @@
+{
+  "notification": {
+    "marked": "Araç haritada işaretlendi",
+    "cannot_locate": "Bu araç bulunamıyor"
+  },
+  "states": {
+    "garage_unknown": "Bilinmeyen garaj"
+  }
+}

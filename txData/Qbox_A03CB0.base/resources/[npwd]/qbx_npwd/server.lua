@@ -1,5 +1,3 @@
-lib.versionCheck('Qbox-project/qbx_npwd')
-
 local currentResourceName = GetCurrentResourceName()
 local debugIsEnabled = GetConvarInt(('%s-debug'):format(currentResourceName), 0) == 1
 

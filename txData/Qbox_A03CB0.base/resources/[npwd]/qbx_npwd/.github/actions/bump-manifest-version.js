@@ -5,11 +5,10 @@ const newVersion = version.replace('v', '')
 
 const manifestFile = fs.readFileSync('fxmanifest.lua', {encoding: 'utf8'})
 
-const versionStr = `version '${newVersion}'`
-let newFileContent = manifestFile.replace(/\bversion\s+(.*)$/gm, versionStr)
+let newFileContent = manifestFile.replace(/\bversion\s+(.*)$/gm, `version '${newVersion}'`)
 
-if (!newFileContent.includes(versionStr)) {
-    newFileContent = manifestFile.replace(/\bgame\s+(.*)$/gm, `game 'gta5'\n${versionStr}`);
+if (newFileContent == manifestFile) {
+    newFileContent = manifestFile.replace(/\bgame\s+(.*)$/gm, `game 'gta5'\nversion '${newVersion}'`);
 }
 
 fs.writeFileSync('fxmanifest.lua', newFileContent)

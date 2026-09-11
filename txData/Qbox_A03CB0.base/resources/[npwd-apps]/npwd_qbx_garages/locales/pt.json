@@ -1,0 +1,9 @@
+{
+    "notification": {
+        "marked": "Veículo marcado no mapa",
+        "cannot_locate": "Este veículo não pode ser localizado"
+    },
+    "states": {
+        "garage_unknown": "Garagem desconhecida"
+    }
+}

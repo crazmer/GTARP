@@ -3,6 +3,7 @@ node_modules
 dist
 web
 release
-.vscode/settings.json
+.vscode
+.idea
 .prettierrc
 .prettierignore

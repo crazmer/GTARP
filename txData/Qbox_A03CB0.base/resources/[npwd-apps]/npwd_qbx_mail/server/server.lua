@@ -1,3 +1,5 @@
+lib.versionCheck('Qbox-project/npwd_qbx_mail')
+
 local function generateMailId()
     return math.random(111111, 999999)
 end

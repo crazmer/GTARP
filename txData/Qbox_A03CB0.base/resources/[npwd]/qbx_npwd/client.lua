@@ -1,16 +1,10 @@
 local hasPhone = false
 
-local function doPhoneCheck(isUnload, totalCount)
+local function doPhoneCheck(isUnload)
     hasPhone = false
 
     if isUnload then
         exports.npwd:setPhoneDisabled(true)
-        return
-    end
-
-    if totalCount then
-        hasPhone = totalCount > 0
-        exports.npwd:setPhoneDisabled(not hasPhone)
         return
     end
 
@@ -45,13 +39,9 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     TriggerServerEvent('qbx_npwd:server:UnloadPlayer')
 end)
 
-AddEventHandler('ox_inventory:itemCount', function(itemName, totalCount)
-    for i = 1, #PhoneList do
-        if PhoneList[i] == itemName then
-            doPhoneCheck(false, totalCount)
-            break
-        end
-    end
+-- Handles state when PlayerData is changed. We're just looking for inventory updates.
+RegisterNetEvent('QBCore:Player:SetPlayerData', function()
+    doPhoneCheck()
 end)
 
 -- Handles state if resource is restarted live.
