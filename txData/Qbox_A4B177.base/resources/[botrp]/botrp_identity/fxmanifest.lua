@@ -3,7 +3,7 @@ game 'gta5'
 
 name 'botrp_identity'
 description 'BotRP normalized character identity service'
-version '0.1.0'
+version '0.2.0'
 author 'BotRP'
 
 shared_scripts {
