@@ -8,9 +8,7 @@ local function setLoading(state, title, subtitle)
         title = title or 'Welcome to BotRP',
         subtitle = subtitle or 'Preparing your character...',
     })
-    if state then
-        SetNuiFocus(false, false)
-    end
+    SetNuiFocus(false, false)
 end
 
 RegisterNetEvent('botrp_loading:client:show', function(title, subtitle)
@@ -21,17 +19,19 @@ RegisterNetEvent('botrp_loading:client:hide', function()
     setLoading(false)
 end)
 
--- Development test: F10. Uses the control directly so it does not depend on
--- command/ACE permissions or FiveM key-mapping registration.
-CreateThread(function()
-    while true do
-        Wait(0)
-        if IsControlJustPressed(0, 57) then -- INPUT_FRONTEND_F10
-            setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
-            Wait(250)
-        end
-    end
-end)
+-- Development test controls. These are local client commands and do not
+-- require ACE permissions. The commands intentionally use unique names so
+-- they do not conflict with server/admin command permissions.
+RegisterCommand('botrp_toggle_loading', function()
+    setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
+end, false)
+
+RegisterCommand('botrp_toggle_loading_f9', function()
+    setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
+end, false)
+
+RegisterKeyMapping('botrp_toggle_loading', 'BotRP loading screen test', 'keyboard', 'F10')
+RegisterKeyMapping('botrp_toggle_loading_f9', 'BotRP loading screen fallback test', 'keyboard', 'F9')
 
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     setLoading(true, 'Welcome to BotRP', 'Loading your character...')
@@ -59,5 +59,5 @@ CreateThread(function()
     while GetResourceState('qbx_core') ~= 'started' do
         Wait(500)
     end
-    print('[BotRP] loading v0.1.2 started')
+    print('[BotRP] loading v0.1.3 started - F10/F9 test bindings registered')
 end)
