@@ -7,6 +7,12 @@ local function isPolice()
     return job and BotRPIdentity.Config.police.jobs[job.name] == true or false
 end
 
+local function licenseStatus(license)
+    if not license or license.status == 'not_issued' then return 'NOT ISSUED' end
+    if license.status == 'revoked' then return 'REVOKED' end
+    return 'VALID'
+end
+
 local function showIdentity(data)
     if not data then
         lib.notify({ title = 'ID Verification', description = 'No identity information was returned.', type = 'error' })
@@ -18,16 +24,25 @@ local function showIdentity(data)
     elseif gender == 1 then gender = 'Female'
     else gender = tostring(gender or 'Unknown') end
 
-    local content = table.concat({
+    local lines = {
         ('Name: %s'):format(data.name or 'Unknown'),
         ('Citizen ID: %s'):format(data.citizenid or 'Unknown'),
         ('DOB: %s'):format(data.birthdate or 'Unknown'),
         ('Gender: %s'):format(gender),
         ('Nationality: %s'):format(data.nationality or 'Unknown'),
         ('Phone: %s'):format(data.phone or 'Unknown'),
-    }, '\n')
+    }
 
-    lib.alertDialog({ header = 'Identity Verification', content = content, centered = true, cancel = true, labels = { cancel = 'Close' } })
+    if data.licenses then
+        lines[#lines + 1] = ''
+        lines[#lines + 1] = '--- LICENSES ---'
+        for _, licenseType in ipairs({ 'driving', 'motorcycle', 'weapon' }) do
+            local license = data.licenses[licenseType]
+            if license then lines[#lines + 1] = ('%s: %s'):format(license.label, licenseStatus(license)) end
+        end
+    end
+
+    lib.alertDialog({ header = 'Identity Verification', content = table.concat(lines, '\n'), centered = true, cancel = true, labels = { cancel = 'Close' } })
 end
 
 RegisterNetEvent(BotRPIdentity.Config.events.updated, function(data)
