@@ -4,8 +4,6 @@ local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print("v
 txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"local v = GetClosestVehicle(GetEntityCoords(PlayerPedId()), 5.0, 0, 71) print(\\"vehicle:\\", v) print(\\"lock status:\\", GetVehicleDoorLockStatus(v)) print(\\"session:\\", Entity(v).state.sessionId) print(\\"keys:\\", LocalPlayer.state.keysList and LocalPlayer.state.keysList[Entity(v).state.sessionId])\",\"author\":\"NotAGirl\"}"
 ### 2026-09-09 22:38:30.594
 refresh 
-### 2026-09-09 23:50:50.022
-txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server shutting down (admin request).\"}"
 ### 2026-09-10 00:55:06.493
 vehiclestatus PLATE.
 ### 2026-09-10 00:55:06.526
@@ -22,3 +20,5 @@ txaEvent "consoleCommand" "{\"channel\":\"txAdmin\",\"command\":\"ensure qbx_veh
 txaReportResources 
 ### 2026-09-10 22:51:32.276
 txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server restarting (admin request).\"}"
+### 2026-09-12 05:14:46.367
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server shutting down (admin request).\"}"
