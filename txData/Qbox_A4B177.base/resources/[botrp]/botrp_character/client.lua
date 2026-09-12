@@ -10,6 +10,11 @@ local function notify(message, kind)
     lib.notify({ title = 'BotRP', description = message, type = kind or 'inform' })
 end
 
+local function closeCharacterUI()
+    SetNuiFocus(false, false)
+    SendNUIMessage({ action = 'hide' })
+end
+
 local function destroyPreview()
     if previewCam then
         SetTimecycleModifier('default')
@@ -111,15 +116,17 @@ RegisterNUICallback('play', function(data, cb)
     local character = characters[index]
     if not character then cb({ ok = false }); return end
 
-    SetNuiFocus(false, false)
+    -- Close the NUI immediately so the player gets control back after login.
+    closeCharacterUI()
     SendNUIMessage({ action = 'transition', text = 'Entering Los Santos...' })
     DoScreenFadeOut(250)
     Wait(250)
 
-    -- qbx_core's loadCharacter callback intentionally has no return value on success.
-    -- Do not treat a nil callback result as a failure; the authoritative success is Login()
-    -- on the server. This mirrors qbx_core's own multicharacter flow.
     lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
+
+    -- Login() on qbx_core's server completes the player load asynchronously.
+    -- Give the server/client lifecycle a moment to finish before restoring gameplay UI.
+    Wait(750)
 
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
@@ -135,8 +142,6 @@ RegisterNUICallback('play', function(data, cb)
         SetEntityVisible(cache.ped, true, false)
         DisplayRadar(true)
         DoScreenFadeIn(700)
-        TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-        TriggerEvent('QBCore:Client:OnPlayerLoaded')
     end
 
     destroyPreview()
@@ -154,8 +159,8 @@ RegisterNUICallback('create', function(data, cb)
     })
     if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
 
-    SetNuiFocus(false, false)
-    SendNUIMessage({ action = 'transition', text = 'Creating your character...' })
+    closeCharacterUI()
+    DoScreenFadeOut(250)
     Wait(350)
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', result)
@@ -168,8 +173,6 @@ RegisterNUICallback('create', function(data, cb)
         SetEntityVisible(cache.ped, true, false)
         DisplayRadar(true)
         DoScreenFadeIn(700)
-        TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-        TriggerEvent('QBCore:Client:OnPlayerLoaded')
     end
     destroyPreview()
     cb({ ok = true })
@@ -190,4 +193,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.3 started') end)
+CreateThread(function() print('[BotRP] character v0.1.4 started') end)
