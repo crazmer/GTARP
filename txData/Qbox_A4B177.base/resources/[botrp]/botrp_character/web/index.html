@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BotRP Characters</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app" class="hidden">
+  <div class="backdrop"></div>
+  <header class="topbar">
+    <div class="brand"><span class="mark">B</span><div><strong>BOTRP</strong><small>LOS SANTOS ROLEPLAY</small></div></div>
+    <div class="status"><span class="dot"></span> SERVER ONLINE</div>
+  </header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">CHARACTER MANAGEMENT</p>
+      <h1>Choose your <span>story.</span></h1>
+      <p class="sub">Select a character to continue your life in Los Santos, or create a new one.</p>
+    </section>
+    <section id="cards" class="cards"></section>
+    <section id="create" class="create hidden">
+      <div class="create-head"><button id="back">← Back</button><div><p class="eyebrow">NEW CHARACTER</p><h2>Create your character</h2></div></div>
+      <div class="form">
+        <label>FIRST NAME<input id="firstname" maxlength="50" placeholder="First name"></label>
+        <label>LAST NAME<input id="lastname" maxlength="50" placeholder="Last name"></label>
+        <label>NATIONALITY<input id="nationality" maxlength="50" placeholder="Nationality"></label>
+        <label>DATE OF BIRTH<input id="birthdate" type="date"></label>
+        <label>GENDER<select id="gender"><option>Male</option><option>Female</option></select></label>
+      </div>
+      <button id="createBtn" class="primary">Create Character <span>→</span></button>
+      <div id="error" class="error"></div>
+    </section>
+  </main>
+  <footer><span>BOTRP</span><span>Immersive roleplay. Your choices matter.</span><span>v0.1.0</span></footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
