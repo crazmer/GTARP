@@ -1,0 +1,37 @@
+================================================================
+======== txAdmin v9.0.0-beta-646aba9a atop fxserver 139 Starting - 12/9/2026, 7:19:47 am
+================================================================
+[07:20:34][NotAGirl] created admins file
+[07:20:57][NotAGirl] Config changes: general.serverName
+[07:20:57][NotAGirl] Changing global settings via setup stepper and started Deployer.
+[07:24:24][NotAGirl] Setting recipe.
+[07:24:24][NotAGirl] Setting recipe.
+[07:25:18][NotAGirl] Running recipe.
+[07:25:48][NotAGirl] Config changes: 
+[07:25:48][NotAGirl] Changing global settings via setup stepper and started Deployer.
+[07:25:50][NotAGirl] Setting recipe.
+[07:25:50][NotAGirl] Setting recipe.
+[07:26:37][NotAGirl] Running recipe.
+[07:27:17][NotAGirl] Config changes: 
+[07:27:17][NotAGirl] Changing global settings via setup stepper and started Deployer.
+[07:27:19][NotAGirl] Setting recipe.
+[07:27:19][NotAGirl] Setting recipe.
+[07:27:28][NotAGirl] Running recipe.
+[07:31:11][NotAGirl] Config changes: server.dataPath
+[07:31:11][NotAGirl] Completed and committed server deploy.
+[07:31:22][MONITOR] Restarting server: Server process close detected.
+[07:31:27][MONITOR] Restarting server: Server process close detected.
+[07:31:32][MONITOR] Restarting server: Server process close detected.
+[07:31:33][NotAGirl] executed "STOP SERVER"
+[07:31:37][MONITOR] Restarting server: Server process close detected.
+================================================================
+======== txAdmin v9.0.0-beta-646aba9a atop fxserver 139 Starting - 12/9/2026, 1:41:08 pm
+================================================================
+[13:42:39][NotAGirl] logged in from 127.0.0.1 via cfxre auth
+[14:18:31][NotAGirl] executed "RESTART SERVER"
+[14:32:29][NotAGirl] executed "RESTART SERVER"
+[14:33:06][NotAGirl] Ensured resource "bob74_ipl"
+[14:33:06][NotAGirl] Ensured resource "bob74_ipl"
+[14:33:11][NotAGirl] Ensured resource "basic-gamemode"
+[14:36:28][NotAGirl] executed "RESTART SERVER"
+[14:39:09][NotAGirl] executed "RESTART SERVER"

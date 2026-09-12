@@ -1,0 +1,8 @@
+### 2026-09-12 14:33:07.027
+ensure "bob74_ipl"
+### 2026-09-12 14:33:11.050
+ensure "basic-gamemode"
+### 2026-09-12 14:33:33.741
+txaReportResources 
+### 2026-09-12 14:39:09.899
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server restarting (admin request).\"}"
