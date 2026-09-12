@@ -7,35 +7,50 @@ local function debugPrint(...)
     print(('[%s]'):format(RESOURCE), ...)
 end
 
+local function sourceFrom(value)
+    if type(value) == 'number' then return value end
+    if type(value) == 'table' and value.PlayerData then
+        return tonumber(value.PlayerData.source)
+    end
+    return tonumber(value)
+end
+
 local function getPlayer(src)
+    src = sourceFrom(src)
     if not src or src <= 0 then return nil end
     if GetResourceState('qbx_core') ~= 'started' then return nil end
     return exports.qbx_core:GetPlayer(src)
 end
 
 local function buildIdentity(src)
+    src = sourceFrom(src)
     local player = getPlayer(src)
     if not player or not player.PlayerData then return nil end
 
     local data = player.PlayerData
     local char = data.charinfo or {}
+    local firstname = tostring(char.firstname or '')
+    local lastname = tostring(char.lastname or '')
 
     return {
-        source = tonumber(src),
+        source = src,
         citizenid = data.citizenid,
         license = data.license,
-        name = data.name or (('%s %s'):format(char.firstname or '', char.lastname or '')),
-        firstname = char.firstname,
-        lastname = char.lastname,
+        cid = char.cid,
+        name = data.name or (('%s %s'):format(firstname, lastname)):gsub('^%s*(.-)%s*$', '%1'),
+        firstname = firstname,
+        lastname = lastname,
         birthdate = char.birthdate,
         gender = char.gender,
         nationality = char.nationality,
         phone = char.phone,
-        cid = char.cid,
     }
 end
 
 local function refresh(src)
+    src = sourceFrom(src)
+    if not src then return nil end
+
     local identity = buildIdentity(src)
     if not identity then
         identities[src] = nil
@@ -48,19 +63,23 @@ local function refresh(src)
     return identity
 end
 
+local function handlePlayerUpdate(value)
+    local src = sourceFrom(value)
+    if src and identities[src] then
+        refresh(src)
+    end
+end
+
 AddEventHandler(Config.coreEvents.playerReady, function(src)
-    refresh(tonumber(src))
+    refresh(src)
 end)
 
 AddEventHandler(Config.coreEvents.playerLeft, function(src)
-    identities[tonumber(src)] = nil
+    src = sourceFrom(src)
+    if src then identities[src] = nil end
 end)
 
-AddEventHandler('QBCore:Server:OnPlayerUpdated', function(src)
-    if identities[tonumber(src)] then
-        refresh(tonumber(src))
-    end
-end)
+AddEventHandler('QBCore:Server:OnPlayerUpdated', handlePlayerUpdate)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource ~= RESOURCE then return end
@@ -81,7 +100,7 @@ lib.callback.register('botrp:identity:get', function(source)
 end)
 
 exports('GetIdentity', function(src)
-    src = tonumber(src)
+    src = sourceFrom(src)
     return identities[src] or buildIdentity(src)
 end)
 
@@ -93,8 +112,18 @@ exports('GetIdentities', function()
     return result
 end)
 
+exports('GetIdentityField', function(src, field)
+    if type(field) ~= 'string' then return nil end
+    local identity = identities[sourceFrom(src)] or buildIdentity(src)
+    return identity and identity[field] or nil
+end)
+
+exports('Refresh', function(src)
+    return refresh(src)
+end)
+
 exports('IsLoaded', function(src)
-    return identities[tonumber(src)] ~= nil
+    return identities[sourceFrom(src)] ~= nil
 end)
 
 exports('GetVersion', function()
