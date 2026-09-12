@@ -1,8 +1,9 @@
 local RESOURCE = GetCurrentResourceName()
 local identities = {}
+local Config = BotRPIdentity.Config
 
 local function debugPrint(...)
-    if not BotRP.Config.debug then return end
+    if not GetConvarInt('botrp_debug', 0) then return end
     print(('[%s]'):format(RESOURCE), ...)
 end
 
@@ -42,16 +43,16 @@ local function refresh(src)
     end
 
     identities[src] = identity
-    TriggerClientEvent(BotRPIdentity.Config.events.updated, src, identity)
-    TriggerEvent(BotRPIdentity.Config.events.ready, src, identity)
+    TriggerClientEvent(Config.events.updated, src, identity)
+    TriggerEvent(Config.events.ready, src, identity)
     return identity
 end
 
-AddEventHandler(BotRP.Config.events.playerReady, function(src)
+AddEventHandler(Config.coreEvents.playerReady, function(src)
     refresh(tonumber(src))
 end)
 
-AddEventHandler(BotRP.Config.events.playerLeft, function(src)
+AddEventHandler(Config.coreEvents.playerLeft, function(src)
     identities[tonumber(src)] = nil
 end)
 
@@ -64,7 +65,7 @@ end)
 AddEventHandler('onResourceStart', function(resource)
     if resource ~= RESOURCE then return end
 
-    print(('[BotRP] identity v%s started'):format(BotRPIdentity.Config.version))
+    print(('[BotRP] identity v%s started'):format(Config.version))
 
     if GetResourceState('qbx_core') ~= 'started' then return end
     local players = exports.qbx_core:GetQBPlayers()
@@ -97,7 +98,7 @@ exports('IsLoaded', function(src)
 end)
 
 exports('GetVersion', function()
-    return BotRPIdentity.Config.version
+    return Config.version
 end)
 
 lib.addCommand('botrp_identity', {
