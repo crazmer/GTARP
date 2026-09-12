@@ -19,6 +19,7 @@ local function destroyPreview()
         previewCam = nil
     end
     FreezeEntityPosition(cache.ped, false)
+    DisplayRadar(true)
 end
 
 local function previewPed(citizenId)
@@ -112,14 +113,13 @@ RegisterNUICallback('play', function(data, cb)
 
     SetNuiFocus(false, false)
     SendNUIMessage({ action = 'transition', text = 'Entering Los Santos...' })
-    DoScreenFadeOut(500)
-    Wait(500)
+    DoScreenFadeOut(250)
+    Wait(250)
 
-    local success = lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-    if not success then
-        DoScreenFadeIn(500); SetNuiFocus(true, true)
-        notify('Unable to load this character.', 'error'); cb({ ok = false }); return
-    end
+    -- qbx_core's loadCharacter callback intentionally has no return value on success.
+    -- Do not treat a nil callback result as a failure; the authoritative success is Login()
+    -- on the server. This mirrors qbx_core's own multicharacter flow.
+    lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
 
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
@@ -128,11 +128,19 @@ RegisterNUICallback('play', function(data, cb)
         TriggerEvent('qb-spawn:client:openUI', true)
     else
         local pos = character.position
-        if pos then SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false); SetEntityHeading(cache.ped, pos.w or 0.0) end
-        SetEntityVisible(cache.ped, true, false); DisplayRadar(true); DoScreenFadeIn(700)
-        TriggerServerEvent('QBCore:Server:OnPlayerLoaded'); TriggerEvent('QBCore:Client:OnPlayerLoaded')
+        if pos then
+            SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
+            SetEntityHeading(cache.ped, pos.w or 0.0)
+        end
+        SetEntityVisible(cache.ped, true, false)
+        DisplayRadar(true)
+        DoScreenFadeIn(700)
+        TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+        TriggerEvent('QBCore:Client:OnPlayerLoaded')
     end
-    destroyPreview(); cb({ ok = true })
+
+    destroyPreview()
+    cb({ ok = true })
 end)
 
 RegisterNUICallback('create', function(data, cb)
@@ -146,18 +154,25 @@ RegisterNUICallback('create', function(data, cb)
     })
     if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
 
-    SetNuiFocus(false, false); SendNUIMessage({ action = 'transition', text = 'Creating your character...' }); Wait(350)
+    SetNuiFocus(false, false)
+    SendNUIMessage({ action = 'transition', text = 'Creating your character...' })
+    Wait(350)
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', result)
     elseif GetResourceState('qbx_spawn'):find('start') then
         TriggerEvent('qbx_core:client:spawnNoApartments')
     else
         local pos = config.defaultSpawn
-        SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false); SetEntityHeading(cache.ped, pos.w)
-        SetEntityVisible(cache.ped, true, false); DisplayRadar(true); DoScreenFadeIn(700)
-        TriggerServerEvent('QBCore:Server:OnPlayerLoaded'); TriggerEvent('QBCore:Client:OnPlayerLoaded')
+        SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
+        SetEntityHeading(cache.ped, pos.w)
+        SetEntityVisible(cache.ped, true, false)
+        DisplayRadar(true)
+        DoScreenFadeIn(700)
+        TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+        TriggerEvent('QBCore:Client:OnPlayerLoaded')
     end
-    destroyPreview(); cb({ ok = true })
+    destroyPreview()
+    cb({ ok = true })
 end)
 
 RegisterNUICallback('close', function(_, cb) cb({ ok = false }) end)
@@ -171,7 +186,8 @@ end)
 
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end
-    Wait(500); openCharacterScreen()
+    Wait(500)
+    openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.2 started') end)
+CreateThread(function() print('[BotRP] character v0.1.3 started') end)
