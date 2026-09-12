@@ -1,4 +1,5 @@
 local RESOURCE = GetCurrentResourceName()
+local config = require 'config'
 local previewCam
 local randomLocation
 local characters = {}
@@ -6,11 +7,7 @@ local maxCharacters = 0
 local selectedIndex = 1
 
 local function notify(message, kind)
-    lib.notify({
-        title = 'BotRP',
-        description = message,
-        type = kind or 'inform'
-    })
+    lib.notify({ title = 'BotRP', description = message, type = kind or 'inform' })
 end
 
 local function destroyPreview()
@@ -27,23 +24,20 @@ end
 local function previewPed(citizenId)
     local clothing, model = citizenId and lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId) or nil
     if model and clothing then
-        lib.requestModel(model, 30000)
+        lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
-        pcall(function()
-            exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing))
-        end)
+        pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
         SetModelAsNoLongerNeeded(model)
     else
         local modelHash = `mp_m_freemode_01`
-        lib.requestModel(modelHash, 30000)
+        lib.requestModel(modelHash, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, modelHash)
         SetModelAsNoLongerNeeded(modelHash)
     end
 end
 
 local function setupPreview()
-    local config = require 'config.client'
-    randomLocation = config.characters.locations[math.random(1, #config.characters.locations)]
+    randomLocation = config.locations[math.random(1, #config.locations)]
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
     FreezeEntityPosition(cache.ped, true)
@@ -62,10 +56,8 @@ local function sendCharacters()
         local character = characters[i]
         if character then
             payload[#payload + 1] = {
-                slot = i,
-                citizenid = character.citizenid,
-                firstname = character.charinfo.firstname,
-                lastname = character.charinfo.lastname,
+                slot = i, citizenid = character.citizenid,
+                firstname = character.charinfo.firstname, lastname = character.charinfo.lastname,
                 birthdate = character.charinfo.birthdate,
                 gender = character.charinfo.gender == 0 and 'Male' or 'Female',
                 nationality = character.charinfo.nationality,
@@ -125,11 +117,8 @@ RegisterNUICallback('play', function(data, cb)
 
     local success = lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
     if not success then
-        DoScreenFadeIn(500)
-        SetNuiFocus(true, true)
-        notify('Unable to load this character.', 'error')
-        cb({ ok = false })
-        return
+        DoScreenFadeIn(500); SetNuiFocus(true, true)
+        notify('Unable to load this character.', 'error'); cb({ ok = false }); return
     end
 
     if GetResourceState('qbx_apartments'):find('start') then
@@ -139,70 +128,39 @@ RegisterNUICallback('play', function(data, cb)
         TriggerEvent('qb-spawn:client:openUI', true)
     else
         local pos = character.position
-        if pos then
-            SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
-            SetEntityHeading(cache.ped, pos.w or 0.0)
-        end
-        SetEntityVisible(cache.ped, true, false)
-        DisplayRadar(true)
-        DoScreenFadeIn(700)
-        TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-        TriggerEvent('QBCore:Client:OnPlayerLoaded')
+        if pos then SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false); SetEntityHeading(cache.ped, pos.w or 0.0) end
+        SetEntityVisible(cache.ped, true, false); DisplayRadar(true); DoScreenFadeIn(700)
+        TriggerServerEvent('QBCore:Server:OnPlayerLoaded'); TriggerEvent('QBCore:Client:OnPlayerLoaded')
     end
-
-    destroyPreview()
-    cb({ ok = true })
+    destroyPreview(); cb({ ok = true })
 end)
 
 RegisterNUICallback('create', function(data, cb)
     local slot = tonumber(data.slot) or 1
-    if slot < 1 or slot > maxCharacters or characters[slot] then
-        cb({ ok = false, error = 'That character slot is unavailable.' })
-        return
-    end
-
+    if slot < 1 or slot > maxCharacters or characters[slot] then cb({ ok = false, error = 'That character slot is unavailable.' }); return end
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
-        firstname = tostring(data.firstname or ''),
-        lastname = tostring(data.lastname or ''),
-        nationality = tostring(data.nationality or ''),
-        gender = gender,
-        birthdate = tostring(data.birthdate or ''),
-        cid = slot
+        firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
+        nationality = tostring(data.nationality or ''), gender = gender,
+        birthdate = tostring(data.birthdate or ''), cid = slot
     })
+    if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
 
-    if not result then
-        cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
-        return
-    end
-
-    SetNuiFocus(false, false)
-    SendNUIMessage({ action = 'transition', text = 'Creating your character...' })
-    Wait(350)
-
+    SetNuiFocus(false, false); SendNUIMessage({ action = 'transition', text = 'Creating your character...' }); Wait(350)
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', result)
     elseif GetResourceState('qbx_spawn'):find('start') then
         TriggerEvent('qbx_core:client:spawnNoApartments')
     else
-        local config = require 'config.shared'
-        SetEntityCoords(cache.ped, config.defaultSpawn.x, config.defaultSpawn.y, config.defaultSpawn.z, false, false, false, false)
-        SetEntityHeading(cache.ped, config.defaultSpawn.w)
-        SetEntityVisible(cache.ped, true, false)
-        DisplayRadar(true)
-        DoScreenFadeIn(700)
-        TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-        TriggerEvent('QBCore:Client:OnPlayerLoaded')
+        local pos = config.defaultSpawn
+        SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false); SetEntityHeading(cache.ped, pos.w)
+        SetEntityVisible(cache.ped, true, false); DisplayRadar(true); DoScreenFadeIn(700)
+        TriggerServerEvent('QBCore:Server:OnPlayerLoaded'); TriggerEvent('QBCore:Client:OnPlayerLoaded')
     end
-
-    destroyPreview()
-    cb({ ok = true })
+    destroyPreview(); cb({ ok = true })
 end)
 
-RegisterNUICallback('close', function(_, cb)
-    cb({ ok = false })
-end)
-
+RegisterNUICallback('close', function(_, cb) cb({ ok = false }) end)
 RegisterNetEvent('botrp_character:client:open', openCharacterScreen)
 
 CreateThread(function()
@@ -213,10 +171,7 @@ end)
 
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     if GetInvokingResource() then return end
-    Wait(500)
-    openCharacterScreen()
+    Wait(500); openCharacterScreen()
 end)
 
-CreateThread(function()
-    print('[BotRP] character v0.1.0 started')
-end)
+CreateThread(function() print('[BotRP] character v0.1.2 started') end)
