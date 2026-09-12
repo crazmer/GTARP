@@ -24,33 +24,37 @@ end
 
 local function ensureIdCard(src)
     src = sourceFrom(src)
-    if not src or GetResourceState('ox_inventory') ~= 'started' then return end
-    if GetResourceState('qbx_idcard') ~= 'started' then return end
+    if not src then return false end
+    if GetResourceState('ox_inventory') ~= 'started' then
+        debugPrint('ox_inventory is not started; cannot issue id_card to', src)
+        return false
+    end
+    if GetResourceState('qbx_idcard') ~= 'started' then
+        debugPrint('qbx_idcard is not started; cannot issue id_card to', src)
+        return false
+    end
 
     local ok, count = pcall(function()
         return exports.ox_inventory:Search(src, 'count', 'id_card')
     end)
 
-    if ok and tonumber(count or 0) > 0 then return end
-
-    local metadataOk, metadata = pcall(function()
-        return exports.qbx_idcard:GetMetaLicense(src, {'id_card'})
-    end)
-
-    if not metadataOk or type(metadata) ~= 'table' then
-        debugPrint('Unable to create ID card metadata for source', src)
-        return
+    if ok and tonumber(count or 0) > 0 then
+        return true
     end
 
-    local added, response = pcall(function()
-        return exports.ox_inventory:AddItem(src, 'id_card', 1, metadata)
+    -- qbx_idcard already owns the correct metadata format and item registration.
+    -- Use its official helper instead of constructing an incompatible metadata object.
+    local added, result = pcall(function()
+        return exports.qbx_idcard:CreateMetaLicense(src, {'id_card'})
     end)
 
-    if added and response then
-        debugPrint('Issued identification card to source', src)
-    else
-        debugPrint('Failed to issue identification card to source', src, response)
+    if not added then
+        debugPrint('Failed to issue id_card to source', src, result)
+        return false
     end
+
+    debugPrint('Issued identification card to source', src)
+    return true
 end
 
 local function buildIdentity(src)
@@ -177,6 +181,8 @@ lib.addCommand('botrp_identity', {
         })
         return
     end
+
+    ensureIdCard(source)
 
     lib.notify(source, {
         title = 'BotRP Identity',
