@@ -1,6 +1,7 @@
 local config = require 'config'
 local previewCam
-local randomLocation
+local previewPedEntity
+local previewLocation
 local characters = {}
 local maxCharacters = 0
 local selectedIndex = 1
@@ -15,67 +16,88 @@ end
 local function destroyPreview()
     if previewCam then
         SetCamActive(previewCam, false)
-        RenderScriptCams(false, false, 500, true, true)
+        RenderScriptCams(false, false, 250, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
     end
+
+    if previewPedEntity and DoesEntityExist(previewPedEntity) then
+        SetEntityAsMissionEntity(previewPedEntity, true, true)
+        DeleteEntity(previewPedEntity)
+        previewPedEntity = nil
+    end
+
     ClearTimecycleModifier()
-    FreezeEntityPosition(cache.ped, false)
-    SetEntityInvincible(cache.ped, false)
-    SetEntityCollision(cache.ped, true, true)
     DisplayRadar(true)
 end
 
-local function loadPreviewPed(citizenId)
-    local clothing, model = citizenId and lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId) or nil
-    if model and clothing then
-        lib.requestModel(model, config.loadingModelsTimeout)
-        SetPlayerModel(cache.playerId, model)
-        pcall(function()
-            local appearance = json.decode(clothing)
-            if appearance and GetResourceState('illenium-appearance') == 'started' then
-                exports['illenium-appearance']:setPedAppearance(PlayerPedId(), appearance)
-            end
-        end)
-        SetModelAsNoLongerNeeded(model)
-    else
-        local modelHash = `mp_m_freemode_01`
-        lib.requestModel(modelHash, config.loadingModelsTimeout)
-        SetPlayerModel(cache.playerId, modelHash)
-        SetModelAsNoLongerNeeded(modelHash)
-    end
-
-    SetEntityVisible(cache.ped, true, false)
-    SetEntityInvincible(cache.ped, true)
-    SetEntityCollision(cache.ped, false, false)
-    ClearPedTasksImmediately(cache.ped)
+local function getModelHash(model)
+    if type(model) == 'string' then return joaat(model) end
+    return model
 end
 
-local function setupPreview()
+local function createPreviewPed(citizenId)
     destroyPreview()
-    randomLocation = config.locations[math.random(1, #config.locations)]
 
-    RequestCollisionAtCoord(randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z)
-    SetEntityCoordsNoOffset(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false)
-    SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
-    FreezeEntityPosition(cache.ped, true)
-    DisplayRadar(false)
-    SetEntityVisible(cache.ped, true, false)
-    SetEntityInvincible(cache.ped, true)
-    SetEntityCollision(cache.ped, false, false)
+    previewLocation = config.locations[1]
+    local coords = previewLocation.pedCoords
+    local clothing, model = nil, nil
+
+    if citizenId then
+        clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
+    end
+
+    local modelHash = getModelHash(model) or `mp_m_freemode_01`
+    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then
+        modelHash = `mp_m_freemode_01`
+    end
+
+    lib.requestModel(modelHash, config.loadingModelsTimeout)
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+
+    previewPedEntity = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
+    SetEntityAsMissionEntity(previewPedEntity, true, true)
+    SetEntityInvincible(previewPedEntity, true)
+    SetEntityCollision(previewPedEntity, false, false)
+    FreezeEntityPosition(previewPedEntity, true)
+    SetEntityVisible(previewPedEntity, true, false)
+    ResetEntityAlpha(previewPedEntity)
+    SetBlockingOfNonTemporaryEvents(previewPedEntity, true)
+    ClearPedTasksImmediately(previewPedEntity)
+
+    if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
+        pcall(function()
+            local appearance = json.decode(clothing)
+            if appearance then
+                exports['illenium-appearance']:setPedAppearance(previewPedEntity, appearance)
+            end
+        end)
+    end
+
+    SetModelAsNoLongerNeeded(modelHash)
+
+    -- Put the camera in front of the preview ped and calculate its look target.
+    -- This avoids relying on a hard-coded camera rotation and guarantees the ped
+    -- is inside the camera frustum.
+    local heading = math.rad(coords.w)
+    local forwardX = -math.sin(heading)
+    local forwardY = math.cos(heading)
+    local camX = coords.x + forwardX * 2.8
+    local camY = coords.y + forwardY * 2.8
+    local camZ = coords.z + 1.35
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-    SetCamCoord(previewCam, randomLocation.camCoords.x, randomLocation.camCoords.y, randomLocation.camCoords.z)
-    SetCamFov(previewCam, 38.0)
-    PointCamAtEntity(previewCam, cache.ped, 0.0, 0.0, 0.72, true)
+    SetCamCoord(previewCam, camX, camY, camZ)
+    SetCamFov(previewCam, 42.0)
+    PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.95, true)
     SetCamActive(previewCam, true)
     SetCamUseShallowDofMode(previewCam, true)
-    SetCamNearDof(previewCam, 0.4)
-    SetCamFarDof(previewCam, 2.2)
-    SetCamDofStrength(previewCam, 0.75)
-    RenderScriptCams(true, false, 750, true, true)
+    SetCamNearDof(previewCam, 0.8)
+    SetCamFarDof(previewCam, 8.0)
+    SetCamDofStrength(previewCam, 0.55)
+    RenderScriptCams(true, false, 500, true, true)
     SetTimecycleModifier('hud_def_blur')
-    SetTimecycleModifierStrength(0.25)
+    SetTimecycleModifierStrength(0.18)
 end
 
 local function sendCharacters()
@@ -115,8 +137,7 @@ local function openCharacterScreen()
     while not NetworkIsInTutorialSession() do Wait(0) end
 
     local first = characters[1]
-    loadPreviewPed(first and first.citizenid)
-    setupPreview()
+    createPreviewPed(first and first.citizenid)
 
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
@@ -131,8 +152,7 @@ RegisterNUICallback('select', function(data, cb)
     if index < 1 or index > maxCharacters then cb({ ok = false }); return end
     selectedIndex = index
     local character = characters[index]
-    loadPreviewPed(character and character.citizenid)
-    setupPreview()
+    if character then createPreviewPed(character.citizenid) end
     sendCharacters()
     cb({ ok = true })
 end)
@@ -142,8 +162,6 @@ RegisterNUICallback('play', function(data, cb)
     local character = characters[index]
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
 
-    -- Match Qbox's native external-character handoff: login first, then let the
-    -- apartment/spawn resource open its own UI. Do not fabricate a success value.
     closeCharacterUI()
     DoScreenFadeOut(10)
     Wait(20)
@@ -160,6 +178,8 @@ RegisterNUICallback('play', function(data, cb)
         return
     end
 
+    -- Follow Qbox's native external-character handoff. The spawn/apartment
+    -- resource owns the next screen; BotRP only owns character selection.
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
     elseif GetResourceState('qbx_spawn'):find('start') then
@@ -181,14 +201,22 @@ end)
 
 RegisterNUICallback('create', function(data, cb)
     local slot = tonumber(data.slot) or 1
-    if slot < 1 or slot > maxCharacters or characters[slot] then cb({ ok = false, error = 'That character slot is unavailable.' }); return end
+    if slot < 1 or slot > maxCharacters or characters[slot] then
+        cb({ ok = false, error = 'That character slot is unavailable.' })
+        return
+    end
+
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
         firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
         nationality = tostring(data.nationality or ''), gender = gender,
         birthdate = tostring(data.birthdate or ''), cid = slot
     })
-    if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
+
+    if not result then
+        cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
+        return
+    end
 
     closeCharacterUI()
     DoScreenFadeOut(10)
@@ -212,4 +240,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.7 started') end)
+CreateThread(function() print('[BotRP] character v0.1.8 started') end)
