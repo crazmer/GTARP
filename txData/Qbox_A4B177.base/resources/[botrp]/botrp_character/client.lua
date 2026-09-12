@@ -7,6 +7,19 @@ local maxCharacters = 0
 local selectedIndex = 1
 local inCharacterLobby = false
 
+local function setGameplayHudVisible(visible)
+    DisplayRadar(visible)
+    DisplayHud(visible)
+
+    -- qbx_hud is a separate NUI. Its normal update loop can redraw itself after
+    -- the character screen opens, so keep explicitly hiding it while the lobby
+    -- owns the screen and restore it only after the character is loaded.
+    if GetResourceState('qbx_hud') == 'started' then
+        SendNUIMessage({ action = 'hudtick', show = visible })
+        SendNUIMessage({ action = 'car', show = visible and cache.vehicle ~= nil })
+    end
+end
+
 local function closeCharacterUI()
     SetNuiFocus(false, false)
     SendNUIMessage({ action = 'hide' })
@@ -28,7 +41,6 @@ local function destroyPreview()
     end
 
     ClearTimecycleModifier()
-    DisplayRadar(true)
 end
 
 local function getModelHash(model)
@@ -76,9 +88,6 @@ local function createPreviewPed(citizenId)
 
     SetModelAsNoLongerNeeded(modelHash)
 
-    -- Put the camera in front of the preview ped and calculate its look target.
-    -- This avoids relying on a hard-coded camera rotation and guarantees the ped
-    -- is inside the camera frustum.
     local heading = math.rad(coords.w)
     local forwardX = -math.sin(heading)
     local forwardY = math.cos(heading)
@@ -127,6 +136,7 @@ end
 local function openCharacterScreen()
     if inCharacterLobby then return end
     inCharacterLobby = true
+    setGameplayHudVisible(false)
 
     characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
     characters = characters or {}
@@ -153,8 +163,8 @@ RegisterNUICallback('select', function(data, cb)
     selectedIndex = index
     local character = characters[index]
     if character then createPreviewPed(character.citizenid) end
-    sendCharacters()
     cb({ ok = true })
+    sendCharacters()
 end)
 
 RegisterNUICallback('play', function(data, cb)
@@ -173,13 +183,12 @@ RegisterNUICallback('play', function(data, cb)
 
     if not ok then
         inCharacterLobby = false
+        setGameplayHudVisible(true)
         DoScreenFadeIn(500)
         cb({ ok = false, error = tostring(err) })
         return
     end
 
-    -- Follow Qbox's native external-character handoff. The spawn/apartment
-    -- resource owns the next screen; BotRP only owns character selection.
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
     elseif GetResourceState('qbx_spawn'):find('start') then
@@ -192,7 +201,7 @@ RegisterNUICallback('play', function(data, cb)
             SetEntityHeading(cache.ped, pos.w or 0.0)
         end
         SetEntityVisible(cache.ped, true, false)
-        DisplayRadar(true)
+        setGameplayHudVisible(true)
         DoScreenFadeIn(700)
     end
 
@@ -235,9 +244,30 @@ CreateThread(function()
     openCharacterScreen()
 end)
 
+-- Keep gameplay HUD elements suppressed while BotRP owns the character lobby.
+-- qbx_hud has its own periodic update loop, so a one-time hide is not enough.
+CreateThread(function()
+    while true do
+        if inCharacterLobby then
+            setGameplayHudVisible(false)
+            HideHudAndRadarThisFrame()
+            DisableControlAction(0, 1, true)
+            DisableControlAction(0, 2, true)
+            DisableControlAction(0, 24, true)
+            DisableControlAction(0, 25, true)
+            DisableControlAction(0, 30, true)
+            DisableControlAction(0, 31, true)
+            DisableControlAction(0, 75, true)
+            Wait(0)
+        else
+            Wait(500)
+        end
+    end
+end)
+
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     Wait(500)
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.8 started') end)
+CreateThread(function() print('[BotRP] character v0.1.9 started') end)
