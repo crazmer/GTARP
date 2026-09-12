@@ -2,8 +2,8 @@ fx_version 'cerulean'
 game 'gta5'
 
 name 'botrp_identity'
-description 'BotRP normalized character identity service'
-version '0.2.2'
+description 'BotRP normalized character identity and licensing service'
+version '0.4.0'
 author 'BotRP'
 
 shared_scripts {
@@ -16,11 +16,13 @@ client_scripts {
 }
 
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'server/main.lua',
 }
 
 dependencies {
     'ox_lib',
+    'oxmysql',
     'qbx_core',
     'qbx_idcard',
     'botrp_core',
