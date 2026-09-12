@@ -1,14 +1,11 @@
 local RESOURCE = GetCurrentResourceName()
-local visible = false
 
 local function setLoading(state, title, subtitle)
-    visible = state
     SendNUIMessage({
         action = state and 'show' or 'hide',
         title = title or 'Welcome to BotRP',
         subtitle = subtitle or 'Preparing your character...',
     })
-    SetNuiFocus(false, false)
 end
 
 RegisterNetEvent('botrp_loading:client:show', function(title, subtitle)
@@ -19,17 +16,13 @@ RegisterNetEvent('botrp_loading:client:hide', function()
     setLoading(false)
 end)
 
--- Manual test command. This is intentionally a local client command and
--- does not require ACE permissions.
-RegisterCommand('botrp_loading', function()
-    setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
-end, false)
+-- Development trigger. This avoids chat/ACE command permissions entirely.
+RegisterNetEvent('botrp_loading:client:toggleTest', function()
+    SendNUIMessage({ action = 'toggle' })
+end)
 
-RegisterKeyMapping('botrp_loading', 'Toggle BotRP loading screen', 'keyboard', 'F10')
-
+-- Qbox/QBCore compatibility: hide after the character has loaded.
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
-    setLoading(true, 'Welcome to BotRP', 'Loading your character...')
-    Wait(2500)
     setLoading(false)
 end)
 
@@ -41,17 +34,18 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     setLoading(false)
 end)
 
+-- The loading UI is shown automatically while this resource initializes.
 AddEventHandler('onClientResourceStart', function(resourceName)
     if resourceName ~= RESOURCE then return end
-    Wait(1000)
-    setLoading(true, 'Welcome to BotRP', 'Preparing your character...')
-    Wait(3000)
-    setLoading(false)
+    CreateThread(function()
+        Wait(500)
+        setLoading(true, 'Welcome to BotRP', 'Preparing your character...')
+    end)
 end)
 
 CreateThread(function()
     while GetResourceState('qbx_core') ~= 'started' do
         Wait(500)
     end
-    print('[BotRP] loading v0.1.4 started - /botrp_loading available')
+    print('[BotRP] loading v0.2.0 started')
 end)
