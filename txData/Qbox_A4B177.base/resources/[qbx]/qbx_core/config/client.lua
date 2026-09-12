@@ -1,25 +1,25 @@
 return {
-    statusIntervalSeconds = 5,
-    loadingModelsTimeout = 30000,
+    statusIntervalSeconds = 5, -- how often to check hunger/thirst status to remove health if 0.
+    loadingModelsTimeout = 30000, -- Waiting time for ox_lib to load the models before throws an error, for low specs pc
 
-    pauseMapText = 'Powered by BotRP',
+    pauseMapText = 'Powered by Qbox', -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
 
     characters = {
-        useExternalCharacters = true,
-        enableDeleteButton = true,
-        startingApartment = true,
+        useExternalCharacters = true, -- BotRP provides the external character management UI.
+        enableDeleteButton = true, -- Whether players should be able to delete characters themselves.
+        startingApartment = true, -- If set to false, skips apartment choice in the beginning (requires qbx_spawn if true)
 
         dateFormat = 'YYYY-MM-DD',
-        dateMin = '1900-01-01',
-        dateMax = '2006-12-31',
+        dateMin = '1900-01-01', -- Has to be in the same format as the dateFormat config
+        dateMax = '2006-12-31', -- Has to be in the same format as the dateFormat config
 
-        limitNationalities = true,
+        limitNationalities = true, -- Setting this to false will allow people to enter whatever they want in the nationality field (To edit the list of nationalities, head to data/nationalities.lua)
 
         profanityWords = {
             ['bad word'] = true
         },
 
-        locations = {
+        locations = { -- Spawn locations for multichar, these are chosen randomly
             {
                 pedCoords = vec4(969.25, 72.61, 116.18, 276.55),
                 camCoords = vec4(972.2, 72.9, 116.68, 97.27),
@@ -52,31 +52,64 @@ return {
     },
 
     discord = {
-        enabled = true,
-        richPresence = 'Players {currentPlayers}/{maxPlayers}',
-        updateInterval = 15000,
-        appId = '1024981890798731345',
-        largeIcon = { icon = 'duck', text = 'BotRP' },
-        smallIcon = { icon = 'logo_name', text = 'BotRP' },
-        firstButton = { text = 'BotRP Discord', link = 'https://discord.gg/' },
-        secondButton = { text = 'BotRP', link = 'https://github.com/crazmer/GTARP' }
+        enabled = true, -- This will enable or disable the built in discord rich presence.
+
+        richPresence = 'Players {currentPlayers}/{maxPlayers}', -- Rich presence text. Placeholders: {id}, {charName}, {playerName}, {currentPlayers}, {maxPlayers}, {streetName}
+
+        updateInterval = 15000, -- How often (ms) to refresh Discord rich presence. Minimum 5000; Discord throttles faster updates.
+
+        appId = '1024981890798731345', -- This is the Application ID (Replace this with you own)
+
+        largeIcon = { -- To set this up, visit https://forum.cfx.re/t/how-to-updated-discord-rich-presence-custom-image/157686
+            icon = 'duck', -- Here you will have to put the image name for the 'large' icon.
+            text = 'Qbox Ducky', -- Here you can add hover text for the 'large' icon.
+        },
+
+        smallIcon = {
+            icon = 'logo_name', -- Here you will have to put the image name for the 'small' icon.
+            text = 'This is a small icon with text', -- Here you can add hover text for the 'small' icon.
+        },
+
+        firstButton = {
+            text = 'Qbox Discord',
+            link = 'https://discord.gg/Z6Whda5hHA',
+        },
+
+        secondButton = {
+            text = 'Main Website',
+            link = 'https://www.qbox.re/',
+        }
     },
 
+    --- Only used by QB bridge
     hasKeys = function(plate, vehicle)
         return GetResourceState('qbx_vehiclekeys') ~= 'started' or exports.qbx_vehiclekeys:HasKeys(vehicle)
     end,
 
     teleport = {
-        fadeDuration = 650,
-        groundSearchMaxZ = 850.0,
-        groundSearchStartZ = 950.0,
-        groundSearchStep = -25.0,
-        loadSceneRadius = 50.0,
-        timeout = 1000,
+        fadeDuration = 650, -- Screen fade duration in milliseconds when teleporting
+        groundSearchMaxZ = 850.0, -- Maximum Z height to search for ground
+        groundSearchStartZ = 950.0, -- Starting Z height for ground search
+        groundSearchStep = -25.0, -- Z increment for ground search loop
+        loadSceneRadius = 50.0, -- Radius to load scene around teleport destination
+        timeout = 1000, -- Timeout in milliseconds for scene loading and collision checks
     },
 
-    getVehiclesInRadius = { defaultRadius = 5 },
-    meCommand = { distance = 25, displayTime = 5000 },
-    setVehicleProperties = { timeout = 1000, waitInterval = 50 },
-    initVehicle = { seats = {-1, 0} },
+    getVehiclesInRadius = {
+        defaultRadius = 5,
+    },
+
+    meCommand = {
+        distance = 25,
+        displayTime = 5000,
+    },
+
+    setVehicleProperties = {
+        timeout = 1000,
+        waitInterval = 50,
+    },
+
+    initVehicle = {
+        seats = {-1, 0},
+    },
 }
