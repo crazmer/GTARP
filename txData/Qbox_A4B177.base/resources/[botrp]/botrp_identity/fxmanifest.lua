@@ -3,7 +3,7 @@ game 'gta5'
 
 name 'botrp_identity'
 description 'BotRP normalized character identity service'
-version '0.2.0'
+version '0.2.1'
 author 'BotRP'
 
 shared_scripts {
@@ -22,6 +22,7 @@ server_scripts {
 dependencies {
     'ox_lib',
     'qbx_core',
+    'qbx_idcard',
     'botrp_core',
 }
 
