@@ -1,7 +1,5 @@
 local RESOURCE = GetCurrentResourceName()
 local visible = false
-local testCommand = ('+%s'):format(RESOURCE)
-local releaseCommand = ('-%s'):format(RESOURCE)
 
 local function setLoading(state, title, subtitle)
     visible = state
@@ -23,11 +21,17 @@ RegisterNetEvent('botrp_loading:client:hide', function()
     setLoading(false)
 end)
 
-RegisterCommand(testCommand, function()
-    setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
-end, false)
-RegisterCommand(releaseCommand, function() end, false)
-RegisterKeyMapping(testCommand, 'Toggle BotRP loading screen test', 'keyboard', 'F10')
+-- Development test: F10. Uses the control directly so it does not depend on
+-- command/ACE permissions or FiveM key-mapping registration.
+CreateThread(function()
+    while true do
+        Wait(0)
+        if IsControlJustPressed(0, 57) then -- INPUT_FRONTEND_F10
+            setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
+            Wait(250)
+        end
+    end
+end)
 
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     setLoading(true, 'Welcome to BotRP', 'Loading your character...')
@@ -55,5 +59,5 @@ CreateThread(function()
     while GetResourceState('qbx_core') ~= 'started' do
         Wait(500)
     end
-    print('[BotRP] loading v0.1.1 started')
+    print('[BotRP] loading v0.1.2 started')
 end)
