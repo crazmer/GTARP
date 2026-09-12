@@ -1,38 +1,40 @@
-local RESOURCE = GetCurrentResourceName()
 local config = require 'config'
 local previewCam
 local randomLocation
 local characters = {}
 local maxCharacters = 0
 local selectedIndex = 1
-
-local function notify(message, kind)
-    lib.notify({ title = 'BotRP', description = message, type = kind or 'inform' })
-end
+local inCharacterLobby = false
 
 local function closeCharacterUI()
     SetNuiFocus(false, false)
     SendNUIMessage({ action = 'hide' })
+    inCharacterLobby = false
 end
 
 local function destroyPreview()
     if previewCam then
-        SetTimecycleModifier('default')
+        RenderScriptCams(false, false, 500, true, true)
         SetCamActive(previewCam, false)
         DestroyCam(previewCam, true)
-        RenderScriptCams(false, false, 500, true, true)
         previewCam = nil
     end
+    ClearTimecycleModifier()
     FreezeEntityPosition(cache.ped, false)
     DisplayRadar(true)
 end
 
-local function previewPed(citizenId)
+local function loadPreviewPed(citizenId)
     local clothing, model = citizenId and lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId) or nil
     if model and clothing then
         lib.requestModel(model, config.loadingModelsTimeout)
         SetPlayerModel(cache.playerId, model)
-        pcall(function() exports['illenium-appearance']:setPedAppearance(PlayerPedId(), json.decode(clothing)) end)
+        pcall(function()
+            local appearance = json.decode(clothing)
+            if appearance and GetResourceState('illenium-appearance') == 'started' then
+                exports['illenium-appearance']:setPedAppearance(PlayerPedId(), appearance)
+            end
+        end)
         SetModelAsNoLongerNeeded(model)
     else
         local modelHash = `mp_m_freemode_01`
@@ -40,20 +42,33 @@ local function previewPed(citizenId)
         SetPlayerModel(cache.playerId, modelHash)
         SetModelAsNoLongerNeeded(modelHash)
     end
+
+    SetEntityVisible(cache.ped, true, false)
+    SetEntityInvincible(cache.ped, true)
+    SetEntityCollision(cache.ped, false, false)
+    ClearPedTasksImmediately(cache.ped)
 end
 
 local function setupPreview()
+    destroyPreview()
     randomLocation = config.locations[math.random(1, #config.locations)]
+
     SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
     FreezeEntityPosition(cache.ped, true)
     DisplayRadar(false)
     SetEntityVisible(cache.ped, true, false)
-    SetTimecycleModifier('hud_def_blur')
-    SetTimecycleModifierStrength(0.65)
-    previewCam = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', randomLocation.camCoords.x, randomLocation.camCoords.y, randomLocation.camCoords.z, -6.0, 0.0, randomLocation.camCoords.w, 40.0, false, 0)
+    SetEntityInvincible(cache.ped, true)
+    SetEntityCollision(cache.ped, false, false)
+
+    previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+    SetCamCoord(previewCam, randomLocation.camCoords.x, randomLocation.camCoords.y, randomLocation.camCoords.z)
+    SetCamFov(previewCam, 38.0)
+    PointCamAtEntity(previewCam, cache.ped, 0.0, 0.0, 0.72, true)
     SetCamActive(previewCam, true)
     RenderScriptCams(true, false, 750, true, true)
+    SetTimecycleModifier('MP_corona_switch')
+    SetTimecycleModifierStrength(0.25)
 end
 
 local function sendCharacters()
@@ -62,8 +77,10 @@ local function sendCharacters()
         local character = characters[i]
         if character then
             payload[#payload + 1] = {
-                slot = i, citizenid = character.citizenid,
-                firstname = character.charinfo.firstname, lastname = character.charinfo.lastname,
+                slot = i,
+                citizenid = character.citizenid,
+                firstname = character.charinfo.firstname,
+                lastname = character.charinfo.lastname,
                 birthdate = character.charinfo.birthdate,
                 gender = character.charinfo.gender == 0 and 'Male' or 'Female',
                 nationality = character.charinfo.nationality,
@@ -81,16 +98,19 @@ local function sendCharacters()
 end
 
 local function openCharacterScreen()
-    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
-    characters = characters or {}
-    maxCharacters = maxCharacters or #characters
+    if inCharacterLobby then return end
+    inCharacterLobby = true
+
+    local result = lib.callback.await('qbx_core:server:getCharacters')
+    characters = result and result[1] or {}
+    maxCharacters = result and result[2] or #characters
     selectedIndex = 1
 
     NetworkStartSoloTutorialSession()
     while not NetworkIsInTutorialSession() do Wait(0) end
 
     local first = characters[1]
-    previewPed(first and first.citizenid)
+    loadPreviewPed(first and first.citizenid)
     setupPreview()
 
     ShutdownLoadingScreen()
@@ -106,7 +126,8 @@ RegisterNUICallback('select', function(data, cb)
     if index < 1 or index > maxCharacters then cb({ ok = false }); return end
     selectedIndex = index
     local character = characters[index]
-    previewPed(character and character.citizenid)
+    loadPreviewPed(character and character.citizenid)
+    setupPreview()
     sendCharacters()
     cb({ ok = true })
 end)
@@ -114,58 +135,67 @@ end)
 RegisterNUICallback('play', function(data, cb)
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
-    if not character then cb({ ok = false }); return end
-
-    -- Close the NUI immediately so the player gets control back after login.
-    closeCharacterUI()
-    SendNUIMessage({ action = 'transition', text = 'Entering Los Santos...' })
-    DoScreenFadeOut(250)
-    Wait(250)
-
-    lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-
-    -- Login() on qbx_core's server completes the player load asynchronously.
-    -- Give the server/client lifecycle a moment to finish before restoring gameplay UI.
-    Wait(750)
-
-    if GetResourceState('qbx_apartments'):find('start') then
-        TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
-    elseif GetResourceState('qbx_spawn'):find('start') then
-        TriggerEvent('qb-spawn:client:setupSpawns', character.citizenid)
-        TriggerEvent('qb-spawn:client:openUI', true)
-    else
-        local pos = character.position
-        if pos then
-            SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
-            SetEntityHeading(cache.ped, pos.w or 0.0)
-        end
-        SetEntityVisible(cache.ped, true, false)
-        DisplayRadar(true)
-        DoScreenFadeIn(700)
+    if not character then
+        cb({ ok = false, error = 'Select a character first.' })
+        return
     end
 
+    -- The web UI must disappear before Qbox login begins. Do not mute game audio:
+    -- hearing normal GTA/radio audio here is expected because this is still a game world.
+    closeCharacterUI()
+    DoScreenFadeOut(300)
+    Wait(350)
     destroyPreview()
+
+    local ok, err = pcall(function()
+        lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
+    end)
+
+    if not ok then
+        DoScreenFadeIn(500)
+        cb({ ok = false, error = tostring(err) })
+        inCharacterLobby = false
+        return
+    end
+
+    -- Qbox Login() completes the player load server-side. Let the normal Qbox
+    -- spawn/apartment resources receive their player-loaded lifecycle event.
+    Wait(1000)
     cb({ ok = true })
 end)
 
 RegisterNUICallback('create', function(data, cb)
     local slot = tonumber(data.slot) or 1
-    if slot < 1 or slot > maxCharacters or characters[slot] then cb({ ok = false, error = 'That character slot is unavailable.' }); return end
+    if slot < 1 or slot > maxCharacters or characters[slot] then
+        cb({ ok = false, error = 'That character slot is unavailable.' })
+        return
+    end
+
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
-        firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
-        nationality = tostring(data.nationality or ''), gender = gender,
-        birthdate = tostring(data.birthdate or ''), cid = slot
+        firstname = tostring(data.firstname or ''),
+        lastname = tostring(data.lastname or ''),
+        nationality = tostring(data.nationality or ''),
+        gender = gender,
+        birthdate = tostring(data.birthdate or ''),
+        cid = slot
     })
-    if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
+
+    if not result then
+        cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
+        return
+    end
 
     closeCharacterUI()
-    DoScreenFadeOut(250)
+    DoScreenFadeOut(300)
     Wait(350)
-    if GetResourceState('qbx_apartments'):find('start') then
-        TriggerEvent('apartments:client:setupSpawnUI', result)
-    elseif GetResourceState('qbx_spawn'):find('start') then
-        TriggerEvent('qbx_core:client:spawnNoApartments')
+    destroyPreview()
+
+    if GetResourceState('qbx_apartments') == 'started' then
+        TriggerEvent('apartments:client:setupSpawnUI')
+    elseif GetResourceState('qbx_spawn') == 'started' then
+        TriggerEvent('qb-spawn:client:setupSpawns', result)
+        TriggerEvent('qb-spawn:client:openUI', true)
     else
         local pos = config.defaultSpawn
         SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
@@ -174,7 +204,7 @@ RegisterNUICallback('create', function(data, cb)
         DisplayRadar(true)
         DoScreenFadeIn(700)
     end
-    destroyPreview()
+
     cb({ ok = true })
 end)
 
@@ -188,9 +218,10 @@ CreateThread(function()
 end)
 
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
-    if GetInvokingResource() then return end
     Wait(500)
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.4 started') end)
+CreateThread(function()
+    print('[BotRP] character v0.1.5 started')
+end)
