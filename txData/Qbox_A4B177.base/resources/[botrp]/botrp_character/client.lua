@@ -21,6 +21,8 @@ local function destroyPreview()
     end
     ClearTimecycleModifier()
     FreezeEntityPosition(cache.ped, false)
+    SetEntityInvincible(cache.ped, false)
+    SetEntityCollision(cache.ped, true, true)
     DisplayRadar(true)
 end
 
@@ -77,10 +79,8 @@ local function sendCharacters()
         local character = characters[i]
         if character then
             payload[#payload + 1] = {
-                slot = i,
-                citizenid = character.citizenid,
-                firstname = character.charinfo.firstname,
-                lastname = character.charinfo.lastname,
+                slot = i, citizenid = character.citizenid,
+                firstname = character.charinfo.firstname, lastname = character.charinfo.lastname,
                 birthdate = character.charinfo.birthdate,
                 gender = character.charinfo.gender == 0 and 'Male' or 'Female',
                 nationality = character.charinfo.nationality,
@@ -101,9 +101,9 @@ local function openCharacterScreen()
     if inCharacterLobby then return end
     inCharacterLobby = true
 
-    local result = lib.callback.await('qbx_core:server:getCharacters')
-    characters = result and result[1] or {}
-    maxCharacters = result and result[2] or #characters
+    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
+    characters = characters or {}
+    maxCharacters = maxCharacters or #characters
     selectedIndex = 1
 
     NetworkStartSoloTutorialSession()
@@ -135,13 +135,8 @@ end)
 RegisterNUICallback('play', function(data, cb)
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
-    if not character then
-        cb({ ok = false, error = 'Select a character first.' })
-        return
-    end
+    if not character then cb({ ok = false, error = 'Select a character first.' }); return end
 
-    -- The web UI must disappear before Qbox login begins. Do not mute game audio:
-    -- hearing normal GTA/radio audio here is expected because this is still a game world.
     closeCharacterUI()
     DoScreenFadeOut(300)
     Wait(350)
@@ -158,33 +153,20 @@ RegisterNUICallback('play', function(data, cb)
         return
     end
 
-    -- Qbox Login() completes the player load server-side. Let the normal Qbox
-    -- spawn/apartment resources receive their player-loaded lifecycle event.
     Wait(1000)
     cb({ ok = true })
 end)
 
 RegisterNUICallback('create', function(data, cb)
     local slot = tonumber(data.slot) or 1
-    if slot < 1 or slot > maxCharacters or characters[slot] then
-        cb({ ok = false, error = 'That character slot is unavailable.' })
-        return
-    end
-
+    if slot < 1 or slot > maxCharacters or characters[slot] then cb({ ok = false, error = 'That character slot is unavailable.' }); return end
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
-        firstname = tostring(data.firstname or ''),
-        lastname = tostring(data.lastname or ''),
-        nationality = tostring(data.nationality or ''),
-        gender = gender,
-        birthdate = tostring(data.birthdate or ''),
-        cid = slot
+        firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
+        nationality = tostring(data.nationality or ''), gender = gender,
+        birthdate = tostring(data.birthdate or ''), cid = slot
     })
-
-    if not result then
-        cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
-        return
-    end
+    if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
 
     closeCharacterUI()
     DoScreenFadeOut(300)
@@ -204,7 +186,6 @@ RegisterNUICallback('create', function(data, cb)
         DisplayRadar(true)
         DoScreenFadeIn(700)
     end
-
     cb({ ok = true })
 end)
 
@@ -222,6 +203,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function()
-    print('[BotRP] character v0.1.5 started')
-end)
+CreateThread(function() print('[BotRP] character v0.1.6 started') end)
