@@ -6,18 +6,28 @@ local characters = {}
 local maxCharacters = 0
 local selectedIndex = 1
 local inCharacterLobby = false
+local previewAnimDict = 'amb@world_human_stand_impatient@male@base'
+local previewAnimName = 'base'
 
 local function setGameplayHudVisible(visible)
     DisplayRadar(visible)
     DisplayHud(visible)
 
-    -- qbx_hud is a separate NUI. Its normal update loop can redraw itself after
-    -- the character screen opens, so keep explicitly hiding it while the lobby
-    -- owns the screen and restore it only after the character is loaded.
     if GetResourceState('qbx_hud') == 'started' then
         SendNUIMessage({ action = 'hudtick', show = visible })
         SendNUIMessage({ action = 'car', show = visible and cache.vehicle ~= nil })
     end
+end
+
+local function restorePlayer()
+    local ped = cache.ped
+    if ped and DoesEntityExist(ped) then
+        FreezeEntityPosition(ped, false)
+        SetEntityCollision(ped, true, true)
+        SetEntityVisible(ped, true, false)
+        ResetEntityAlpha(ped)
+    end
+    setGameplayHudVisible(true)
 end
 
 local function closeCharacterUI()
@@ -29,7 +39,7 @@ end
 local function destroyPreview()
     if previewCam then
         SetCamActive(previewCam, false)
-        RenderScriptCams(false, false, 250, true, true)
+        RenderScriptCams(false, false, 350, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
     end
@@ -46,6 +56,16 @@ end
 local function getModelHash(model)
     if type(model) == 'string' then return joaat(model) end
     return model
+end
+
+local function requestPreviewAnimation()
+    if not lib then return false end
+    if not lib.requestAnimDict then return false end
+
+    local ok = pcall(function()
+        lib.requestAnimDict(previewAnimDict)
+    end)
+    return ok
 end
 
 local function createPreviewPed(citizenId)
@@ -76,6 +96,9 @@ local function createPreviewPed(citizenId)
     ResetEntityAlpha(previewPedEntity)
     SetBlockingOfNonTemporaryEvents(previewPedEntity, true)
     ClearPedTasksImmediately(previewPedEntity)
+    SetPedCanRagdoll(previewPedEntity, false)
+    SetPedFleeAttributes(previewPedEntity, 0, false)
+    SetPedCombatAttributes(previewPedEntity, 46, true)
 
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
@@ -86,27 +109,42 @@ local function createPreviewPed(citizenId)
         end)
     end
 
+    -- Give the character a natural showcase idle instead of standing rigidly.
+    if requestPreviewAnimation() then
+        TaskPlayAnim(previewPedEntity, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
+    else
+        TaskStartScenarioInPlace(previewPedEntity, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
+    end
+
     SetModelAsNoLongerNeeded(modelHash)
 
-    local heading = math.rad(coords.w)
-    local forwardX = -math.sin(heading)
-    local forwardY = math.cos(heading)
-    local camX = coords.x + forwardX * 2.8
-    local camY = coords.y + forwardY * 2.8
-    local camZ = coords.z + 1.35
+    -- Use the configured showcase camera when available. It is intentionally
+    -- independent from the real player so changing characters never moves them.
+    local cam = previewLocation.camCoords
+    local camX, camY, camZ
+    if cam then
+        camX, camY, camZ = cam.x, cam.y, cam.z
+    else
+        local heading = math.rad(coords.w)
+        camX = coords.x - math.sin(heading) * 2.8
+        camY = coords.y + math.cos(heading) * 2.8
+        camZ = coords.z + 1.35
+    end
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camX, camY, camZ)
-    SetCamFov(previewCam, 42.0)
-    PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.95, true)
+    SetCamFov(previewCam, 38.0)
+    PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.98, true)
     SetCamActive(previewCam, true)
     SetCamUseShallowDofMode(previewCam, true)
-    SetCamNearDof(previewCam, 0.8)
-    SetCamFarDof(previewCam, 8.0)
-    SetCamDofStrength(previewCam, 0.55)
-    RenderScriptCams(true, false, 500, true, true)
-    SetTimecycleModifier('hud_def_blur')
-    SetTimecycleModifierStrength(0.18)
+    SetCamNearDof(previewCam, 1.0)
+    SetCamFarDof(previewCam, 10.0)
+    SetCamDofStrength(previewCam, 0.72)
+    RenderScriptCams(true, false, 650, true, true)
+
+    -- A subtle cinematic grade; the actual world remains visible behind the UI.
+    SetTimecycleModifier('MP_corona_switch')
+    SetTimecycleModifierStrength(0.10)
 end
 
 local function sendCharacters()
@@ -137,6 +175,13 @@ local function openCharacterScreen()
     if inCharacterLobby then return end
     inCharacterLobby = true
     setGameplayHudVisible(false)
+
+    local playerPed = cache.ped
+    if playerPed and DoesEntityExist(playerPed) then
+        FreezeEntityPosition(playerPed, true)
+        SetEntityCollision(playerPed, false, false)
+        SetEntityVisible(playerPed, false, false)
+    end
 
     characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
     characters = characters or {}
@@ -173,8 +218,8 @@ RegisterNUICallback('play', function(data, cb)
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
 
     closeCharacterUI()
-    DoScreenFadeOut(10)
-    Wait(20)
+    DoScreenFadeOut(250)
+    Wait(280)
     destroyPreview()
 
     local ok, err = pcall(function()
@@ -183,7 +228,7 @@ RegisterNUICallback('play', function(data, cb)
 
     if not ok then
         inCharacterLobby = false
-        setGameplayHudVisible(true)
+        restorePlayer()
         DoScreenFadeIn(500)
         cb({ ok = false, error = tostring(err) })
         return
@@ -200,8 +245,7 @@ RegisterNUICallback('play', function(data, cb)
             SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
             SetEntityHeading(cache.ped, pos.w or 0.0)
         end
-        SetEntityVisible(cache.ped, true, false)
-        setGameplayHudVisible(true)
+        restorePlayer()
         DoScreenFadeIn(700)
     end
 
@@ -228,9 +272,10 @@ RegisterNUICallback('create', function(data, cb)
     end
 
     closeCharacterUI()
-    DoScreenFadeOut(10)
-    Wait(20)
+    DoScreenFadeOut(250)
+    Wait(280)
     destroyPreview()
+    restorePlayer()
     TriggerEvent('apartments:client:setupSpawnUI', result)
     cb({ ok = true })
 end)
@@ -245,7 +290,6 @@ CreateThread(function()
 end)
 
 -- Keep gameplay HUD elements suppressed while BotRP owns the character lobby.
--- qbx_hud has its own periodic update loop, so a one-time hide is not enough.
 CreateThread(function()
     while true do
         if inCharacterLobby then
@@ -265,9 +309,32 @@ CreateThread(function()
     end
 end)
 
+-- Tiny camera breathing motion makes the showcase feel alive without moving
+-- the character around the world or affecting gameplay.
+CreateThread(function()
+    local phase = 0.0
+    while true do
+        if inCharacterLobby and previewCam and DoesCamExist(previewCam) then
+            phase = phase + 0.008
+            local cam = previewLocation and previewLocation.camCoords
+            if cam then
+                local bob = math.sin(phase) * 0.018
+                SetCamCoord(previewCam, cam.x, cam.y, cam.z + bob)
+                if previewPedEntity and DoesEntityExist(previewPedEntity) then
+                    PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.98, true)
+                end
+            end
+            Wait(0)
+        else
+            phase = 0.0
+            Wait(250)
+        end
+    end
+end)
+
 RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     Wait(500)
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.9 started') end)
+CreateThread(function() print('[BotRP] character v0.2.0 started') end)
