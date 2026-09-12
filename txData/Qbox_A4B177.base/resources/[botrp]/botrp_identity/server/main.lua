@@ -101,6 +101,54 @@ local function validLicenseType(licenseType)
     return type(licenseType) == 'string' and Config.licenses[licenseType] ~= nil
 end
 
+local licenseItems = {
+    driving = 'driver_license',
+    weapon = 'weaponlicense',
+}
+
+local function hasLicenseCard(src, itemName)
+    if GetResourceState('ox_inventory') ~= 'started' then return false end
+    local ok, count = pcall(function() return exports.ox_inventory:Search(src, 'count', itemName) end)
+    return ok and tonumber(count or 0) > 0
+end
+
+local function issueLicenseCard(src, licenseType)
+    local itemName = licenseItems[licenseType]
+    if not itemName then return true end
+    if GetResourceState('ox_inventory') ~= 'started' or GetResourceState('qbx_idcard') ~= 'started' then
+        return false, 'License card dependencies are not started.'
+    end
+    if hasLicenseCard(src, itemName) then return true end
+
+    local ok, err = pcall(function()
+        exports.qbx_idcard:CreateMetaLicense(src, itemName)
+    end)
+    if not ok then
+        debugPrint('Failed to create license card', src, itemName, err)
+        return false, 'Failed to create the license card.'
+    end
+
+    if not hasLicenseCard(src, itemName) then
+        return false, 'License card could not be added to the inventory.'
+    end
+    return true
+end
+
+local function revokeLicenseCard(src, licenseType)
+    local itemName = licenseItems[licenseType]
+    if not itemName or GetResourceState('ox_inventory') ~= 'started' then return true end
+    if not hasLicenseCard(src, itemName) then return true end
+
+    local ok, result = pcall(function()
+        return exports.ox_inventory:RemoveItem(src, itemName, 1)
+    end)
+    if not ok or result == false then
+        debugPrint('Failed to remove license card', src, itemName, result)
+        return false, 'Failed to remove the license card.'
+    end
+    return true
+end
+
 local function getLicenses(citizenid)
     local result = {}
     if not citizenid then return result end
@@ -199,11 +247,17 @@ local function modifyLicense(source, target, licenseType, action)
     if not identity then return false, 'Player identity is not ready.' end
 
     if action == 'issue' then
+        local cardOk, cardError = issueLicenseCard(target, licenseType)
+        if not cardOk then return false, cardError end
+
         MySQL.query.await([[INSERT INTO botrp_identity_licenses (citizenid, license_type, status, issued_at, revoked_at)
             VALUES (?, ?, 'valid', CURRENT_TIMESTAMP, NULL)
             ON DUPLICATE KEY UPDATE status = 'valid', issued_at = CURRENT_TIMESTAMP, revoked_at = NULL]],
             { identity.citizenid, licenseType })
     else
+        local cardOk, cardError = revokeLicenseCard(target, licenseType)
+        if not cardOk then return false, cardError end
+
         MySQL.update.await([[UPDATE botrp_identity_licenses SET status = 'revoked', revoked_at = CURRENT_TIMESTAMP WHERE citizenid = ? AND license_type = ?]],
             { identity.citizenid, licenseType })
     end
@@ -277,7 +331,7 @@ lib.addCommand('botrp_issue_license', {
     restricted = false,
 }, function(source, args)
     local ok, err = modifyLicense(source, args.id, args.license, 'issue')
-    lib.notify(source, { title = 'License', description = ok and 'License issued.' or err, type = ok and 'success' or 'error' })
+    lib.notify(source, { title = 'License', description = ok and 'License issued and card added.' or err, type = ok and 'success' or 'error' })
 end)
 
 lib.addCommand('botrp_revoke_license', {
@@ -289,7 +343,7 @@ lib.addCommand('botrp_revoke_license', {
     restricted = false,
 }, function(source, args)
     local ok, err = modifyLicense(source, args.id, args.license, 'revoke')
-    lib.notify(source, { title = 'License', description = ok and 'License revoked.' or err, type = ok and 'success' or 'error' })
+    lib.notify(source, { title = 'License', description = ok and 'License revoked and card removed.' or err, type = ok and 'success' or 'error' })
 end)
 
 lib.addCommand('botrp_licenses', {
