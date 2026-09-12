@@ -19,19 +19,13 @@ RegisterNetEvent('botrp_loading:client:hide', function()
     setLoading(false)
 end)
 
--- Development test controls. These are local client commands and do not
--- require ACE permissions. The commands intentionally use unique names so
--- they do not conflict with server/admin command permissions.
-RegisterCommand('botrp_toggle_loading', function()
+-- Manual test command. This is intentionally a local client command and
+-- does not require ACE permissions.
+RegisterCommand('botrp_loading', function()
     setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
 end, false)
 
-RegisterCommand('botrp_toggle_loading_f9', function()
-    setLoading(not visible, 'Welcome to BotRP', 'Loading your character...')
-end, false)
-
-RegisterKeyMapping('botrp_toggle_loading', 'BotRP loading screen test', 'keyboard', 'F10')
-RegisterKeyMapping('botrp_toggle_loading_f9', 'BotRP loading screen fallback test', 'keyboard', 'F9')
+RegisterKeyMapping('botrp_loading', 'Toggle BotRP loading screen', 'keyboard', 'F10')
 
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     setLoading(true, 'Welcome to BotRP', 'Loading your character...')
@@ -59,5 +53,5 @@ CreateThread(function()
     while GetResourceState('qbx_core') ~= 'started' do
         Wait(500)
     end
-    print('[BotRP] loading v0.1.3 started - F10/F9 test bindings registered')
+    print('[BotRP] loading v0.1.4 started - /botrp_loading available')
 end)
