@@ -110,7 +110,24 @@ return {
 		close = true,
 		client = { image = 'card_id.png' },
 	},
+	['driver_license'] = {
+    label = 'Driver License',
+    weight = 25,
+    stack = false,
+    consume = 0,
+    close = true,
+    client = { image = 'driver_license.png' },
+	},
 
+	['weaponlicense'] = {
+    label = 'Weapon License',
+    weight = 25,
+    stack = false,
+    consume = 0,
+    close = true,
+    client = { image = 'weapon_license.png' },
+	},
+	
 	['panties'] = {
 		label = 'Knickers', weight = 10, consume = 0,
 		client = {
