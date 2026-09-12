@@ -19,13 +19,16 @@ RegisterNetEvent('botrp_loading:client:hide', function()
     setLoading(false)
 end)
 
-RegisterCommand('botrp_loading', function()
+RegisterCommand('+botrp_loading_test', function()
     if visible then
         setLoading(false)
     else
         setLoading(true, 'Welcome to BotRP', 'Loading your character...')
     end
 end, false)
+
+RegisterCommand('-botrp_loading_test', function() end, false)
+RegisterKeyMapping('+botrp_loading_test', 'Toggle BotRP loading screen test', 'keyboard', 'F10')
 
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     setLoading(true, 'Welcome to BotRP', 'Loading your character...')
