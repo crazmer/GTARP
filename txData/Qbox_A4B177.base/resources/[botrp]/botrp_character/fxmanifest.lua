@@ -3,7 +3,7 @@ game 'gta5'
 
 name 'botrp_character'
 description 'BotRP custom Qbox character selection and creation experience'
-version '0.1.1'
+version '0.1.2'
 author 'BotRP'
 
 ui_page 'web/index.html'
@@ -15,7 +15,8 @@ files {
 }
 
 shared_scripts {
-    '@ox_lib/init.lua'
+    '@ox_lib/init.lua',
+    'config.lua'
 }
 
 client_script 'client.lua'
