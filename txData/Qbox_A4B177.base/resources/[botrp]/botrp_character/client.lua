@@ -1,11 +1,13 @@
 local config = require 'config'
 local previewCam
 local previewPedEntity
+local previewPeds = {}
 local previewLocation
 local characters = {}
 local maxCharacters = 0
 local selectedIndex = 1
 local inCharacterLobby = false
+local previewGeneration = 0
 local previewAnimDict = 'amb@world_human_stand_impatient@male@base'
 local previewAnimName = 'base'
 
@@ -36,18 +38,39 @@ local function closeCharacterUI()
     inCharacterLobby = false
 end
 
+local function deletePreviewPed(ped)
+    if not ped or ped == 0 or not DoesEntityExist(ped) then return end
+
+    SetEntityAsMissionEntity(ped, true, true)
+    ClearPedTasksImmediately(ped)
+    DeletePed(ped)
+
+    if DoesEntityExist(ped) then
+        DeleteEntity(ped)
+    end
+end
+
 local function destroyPreview()
+    -- Invalidate every in-flight preview creation. This is important because
+    -- the server callback is asynchronous: rapidly clicking slots used to let
+    -- several callbacks finish later and each spawn another preview ped.
+    previewGeneration = previewGeneration + 1
+
     if previewCam then
         SetCamActive(previewCam, false)
-        RenderScriptCams(false, false, 350, true, true)
+        RenderScriptCams(false, false, 250, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
     end
 
-    if previewPedEntity and DoesEntityExist(previewPedEntity) then
-        SetEntityAsMissionEntity(previewPedEntity, true, true)
-        DeleteEntity(previewPedEntity)
+    if previewPedEntity then
+        deletePreviewPed(previewPedEntity)
         previewPedEntity = nil
+    end
+
+    for ped, _ in pairs(previewPeds) do
+        deletePreviewPed(ped)
+        previewPeds[ped] = nil
     end
 
     ClearTimecycleModifier()
@@ -69,7 +92,11 @@ local function requestPreviewAnimation()
 end
 
 local function createPreviewPed(citizenId)
+    -- Always destroy the previous preview before starting a new asynchronous
+    -- creation. A generation token prevents an older callback from spawning
+    -- after a newer character selection has already begun.
     destroyPreview()
+    local generation = previewGeneration
 
     previewLocation = config.locations[1]
     local coords = previewLocation.pedCoords
@@ -79,47 +106,72 @@ local function createPreviewPed(citizenId)
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     end
 
+    if generation ~= previewGeneration or not inCharacterLobby then
+        return
+    end
+
     local modelHash = getModelHash(model) or `mp_m_freemode_01`
     if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then
         modelHash = `mp_m_freemode_01`
     end
 
     lib.requestModel(modelHash, config.loadingModelsTimeout)
+
+    if generation ~= previewGeneration or not inCharacterLobby then
+        SetModelAsNoLongerNeeded(modelHash)
+        return
+    end
+
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 
-    previewPedEntity = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
-    SetEntityAsMissionEntity(previewPedEntity, true, true)
-    SetEntityInvincible(previewPedEntity, true)
-    SetEntityCollision(previewPedEntity, false, false)
-    FreezeEntityPosition(previewPedEntity, true)
-    SetEntityVisible(previewPedEntity, true, false)
-    ResetEntityAlpha(previewPedEntity)
-    SetBlockingOfNonTemporaryEvents(previewPedEntity, true)
-    ClearPedTasksImmediately(previewPedEntity)
-    SetPedCanRagdoll(previewPedEntity, false)
-    SetPedFleeAttributes(previewPedEntity, 0, false)
-    SetPedCombatAttributes(previewPedEntity, 46, true)
+    local ped = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
+    if not ped or ped == 0 or not DoesEntityExist(ped) then
+        SetModelAsNoLongerNeeded(modelHash)
+        return
+    end
+
+    -- Register immediately so any later cleanup can remove this exact entity.
+    previewPeds[ped] = true
+
+    -- If another selection won the race while CreatePed was executing, remove
+    -- this stale entity instead of ever allowing it to remain in the world.
+    if generation ~= previewGeneration or not inCharacterLobby then
+        previewPeds[ped] = nil
+        deletePreviewPed(ped)
+        SetModelAsNoLongerNeeded(modelHash)
+        return
+    end
+
+    previewPedEntity = ped
+    SetEntityAsMissionEntity(ped, true, true)
+    SetEntityInvincible(ped, true)
+    SetEntityCollision(ped, false, false)
+    FreezeEntityPosition(ped, true)
+    SetEntityVisible(ped, true, false)
+    ResetEntityAlpha(ped)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    ClearPedTasksImmediately(ped)
+    SetPedCanRagdoll(ped, false)
+    SetPedFleeAttributes(ped, 0, false)
+    SetPedCombatAttributes(ped, 46, true)
 
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local appearance = json.decode(clothing)
             if appearance then
-                exports['illenium-appearance']:setPedAppearance(previewPedEntity, appearance)
+                exports['illenium-appearance']:setPedAppearance(ped, appearance)
             end
         end)
     end
 
-    -- Give the character a natural showcase idle instead of standing rigidly.
     if requestPreviewAnimation() then
-        TaskPlayAnim(previewPedEntity, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
+        TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
     else
-        TaskStartScenarioInPlace(previewPedEntity, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
+        TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
     end
 
     SetModelAsNoLongerNeeded(modelHash)
 
-    -- Use the configured showcase camera when available. It is intentionally
-    -- independent from the real player so changing characters never moves them.
     local cam = previewLocation.camCoords
     local camX, camY, camZ
     if cam then
@@ -134,7 +186,7 @@ local function createPreviewPed(citizenId)
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camX, camY, camZ)
     SetCamFov(previewCam, 38.0)
-    PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.98, true)
+    PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
     SetCamActive(previewCam, true)
     SetCamUseShallowDofMode(previewCam, true)
     SetCamNearDof(previewCam, 1.0)
@@ -142,7 +194,6 @@ local function createPreviewPed(citizenId)
     SetCamDofStrength(previewCam, 0.72)
     RenderScriptCams(true, false, 650, true, true)
 
-    -- A subtle cinematic grade; the actual world remains visible behind the UI.
     SetTimecycleModifier('MP_corona_switch')
     SetTimecycleModifierStrength(0.10)
 end
@@ -289,7 +340,6 @@ CreateThread(function()
     openCharacterScreen()
 end)
 
--- Keep gameplay HUD elements suppressed while BotRP owns the character lobby.
 CreateThread(function()
     while true do
         if inCharacterLobby then
@@ -309,8 +359,6 @@ CreateThread(function()
     end
 end)
 
--- Tiny camera breathing motion makes the showcase feel alive without moving
--- the character around the world or affecting gameplay.
 CreateThread(function()
     local phase = 0.0
     while true do
@@ -337,4 +385,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.2.0 started') end)
+CreateThread(function() print('[BotRP] character v0.2.1 started') end)
