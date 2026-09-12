@@ -22,6 +22,37 @@ local function getPlayer(src)
     return exports.qbx_core:GetPlayer(src)
 end
 
+local function ensureIdCard(src)
+    src = sourceFrom(src)
+    if not src or GetResourceState('ox_inventory') ~= 'started' then return end
+    if GetResourceState('qbx_idcard') ~= 'started' then return end
+
+    local ok, count = pcall(function()
+        return exports.ox_inventory:Search(src, 'count', 'id_card')
+    end)
+
+    if ok and tonumber(count or 0) > 0 then return end
+
+    local metadataOk, metadata = pcall(function()
+        return exports.qbx_idcard:GetMetaLicense(src, {'id_card'})
+    end)
+
+    if not metadataOk or type(metadata) ~= 'table' then
+        debugPrint('Unable to create ID card metadata for source', src)
+        return
+    end
+
+    local added, response = pcall(function()
+        return exports.ox_inventory:AddItem(src, 'id_card', 1, metadata)
+    end)
+
+    if added and response then
+        debugPrint('Issued identification card to source', src)
+    else
+        debugPrint('Failed to issue identification card to source', src, response)
+    end
+end
+
 local function buildIdentity(src)
     src = sourceFrom(src)
     local player = getPlayer(src)
@@ -58,6 +89,7 @@ local function refresh(src)
     end
 
     identities[src] = identity
+    ensureIdCard(src)
     TriggerClientEvent(Config.events.updated, src, identity)
     TriggerEvent(Config.events.ready, src, identity)
     return identity
