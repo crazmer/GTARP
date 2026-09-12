@@ -1,7 +1,7 @@
 BotRPIdentity = BotRPIdentity or {}
 
 BotRPIdentity.Config = {
-    version = '0.3.0',
+    version = '0.4.0',
     events = {
         ready = 'botrp:identity:server:ready',
         updated = 'botrp:identity:client:updated',
@@ -17,7 +17,12 @@ BotRPIdentity.Config = {
             sheriff = true,
             statepolice = true,
         },
-        grades = {}, -- Optional: set job grade numbers to restrict verification further.
+        grades = {},
         maxDistance = 4.0,
+    },
+    licenses = {
+        driving = { label = 'Driving License' },
+        motorcycle = { label = 'Motorcycle License' },
+        weapon = { label = 'Weapon License' },
     },
 }
