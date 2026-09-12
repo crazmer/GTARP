@@ -1,5 +1,6 @@
 local RESOURCE = GetCurrentResourceName()
 local identities = {}
+local cardEnsurePending = {}
 local Config = BotRPIdentity.Config
 
 local function debugPrint(...)
@@ -19,14 +20,54 @@ local function getPlayer(src)
     return exports.qbx_core:GetPlayer(src)
 end
 
+local function hasIdCard(src)
+    if GetResourceState('ox_inventory') ~= 'started' then return false end
+    local ok, count = pcall(function()
+        return exports.ox_inventory:Search(src, 'count', 'id_card')
+    end)
+    return ok and tonumber(count or 0) > 0
+end
+
+local function issueIdCard(src)
+    src = sourceFrom(src)
+    if not src or GetResourceState('ox_inventory') ~= 'started' or GetResourceState('qbx_idcard') ~= 'started' then
+        return false
+    end
+
+    if hasIdCard(src) then return true end
+
+    local ok, result = pcall(function()
+        return exports.qbx_idcard:CreateMetaLicense(src, 'id_card')
+    end)
+
+    if not ok then
+        debugPrint('Failed to issue id_card to source', src, result)
+        return false
+    end
+
+    return hasIdCard(src)
+end
+
 local function ensureIdCard(src)
     src = sourceFrom(src)
-    if not src or GetResourceState('ox_inventory') ~= 'started' or GetResourceState('qbx_idcard') ~= 'started' then return false end
-    local ok, count = pcall(function() return exports.ox_inventory:Search(src, 'count', 'id_card') end)
-    if ok and tonumber(count or 0) > 0 then return true end
-    local added = pcall(function() return exports.qbx_idcard:CreateMetaLicense(src, {'id_card'}) end)
-    if not added then debugPrint('Failed to issue id_card to source', src); return false end
-    return true
+    if not src or cardEnsurePending[src] then return end
+    cardEnsurePending[src] = true
+
+    CreateThread(function()
+        -- Qbox character loading and inventory initialization can finish a moment after
+        -- the player lifecycle event. Retry briefly instead of requiring a command.
+        local delays = { 0, 1500, 3500, 7500 }
+        for _, delay in ipairs(delays) do
+            if delay > 0 then Wait(delay) end
+            if not GetPlayerName(src) then break end
+            if issueIdCard(src) then
+                debugPrint('ID card ready for source', src)
+                break
+            end
+            debugPrint('ID card not ready yet for source', src)
+        end
+        cardEnsurePending[src] = nil
+    end)
 end
 
 local function buildIdentity(src)
@@ -91,7 +132,10 @@ end
 AddEventHandler(Config.coreEvents.playerReady, function(src) refresh(src) end)
 AddEventHandler(Config.coreEvents.playerLeft, function(src)
     src = sourceFrom(src)
-    if src then identities[src] = nil end
+    if src then
+        identities[src] = nil
+        cardEnsurePending[src] = nil
+    end
 end)
 AddEventHandler('QBCore:Server:OnPlayerUpdated', function(value)
     local src = sourceFrom(value)
