@@ -1,8 +1,0 @@
-build
-node_modules
-*.json
-*.lock
-dist
-coverage
-*.md
-.idea

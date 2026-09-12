@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "general": {
-    "serverName": "BotRP"
-  },
-  "server": {
-    "dataPath": "H:/GTARP/txData/Qbox_A03CB0.base/"
-  }
-}
