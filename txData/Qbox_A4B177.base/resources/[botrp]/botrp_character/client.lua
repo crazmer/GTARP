@@ -14,8 +14,8 @@ end
 
 local function destroyPreview()
     if previewCam then
-        RenderScriptCams(false, false, 500, true, true)
         SetCamActive(previewCam, false)
+        RenderScriptCams(false, false, 500, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
     end
@@ -55,7 +55,8 @@ local function setupPreview()
     destroyPreview()
     randomLocation = config.locations[math.random(1, #config.locations)]
 
-    SetEntityCoords(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false, false)
+    RequestCollisionAtCoord(randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z)
+    SetEntityCoordsNoOffset(cache.ped, randomLocation.pedCoords.x, randomLocation.pedCoords.y, randomLocation.pedCoords.z, false, false, false)
     SetEntityHeading(cache.ped, randomLocation.pedCoords.w)
     FreezeEntityPosition(cache.ped, true)
     DisplayRadar(false)
@@ -68,8 +69,12 @@ local function setupPreview()
     SetCamFov(previewCam, 38.0)
     PointCamAtEntity(previewCam, cache.ped, 0.0, 0.0, 0.72, true)
     SetCamActive(previewCam, true)
+    SetCamUseShallowDofMode(previewCam, true)
+    SetCamNearDof(previewCam, 0.4)
+    SetCamFarDof(previewCam, 2.2)
+    SetCamDofStrength(previewCam, 0.75)
     RenderScriptCams(true, false, 750, true, true)
-    SetTimecycleModifier('MP_corona_switch')
+    SetTimecycleModifier('hud_def_blur')
     SetTimecycleModifierStrength(0.25)
 end
 
@@ -137,9 +142,11 @@ RegisterNUICallback('play', function(data, cb)
     local character = characters[index]
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
 
+    -- Match Qbox's native external-character handoff: login first, then let the
+    -- apartment/spawn resource open its own UI. Do not fabricate a success value.
     closeCharacterUI()
-    DoScreenFadeOut(300)
-    Wait(350)
+    DoScreenFadeOut(10)
+    Wait(20)
     destroyPreview()
 
     local ok, err = pcall(function()
@@ -147,13 +154,28 @@ RegisterNUICallback('play', function(data, cb)
     end)
 
     if not ok then
+        inCharacterLobby = false
         DoScreenFadeIn(500)
         cb({ ok = false, error = tostring(err) })
-        inCharacterLobby = false
         return
     end
 
-    Wait(1000)
+    if GetResourceState('qbx_apartments'):find('start') then
+        TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
+    elseif GetResourceState('qbx_spawn'):find('start') then
+        TriggerEvent('qb-spawn:client:setupSpawns', character.citizenid)
+        TriggerEvent('qb-spawn:client:openUI', true)
+    else
+        local pos = character.position
+        if pos then
+            SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
+            SetEntityHeading(cache.ped, pos.w or 0.0)
+        end
+        SetEntityVisible(cache.ped, true, false)
+        DisplayRadar(true)
+        DoScreenFadeIn(700)
+    end
+
     cb({ ok = true })
 end)
 
@@ -169,23 +191,10 @@ RegisterNUICallback('create', function(data, cb)
     if not result then cb({ ok = false, error = 'Character creation failed. Check the information and try again.' }); return end
 
     closeCharacterUI()
-    DoScreenFadeOut(300)
-    Wait(350)
+    DoScreenFadeOut(10)
+    Wait(20)
     destroyPreview()
-
-    if GetResourceState('qbx_apartments') == 'started' then
-        TriggerEvent('apartments:client:setupSpawnUI')
-    elseif GetResourceState('qbx_spawn') == 'started' then
-        TriggerEvent('qb-spawn:client:setupSpawns', result)
-        TriggerEvent('qb-spawn:client:openUI', true)
-    else
-        local pos = config.defaultSpawn
-        SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
-        SetEntityHeading(cache.ped, pos.w)
-        SetEntityVisible(cache.ped, true, false)
-        DisplayRadar(true)
-        DoScreenFadeIn(700)
-    end
+    TriggerEvent('apartments:client:setupSpawnUI', result)
     cb({ ok = true })
 end)
 
@@ -203,4 +212,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.1.6 started') end)
+CreateThread(function() print('[BotRP] character v0.1.7 started') end)
