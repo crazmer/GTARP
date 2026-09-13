@@ -77,26 +77,21 @@ local function requestPreviewAnimation()
     return ok
 end
 
-local function headingToward(fromX, fromY, toX, toY)
-    local heading = math.deg(math.atan(toX - fromX, toY - fromY))
-    if heading < 0 then heading = heading + 360.0 end
-    return heading
-end
-
 local function lockPreviewPedToCamera(ped, camX, camY)
     if not ped or ped == 0 or not DoesEntityExist(ped) then return end
 
     local pedCoords = GetEntityCoords(ped)
-    local cameraHeading = headingToward(pedCoords.x, pedCoords.y, camX, camY)
 
-    -- GTA ped forward is opposite to the heading vector used by the camera
-    -- target calculation here. Add 180 degrees so the actor's face, not its
-    -- back, is presented to the showcase camera.
-    local faceCameraHeading = (cameraHeading + 180.0) % 360.0
+    -- GetHeadingFromVector_2d uses GTA's native heading convention:
+    -- 0 = north, 90 = east, 180 = south, 270 = west.
+    -- The vector points from the ped directly toward the showcase camera,
+    -- so this is the heading the ped must use to face the camera.
+    local faceCameraHeading = GetHeadingFromVector_2d(
+        camX - pedCoords.x,
+        camY - pedCoords.y
+    )
 
     SetEntityHeading(ped, faceCameraHeading)
-    SetEntityRotation(ped, 0.0, 0.0, faceCameraHeading, 2, true)
-    SetEntityAngularVelocity(ped, 0.0, 0.0, 0.0)
 end
 
 local function streamShowcaseScene(coords)
