@@ -6,23 +6,24 @@
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>BotRP — Characters</title>
-<link rel="stylesheet" href="style.css?v=0.3.0">
+<title>BotRP — Character Lobby</title>
+<link rel="stylesheet" href="style.css?v=0.4.0">
 </head>
 <body>
 <div id="app" class="hidden">
   <div class="grain"></div>
+  <div class="vignette"></div>
 
   <header class="topbar">
     <div class="brand">
       <div class="brand-mark">B</div>
-      <div>
+      <div class="brand-copy">
         <strong>BOTRP</strong>
         <small>LOS SANTOS ROLEPLAY</small>
       </div>
     </div>
 
-    <div class="server">
+    <div class="server-status">
       <span class="live"></span>
       <div>
         <b>SERVER ONLINE</b>
@@ -32,25 +33,27 @@
   </header>
 
   <main>
-    <section class="lobby">
-      <section class="hero intro">
+    <section class="lobby" aria-label="Character lobby">
+      <div class="lobby-head intro">
         <div>
-          <div class="eyebrow">CHARACTER LOBBY</div>
+          <div class="eyebrow"><span></span> CHARACTER LOBBY</div>
           <h1>Choose your <em>story.</em></h1>
-          <p>Select your character and continue your life in Los Santos.</p>
+          <p>Select a character to continue your life in Los Santos.</p>
         </div>
-        <div class="counter">
-          <b id="slotCount">00</b>
-          <span>CHARACTERS</span>
+        <div class="count-block">
+          <strong id="slotCount">00</strong>
+          <span>ACTIVE<br>CHARACTERS</span>
         </div>
-      </section>
+      </div>
+
+      <div class="section-rule intro"><span></span><b>YOUR CHARACTERS</b><i></i></div>
 
       <section id="cards" class="cards"></section>
 
       <section id="create" class="create hidden">
-        <button id="back" class="back">← BACK TO CHARACTERS</button>
+        <button id="back" class="back" type="button"><span>←</span> BACK TO CHARACTERS</button>
         <div class="create-title">
-          <div class="eyebrow">NEW LIFE</div>
+          <div class="eyebrow"><span></span> NEW LIFE</div>
           <h2>Create a character</h2>
           <p>Build the person you want to become in Los Santos.</p>
         </div>
@@ -61,8 +64,8 @@
           <label>DATE OF BIRTH<input id="birthdate" type="date"></label>
           <label>GENDER<select id="gender"><option>Male</option><option>Female</option></select></label>
         </div>
-        <button id="createBtn" class="primary">CREATE CHARACTER <span>→</span></button>
-        <div id="error" class="error"></div>
+        <button id="createBtn" class="primary" type="button">CREATE CHARACTER <span>→</span></button>
+        <div id="error" class="error" role="alert"></div>
       </section>
     </section>
   </main>
@@ -70,9 +73,9 @@
   <footer>
     <span>BOTRP © 2026</span>
     <span>IMMERSIVE ROLEPLAY • YOUR CHOICES MATTER</span>
-    <span>BUILD 0.3.0</span>
+    <span>BUILD 0.4.0</span>
   </footer>
 </div>
-<script src="app.js?v=0.2.8"></script>
+<script src="app.js?v=0.4.0"></script>
 </body>
 </html>
