@@ -52,9 +52,6 @@ local function deletePreviewPed(ped)
 end
 
 local function destroyPreview()
-    -- Invalidate every in-flight preview creation. This is important because
-    -- the server callback is asynchronous: rapidly clicking slots used to let
-    -- several callbacks finish later and each spawn another preview ped.
     previewGeneration = previewGeneration + 1
 
     if previewCam then
@@ -93,10 +90,47 @@ local function requestPreviewAnimation()
     return ok
 end
 
+local function headingToward(fromX, fromY, toX, toY)
+    local heading = math.deg(math.atan(toX - fromX, toY - fromY))
+    if heading < 0 then heading = heading + 360.0 end
+    return heading
+end
+
+local function streamShowcaseScene(coords)
+    -- Set the streaming focus before creating the preview ped. The previous
+    -- implementation waited on the hidden player ped, which does not prove
+    -- that collision/map data around the showcase location has loaded.
+    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+
+    local sceneStarted = false
+    if NewLoadSceneStartSphere then
+        sceneStarted = NewLoadSceneStartSphere(coords.x, coords.y, coords.z, 180.0, 0)
+    end
+
+    local deadline = GetGameTimer() + 10000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+
+        if sceneStarted and IsNewLoadSceneLoaded() then
+            break
+        end
+
+        Wait(0)
+    end
+
+    if sceneStarted and IsNewLoadSceneLoaded() then
+        NewLoadSceneStop()
+    elseif sceneStarted then
+        NewLoadSceneStop()
+    end
+
+    -- Let the renderer finish the first collision/streaming pass before the
+    -- camera is activated. This is intentionally a small settle window.
+    Wait(250)
+end
+
 local function createPreviewPed(citizenId)
-    -- Always destroy the previous preview before starting a new asynchronous
-    -- creation. A generation token prevents an older callback from spawning
-    -- after a newer character selection has already begun.
     destroyPreview()
     local generation = previewGeneration
 
@@ -104,11 +138,7 @@ local function createPreviewPed(citizenId)
     local coords = previewLocation.pedCoords
     local clothing, model = nil, nil
 
-    -- Move the streaming focus to the showcase scene before loading the model.
-    -- This prevents the lobby camera from showing an unloaded/low-detail world
-    -- when the player is far away from the preview location.
-    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    streamShowcaseScene(coords)
 
     if citizenId then
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
@@ -130,15 +160,12 @@ local function createPreviewPed(citizenId)
         return
     end
 
-    -- Give the game a short window to stream collision/map data around the
-    -- showcase point before creating the ped and activating the camera.
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
     local collisionDeadline = GetGameTimer() + 5000
-    while not HasCollisionLoadedAroundEntity(PlayerPedId()) and GetGameTimer() < collisionDeadline do
+    while GetGameTimer() < collisionDeadline do
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
         Wait(0)
     end
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    Wait(150)
 
     local ped = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
     if not ped or ped == 0 or not DoesEntityExist(ped) then
@@ -146,11 +173,8 @@ local function createPreviewPed(citizenId)
         return
     end
 
-    -- Register immediately so any later cleanup can remove this exact entity.
     previewPeds[ped] = true
 
-    -- If another selection won the race while CreatePed was executing, remove
-    -- this stale entity instead of ever allowing it to remain in the world.
     if generation ~= previewGeneration or not inCharacterLobby then
         previewPeds[ped] = nil
         deletePreviewPed(ped)
@@ -180,14 +204,6 @@ local function createPreviewPed(citizenId)
         end)
     end
 
-    if requestPreviewAnimation() then
-        TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
-    else
-        TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
-    end
-
-    SetModelAsNoLongerNeeded(modelHash)
-
     local cam = previewLocation.camCoords
     local camX, camY, camZ
     if cam then
@@ -198,6 +214,24 @@ local function createPreviewPed(citizenId)
         camY = coords.y + math.cos(heading) * 2.8
         camZ = coords.z + 1.35
     end
+
+    -- Do not trust a hard-coded ped heading. The showcase camera is the source
+    -- of truth, so the character always faces the actual camera position.
+    local cameraFacingHeading = headingToward(coords.x, coords.y, camX, camY)
+    SetEntityHeading(ped, cameraFacingHeading)
+
+    if requestPreviewAnimation() then
+        TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
+    else
+        TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
+    end
+
+    -- Some appearance/animation implementations can alter heading. Re-apply
+    -- it after the task starts so the face remains locked toward the camera.
+    Wait(0)
+    SetEntityHeading(ped, cameraFacingHeading)
+
+    SetModelAsNoLongerNeeded(modelHash)
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camX, camY, camZ)
@@ -401,4 +435,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.2.1 started') end)
+CreateThread(function() print('[BotRP] character v0.2.2 started') end)
