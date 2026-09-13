@@ -29,6 +29,7 @@ local function restorePlayer()
         SetEntityVisible(ped, true, false)
         ResetEntityAlpha(ped)
     end
+    SetFocusEntity(PlayerPedId())
     setGameplayHudVisible(true)
 end
 
@@ -73,6 +74,7 @@ local function destroyPreview()
         previewPeds[ped] = nil
     end
 
+    SetFocusEntity(PlayerPedId())
     ClearTimecycleModifier()
 end
 
@@ -102,6 +104,12 @@ local function createPreviewPed(citizenId)
     local coords = previewLocation.pedCoords
     local clothing, model = nil, nil
 
+    -- Move the streaming focus to the showcase scene before loading the model.
+    -- This prevents the lobby camera from showing an unloaded/low-detail world
+    -- when the player is far away from the preview location.
+    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+
     if citizenId then
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     end
@@ -122,7 +130,15 @@ local function createPreviewPed(citizenId)
         return
     end
 
+    -- Give the game a short window to stream collision/map data around the
+    -- showcase point before creating the ped and activating the camera.
+    local collisionDeadline = GetGameTimer() + 5000
+    while not HasCollisionLoadedAroundEntity(PlayerPedId()) and GetGameTimer() < collisionDeadline do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        Wait(0)
+    end
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    Wait(150)
 
     local ped = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
     if not ped or ped == 0 or not DoesEntityExist(ped) then
