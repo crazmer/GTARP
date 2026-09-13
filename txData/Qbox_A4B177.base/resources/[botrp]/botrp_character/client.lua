@@ -81,11 +81,6 @@ local function lockPreviewPedToCamera(ped, camX, camY)
     if not ped or ped == 0 or not DoesEntityExist(ped) then return end
 
     local pedCoords = GetEntityCoords(ped)
-
-    -- GetHeadingFromVector_2d uses GTA's native heading convention:
-    -- 0 = north, 90 = east, 180 = south, 270 = west.
-    -- The vector points from the ped directly toward the showcase camera,
-    -- so this is the heading the ped must use to face the camera.
     local faceCameraHeading = GetHeadingFromVector_2d(
         camX - pedCoords.x,
         camY - pedCoords.y
@@ -94,21 +89,50 @@ local function lockPreviewPedToCamera(ped, camX, camY)
     SetEntityHeading(ped, faceCameraHeading)
 end
 
-local function streamShowcaseScene(coords)
-    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+-- Stream the entire preview area, not just the ped spawn point. The previous
+-- implementation stopped the scene load before creating the replacement ped,
+-- which could leave the camera in unloaded terrain when switching characters.
+local function streamShowcaseScene(pedCoords, camCoords)
+    local focusX = (pedCoords.x + camCoords.x) * 0.5
+    local focusY = (pedCoords.y + camCoords.y) * 0.5
+    local focusZ = (pedCoords.z + camCoords.z) * 0.5
+
+    SetFocusPosAndVel(focusX, focusY, focusZ, 0.0, 0.0, 0.0)
+
     local sceneStarted = false
     if NewLoadSceneStartSphere then
-        sceneStarted = NewLoadSceneStartSphere(coords.x, coords.y, coords.z, 180.0, 0)
+        sceneStarted = NewLoadSceneStartSphere(focusX, focusY, focusZ, 220.0, 0)
     end
-    local deadline = GetGameTimer() + 10000
+
+    local deadline = GetGameTimer() + 12000
     while GetGameTimer() < deadline do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-        if sceneStarted and IsNewLoadSceneLoaded() then break end
+        RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+
+        if not sceneStarted or IsNewLoadSceneLoaded() then
+            break
+        end
         Wait(0)
     end
-    if sceneStarted then NewLoadSceneStop() end
-    Wait(250)
+end
+
+local function waitForPreviewCollision(ped, pedCoords, camCoords)
+    local deadline = GetGameTimer() + 8000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+
+        local pedLoaded = ped and DoesEntityExist(ped) and HasCollisionLoadedAroundEntity(ped)
+        if pedLoaded then
+            return true
+        end
+        Wait(0)
+    end
+    return false
 end
 
 local function createPreviewPed(citizenId)
@@ -116,12 +140,23 @@ local function createPreviewPed(citizenId)
     local generation = previewGeneration
     previewLocation = config.locations[1]
     local coords = previewLocation.pedCoords
-    local clothing, model = nil, nil
+    local cam = previewLocation.camCoords
 
-    streamShowcaseScene(coords)
+    local clothing, model = nil, nil
     if citizenId then
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     end
+    if generation ~= previewGeneration or not inCharacterLobby then return end
+
+    local camCoords = cam or vec4(
+        coords.x - math.sin(math.rad(coords.w)) * 2.8,
+        coords.y + math.cos(math.rad(coords.w)) * 2.8,
+        coords.z + 1.35,
+        0.0
+    )
+
+    -- Keep the streaming focus alive throughout character replacement.
+    streamShowcaseScene(coords, camCoords)
     if generation ~= previewGeneration or not inCharacterLobby then return end
 
     local modelHash = getModelHash(model) or `mp_m_freemode_01`
@@ -135,15 +170,14 @@ local function createPreviewPed(citizenId)
     end
 
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    local collisionDeadline = GetGameTimer() + 5000
-    while GetGameTimer() < collisionDeadline do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-        Wait(0)
-    end
+    RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
 
     local ped = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
     if not ped or ped == 0 or not DoesEntityExist(ped) then
         SetModelAsNoLongerNeeded(modelHash)
+        if NewLoadSceneStop then NewLoadSceneStop() end
         return
     end
     previewPeds[ped] = true
@@ -152,6 +186,7 @@ local function createPreviewPed(citizenId)
         previewPeds[ped] = nil
         deletePreviewPed(ped)
         SetModelAsNoLongerNeeded(modelHash)
+        if NewLoadSceneStop then NewLoadSceneStop() end
         return
     end
 
@@ -168,6 +203,19 @@ local function createPreviewPed(citizenId)
     SetPedFleeAttributes(ped, 0, false)
     SetPedCombatAttributes(ped, 46, true)
 
+    -- Do not release the streaming scene until the replacement ped and camera
+    -- area have had a chance to load their collision.
+    waitForPreviewCollision(ped, coords, camCoords)
+
+    if generation ~= previewGeneration or not inCharacterLobby then
+        previewPeds[ped] = nil
+        deletePreviewPed(ped)
+        previewPedEntity = nil
+        SetModelAsNoLongerNeeded(modelHash)
+        if NewLoadSceneStop then NewLoadSceneStop() end
+        return
+    end
+
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local appearance = json.decode(clothing)
@@ -175,29 +223,26 @@ local function createPreviewPed(citizenId)
         end)
     end
 
-    local cam = previewLocation.camCoords
-    local camX, camY, camZ
-    if cam then
-        camX, camY, camZ = cam.x, cam.y, cam.z
-    else
-        local heading = math.rad(coords.w)
-        camX = coords.x - math.sin(heading) * 2.8
-        camY = coords.y + math.cos(heading) * 2.8
-        camZ = coords.z + 1.35
-    end
-
-    lockPreviewPedToCamera(ped, camX, camY)
+    lockPreviewPedToCamera(ped, camCoords.x, camCoords.y)
     if requestPreviewAnimation() then
         TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
     else
         TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
     end
     Wait(100)
-    lockPreviewPedToCamera(ped, camX, camY)
+    lockPreviewPedToCamera(ped, camCoords.x, camCoords.y)
     SetModelAsNoLongerNeeded(modelHash)
 
+    -- Re-request both collision points immediately before activating the camera.
+    -- This is especially important after switching from one character to another.
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    Wait(150)
+
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-    SetCamCoord(previewCam, camX, camY, camZ)
+    SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
     SetCamFov(previewCam, 30.0)
     PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
     SetCamActive(previewCam, true)
@@ -208,6 +253,14 @@ local function createPreviewPed(citizenId)
     RenderScriptCams(true, false, 650, true, true)
     SetTimecycleModifier('MP_corona_switch')
     SetTimecycleModifierStrength(0.10)
+
+    -- Keep the scene loaded briefly after the camera becomes active. Releasing
+    -- it immediately can cause the world behind a newly selected character to
+    -- unload and drop the camera through the map.
+    Wait(500)
+    if generation == previewGeneration and inCharacterLobby and NewLoadSceneStop then
+        NewLoadSceneStop()
+    end
 end
 
 local function sendCharacters()
