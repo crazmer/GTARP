@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BotRP — Character Lobby</title>
+<link rel="stylesheet" href="botrp-character-v050.css?v=0.5.0">
+</head>
+<body>
+<div id="app" class="hidden">
+  <div class="grain"></div><div class="vignette"></div>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">B</div><div class="brand-copy"><strong>BOTRP</strong><small>LOS SANTOS ROLEPLAY</small></div></div>
+    <div class="server-status"><span class="live"></span><div><b>SERVER ONLINE</b><small>LOS SANTOS • ROLEPLAY</small></div></div>
+  </header>
+  <main><section class="lobby" aria-label="Character lobby">
+    <div class="lobby-head intro"><div><div class="eyebrow"><span></span> CHARACTER LOBBY</div><h1>Choose your <em>story.</em></h1><p>Select a character to continue your life in Los Santos.</p></div><div class="count-block"><strong id="slotCount">00</strong><span>ACTIVE<br>CHARACTERS</span></div></div>
+    <div class="section-rule intro"><span></span><b>YOUR CHARACTERS</b><i></i></div>
+    <section id="cards" class="cards"></section>
+    <section id="create" class="create hidden">
+      <button id="back" class="back" type="button"><span>←</span> BACK TO CHARACTERS</button>
+      <div class="create-title"><div class="eyebrow"><span></span> NEW LIFE</div><h2>Create a character</h2><p>Build the person you want to become in Los Santos.</p></div>
+      <div class="form"><label>FIRST NAME<input id="firstname" maxlength="50" placeholder="First name"></label><label>LAST NAME<input id="lastname" maxlength="50" placeholder="Last name"></label><label>NATIONALITY<input id="nationality" maxlength="50" placeholder="Nationality"></label><label>DATE OF BIRTH<input id="birthdate" type="date"></label><label>GENDER<select id="gender"><option>Male</option><option>Female</option></select></label></div>
+      <button id="createBtn" class="primary" type="button">CREATE CHARACTER <span>→</span></button><div id="error" class="error" role="alert"></div>
+    </section>
+  </section></main>
+  <footer><span>BOTRP © 2026</span><span>IMMERSIVE ROLEPLAY • YOUR CHOICES MATTER</span><span>BUILD 0.5.0</span></footer>
+</div>
+<script src="app.js?v=0.5.0"></script>
+</body>
+</html>
