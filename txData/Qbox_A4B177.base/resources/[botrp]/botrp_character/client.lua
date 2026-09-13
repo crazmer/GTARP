@@ -96,10 +96,20 @@ local function headingToward(fromX, fromY, toX, toY)
     return heading
 end
 
+local function lockPreviewPedToCamera(ped, camX, camY)
+    if not ped or ped == 0 or not DoesEntityExist(ped) then return end
+
+    local pedCoords = GetEntityCoords(ped)
+    local cameraFacingHeading = headingToward(pedCoords.x, pedCoords.y, camX, camY)
+
+    -- The preview animation can visually reorient the actor after heading is
+    -- set. Lock both the entity heading and rotation every frame so the body
+    -- remains pointed at the actual showcase camera.
+    SetEntityHeading(ped, cameraFacingHeading)
+    SetEntityRotation(ped, 0.0, 0.0, cameraFacingHeading, 2, true)
+end
+
 local function streamShowcaseScene(coords)
-    -- Set the streaming focus before creating the preview ped. The previous
-    -- implementation waited on the hidden player ped, which does not prove
-    -- that collision/map data around the showcase location has loaded.
     SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 
@@ -119,14 +129,10 @@ local function streamShowcaseScene(coords)
         Wait(0)
     end
 
-    if sceneStarted and IsNewLoadSceneLoaded() then
-        NewLoadSceneStop()
-    elseif sceneStarted then
+    if sceneStarted then
         NewLoadSceneStop()
     end
 
-    -- Let the renderer finish the first collision/streaming pass before the
-    -- camera is activated. This is intentionally a small settle window.
     Wait(250)
 end
 
@@ -215,10 +221,7 @@ local function createPreviewPed(citizenId)
         camZ = coords.z + 1.35
     end
 
-    -- Do not trust a hard-coded ped heading. The showcase camera is the source
-    -- of truth, so the character always faces the actual camera position.
-    local cameraFacingHeading = headingToward(coords.x, coords.y, camX, camY)
-    SetEntityHeading(ped, cameraFacingHeading)
+    lockPreviewPedToCamera(ped, camX, camY)
 
     if requestPreviewAnimation() then
         TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
@@ -226,10 +229,8 @@ local function createPreviewPed(citizenId)
         TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
     end
 
-    -- Some appearance/animation implementations can alter heading. Re-apply
-    -- it after the task starts so the face remains locked toward the camera.
-    Wait(0)
-    SetEntityHeading(ped, cameraFacingHeading)
+    Wait(100)
+    lockPreviewPedToCamera(ped, camX, camY)
 
     SetModelAsNoLongerNeeded(modelHash)
 
@@ -420,6 +421,7 @@ CreateThread(function()
                 SetCamCoord(previewCam, cam.x, cam.y, cam.z + bob)
                 if previewPedEntity and DoesEntityExist(previewPedEntity) then
                     PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.98, true)
+                    lockPreviewPedToCamera(previewPedEntity, cam.x, cam.y)
                 end
             end
             Wait(0)
