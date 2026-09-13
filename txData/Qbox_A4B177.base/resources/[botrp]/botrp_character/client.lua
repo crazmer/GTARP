@@ -46,10 +46,6 @@ local function deletePreviewPed(ped)
     if DoesEntityExist(ped) then DeleteEntity(ped) end
 end
 
--- When replacing a character, keep the existing scripted camera alive. The
--- previous implementation destroyed the camera and restored focus to the
--- hidden player ped before the replacement was ready, which exposed unloaded
--- terrain and made the camera appear to fall under the map for a few seconds.
 local function destroyPreview(preserveCamera)
     previewGeneration = previewGeneration + 1
 
@@ -59,9 +55,6 @@ local function destroyPreview(preserveCamera)
         DestroyCam(previewCam, true)
         previewCam = nil
     elseif previewCam and preserveCamera and DoesCamExist(previewCam) then
-        -- Keep the camera exactly where it is while the new model/appearance
-        -- is loading. Point it at a stable world position instead of the ped
-        -- that is about to be deleted.
         local target = nil
         if previewPedEntity and DoesEntityExist(previewPedEntity) then
             target = GetEntityCoords(previewPedEntity)
@@ -84,9 +77,6 @@ local function destroyPreview(preserveCamera)
         previewPeds[ped] = nil
     end
 
-    -- Never return streaming focus to the hidden player while a preview camera
-    -- is being preserved. createPreviewPed() will establish the showcase focus
-    -- again immediately for the replacement character.
     if not preserveCamera then
         SetFocusEntity(PlayerPedId())
         ClearTimecycleModifier()
@@ -106,41 +96,27 @@ end
 
 local function lockPreviewPedToCamera(ped, camX, camY)
     if not ped or ped == 0 or not DoesEntityExist(ped) then return end
-
     local pedCoords = GetEntityCoords(ped)
-    local faceCameraHeading = GetHeadingFromVector_2d(
-        camX - pedCoords.x,
-        camY - pedCoords.y
-    )
-
+    local faceCameraHeading = GetHeadingFromVector_2d(camX - pedCoords.x, camY - pedCoords.y)
     SetEntityHeading(ped, faceCameraHeading)
 end
 
--- Stream the entire preview area, not just the ped spawn point. The previous
--- implementation stopped the scene load before creating the replacement ped,
--- which could leave the camera in unloaded terrain when switching characters.
 local function streamShowcaseScene(pedCoords, camCoords)
     local focusX = (pedCoords.x + camCoords.x) * 0.5
     local focusY = (pedCoords.y + camCoords.y) * 0.5
     local focusZ = (pedCoords.z + camCoords.z) * 0.5
-
     SetFocusPosAndVel(focusX, focusY, focusZ, 0.0, 0.0, 0.0)
-
     local sceneStarted = false
     if NewLoadSceneStartSphere then
         sceneStarted = NewLoadSceneStartSphere(focusX, focusY, focusZ, 220.0, 0)
     end
-
     local deadline = GetGameTimer() + 12000
     while GetGameTimer() < deadline do
         RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
         RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
-
-        if not sceneStarted or IsNewLoadSceneLoaded() then
-            break
-        end
+        if not sceneStarted or IsNewLoadSceneLoaded() then break end
         Wait(0)
     end
 end
@@ -152,57 +128,37 @@ local function waitForPreviewCollision(ped, pedCoords, camCoords)
         RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
         RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
-
-        local pedLoaded = ped and DoesEntityExist(ped) and HasCollisionLoadedAroundEntity(ped)
-        if pedLoaded then
-            return true
-        end
+        if ped and DoesEntityExist(ped) and HasCollisionLoadedAroundEntity(ped) then return true end
         Wait(0)
     end
     return false
 end
 
 local function createPreviewPed(citizenId)
-    -- Keep the existing camera on character switches. Only destroy it when the
-    -- entire character preview is being closed (play/create/exit flow).
     destroyPreview(inCharacterLobby and previewCam ~= nil)
     local generation = previewGeneration
     previewLocation = config.locations[1]
     local coords = previewLocation.pedCoords
     local cam = previewLocation.camCoords
-
     local clothing, model = nil, nil
     if citizenId then
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     end
     if generation ~= previewGeneration or not inCharacterLobby then return end
-
-    local camCoords = cam or vec4(
-        coords.x - math.sin(math.rad(coords.w)) * 2.8,
-        coords.y + math.cos(math.rad(coords.w)) * 2.8,
-        coords.z + 1.35,
-        0.0
-    )
-
-    -- Keep the streaming focus alive throughout character replacement.
+    local camCoords = cam or vec4(coords.x - math.sin(math.rad(coords.w)) * 2.8, coords.y + math.cos(math.rad(coords.w)) * 2.8, coords.z + 1.35, 0.0)
     streamShowcaseScene(coords, camCoords)
     if generation ~= previewGeneration or not inCharacterLobby then return end
-
     local modelHash = getModelHash(model) or `mp_m_freemode_01`
-    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then
-        modelHash = `mp_m_freemode_01`
-    end
+    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then modelHash = `mp_m_freemode_01` end
     lib.requestModel(modelHash, config.loadingModelsTimeout)
     if generation ~= previewGeneration or not inCharacterLobby then
         SetModelAsNoLongerNeeded(modelHash)
         return
     end
-
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
     RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
     RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
     RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
-
     local ped = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
     if not ped or ped == 0 or not DoesEntityExist(ped) then
         SetModelAsNoLongerNeeded(modelHash)
@@ -210,7 +166,6 @@ local function createPreviewPed(citizenId)
         return
     end
     previewPeds[ped] = true
-
     if generation ~= previewGeneration or not inCharacterLobby then
         previewPeds[ped] = nil
         deletePreviewPed(ped)
@@ -218,7 +173,6 @@ local function createPreviewPed(citizenId)
         if NewLoadSceneStop then NewLoadSceneStop() end
         return
     end
-
     previewPedEntity = ped
     SetEntityAsMissionEntity(ped, true, true)
     SetEntityInvincible(ped, true)
@@ -231,11 +185,7 @@ local function createPreviewPed(citizenId)
     SetPedCanRagdoll(ped, false)
     SetPedFleeAttributes(ped, 0, false)
     SetPedCombatAttributes(ped, 46, true)
-
-    -- Do not release the streaming scene until the replacement ped and camera
-    -- area have had a chance to load their collision.
     waitForPreviewCollision(ped, coords, camCoords)
-
     if generation ~= previewGeneration or not inCharacterLobby then
         previewPeds[ped] = nil
         deletePreviewPed(ped)
@@ -244,14 +194,12 @@ local function createPreviewPed(citizenId)
         if NewLoadSceneStop then NewLoadSceneStop() end
         return
     end
-
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local appearance = json.decode(clothing)
             if appearance then exports['illenium-appearance']:setPedAppearance(ped, appearance) end
         end)
     end
-
     lockPreviewPedToCamera(ped, camCoords.x, camCoords.y)
     if requestPreviewAnimation() then
         TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
@@ -261,18 +209,11 @@ local function createPreviewPed(citizenId)
     Wait(100)
     lockPreviewPedToCamera(ped, camCoords.x, camCoords.y)
     SetModelAsNoLongerNeeded(modelHash)
-
-    -- Re-request both collision points immediately before activating the camera.
-    -- This is especially important after switching from one character to another.
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
     RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
     RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
     RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
     Wait(150)
-
-    -- Reuse the preserved camera instead of creating a new camera during a
-    -- character switch. This removes the gap where the game camera could fall
-    -- back to the hidden player position.
     if previewCam and DoesCamExist(previewCam) then
         SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
         SetCamFov(previewCam, 30.0)
@@ -297,14 +238,8 @@ local function createPreviewPed(citizenId)
     SetCamDofStrength(previewCam, 0.72)
     SetTimecycleModifier('MP_corona_switch')
     SetTimecycleModifierStrength(0.10)
-
-    -- Keep the scene loaded briefly after the camera becomes active. Releasing
-    -- it immediately can cause the world behind a newly selected character to
-    -- unload and drop the camera through the map.
     Wait(500)
-    if generation == previewGeneration and inCharacterLobby and NewLoadSceneStop then
-        NewLoadSceneStop()
-    end
+    if generation == previewGeneration and inCharacterLobby and NewLoadSceneStop then NewLoadSceneStop() end
 end
 
 local function sendCharacters()
@@ -329,6 +264,15 @@ local function sendCharacters()
         end
     end
     SendNUIMessage({ action = 'characters', characters = payload, selected = selectedIndex })
+end
+
+local function refreshCharacters()
+    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
+    characters = characters or {}
+    maxCharacters = maxCharacters or #characters
+    if maxCharacters < 1 then maxCharacters = 1 end
+    if selectedIndex > maxCharacters then selectedIndex = maxCharacters end
+    sendCharacters()
 end
 
 local function openCharacterScreen()
@@ -365,6 +309,33 @@ RegisterNUICallback('select', function(data, cb)
     if character then createPreviewPed(character.citizenid) end
     cb({ ok = true })
     sendCharacters()
+end)
+
+RegisterNUICallback('delete', function(data, cb)
+    local index = tonumber(data.slot) or selectedIndex
+    local character = characters[index]
+    if not character or not character.citizenid then
+        cb({ ok = false, error = 'Character not found.' })
+        return
+    end
+
+    local citizenId = character.citizenid
+    TriggerServerEvent('qbx_core:server:deleteCharacter', citizenId)
+    Wait(350)
+
+    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
+    characters = characters or {}
+    maxCharacters = maxCharacters or #characters
+
+    if selectedIndex > maxCharacters then selectedIndex = math.max(1, maxCharacters) end
+    local replacement = characters[selectedIndex]
+    if replacement then
+        createPreviewPed(replacement.citizenid)
+    else
+        destroyPreview(inCharacterLobby and previewCam ~= nil)
+    end
+    sendCharacters()
+    cb({ ok = true })
 end)
 
 RegisterNUICallback('play', function(data, cb)
@@ -480,4 +451,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.2.2 started') end)
+CreateThread(function() print('[BotRP] character v0.2.3 started') end)
