@@ -198,7 +198,7 @@ local function createPreviewPed(citizenId)
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camX, camY, camZ)
-    SetCamFov(previewCam, 38.0)
+    SetCamFov(previewCam, 30.0)
     PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
     SetCamActive(previewCam, true)
     SetCamUseShallowDofMode(previewCam, true)
