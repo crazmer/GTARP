@@ -2,7 +2,11 @@ const app=document.getElementById('app');
 const cards=document.getElementById('cards');
 const create=document.getElementById('create');
 const error=document.getElementById('error');
+const deleteModal=document.getElementById('deleteModal');
+const deleteName=document.getElementById('deleteName');
+const deleteConfirm=document.getElementById('deleteConfirm');
 let chars=[];
+let pendingDeleteSlot=null;
 
 const nui=(name,data={})=>fetch(`https://${GetParentResourceName()}/${name}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
   .then(r=>r.json())
@@ -44,13 +48,21 @@ function render(list){
         </div>
         <div class="card-side">
           <div class="card-side-label">READY TO ENTER</div>
-          <button type="button" class="play" data-play-slot="${c.slot}">PLAY CHARACTER <span>→</span></button>
+          <div class="card-actions">
+            <button type="button" class="delete" data-delete-slot="${c.slot}">DELETE</button>
+            <button type="button" class="play" data-play-slot="${c.slot}">PLAY CHARACTER <span>→</span></button>
+          </div>
         </div>`;
       el.addEventListener('click',()=>select(c.slot));
       el.querySelector('.play').addEventListener('click',async e=>{
         e.preventDefault();
         e.stopPropagation();
         await playCharacter(c.slot,e.currentTarget);
+      });
+      el.querySelector('.delete').addEventListener('click',e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        openDelete(c.slot);
       });
     }
     cards.appendChild(el);
@@ -85,6 +97,40 @@ function openCreate(slot){
   error.textContent='';
   document.getElementById('firstname')?.focus();
 }
+
+function openDelete(slot){
+  const character=chars.find(c=>Number(c.slot)===Number(slot)&&!c.empty);
+  if(!character) return;
+  pendingDeleteSlot=Number(slot);
+  deleteName.textContent=`${character.firstname} ${character.lastname}`;
+  deleteModal.classList.remove('hidden');
+  deleteConfirm.disabled=false;
+  deleteConfirm.textContent='DELETE CHARACTER';
+}
+
+function closeDelete(){
+  pendingDeleteSlot=null;
+  deleteModal.classList.add('hidden');
+}
+
+document.getElementById('deleteCancel').onclick=closeDelete;
+document.querySelector('.modal-backdrop').onclick=closeDelete;
+deleteConfirm.onclick=async()=>{
+  if(pendingDeleteSlot===null||deleteConfirm.disabled) return;
+  const slot=pendingDeleteSlot;
+  deleteConfirm.disabled=true;
+  deleteConfirm.textContent='DELETING…';
+  const r=await nui('delete',{slot});
+  if(r.ok){
+    closeDelete();
+  }else{
+    deleteConfirm.disabled=false;
+    deleteConfirm.textContent='DELETE CHARACTER';
+    if(error) error.textContent=r.error||'Unable to delete character.';
+  }
+};
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!deleteModal.classList.contains('hidden')) closeDelete()});
 
 document.getElementById('back').onclick=()=>{
   create.classList.add('hidden');
