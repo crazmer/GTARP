@@ -14,7 +14,6 @@ local previewAnimName = 'base'
 local function setGameplayHudVisible(visible)
     DisplayRadar(visible)
     DisplayHud(visible)
-
     if GetResourceState('qbx_hud') == 'started' then
         SendNUIMessage({ action = 'hudtick', show = visible })
         SendNUIMessage({ action = 'car', show = visible and cache.vehicle ~= nil })
@@ -41,36 +40,28 @@ end
 
 local function deletePreviewPed(ped)
     if not ped or ped == 0 or not DoesEntityExist(ped) then return end
-
     SetEntityAsMissionEntity(ped, true, true)
     ClearPedTasksImmediately(ped)
     DeletePed(ped)
-
-    if DoesEntityExist(ped) then
-        DeleteEntity(ped)
-    end
+    if DoesEntityExist(ped) then DeleteEntity(ped) end
 end
 
 local function destroyPreview()
     previewGeneration = previewGeneration + 1
-
     if previewCam then
         SetCamActive(previewCam, false)
         RenderScriptCams(false, false, 250, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
     end
-
     if previewPedEntity then
         deletePreviewPed(previewPedEntity)
         previewPedEntity = nil
     end
-
     for ped, _ in pairs(previewPeds) do
         deletePreviewPed(ped)
         previewPeds[ped] = nil
     end
-
     SetFocusEntity(PlayerPedId())
     ClearTimecycleModifier()
 end
@@ -81,12 +72,8 @@ local function getModelHash(model)
 end
 
 local function requestPreviewAnimation()
-    if not lib then return false end
-    if not lib.requestAnimDict then return false end
-
-    local ok = pcall(function()
-        lib.requestAnimDict(previewAnimDict)
-    end)
+    if not lib or not lib.requestAnimDict then return false end
+    local ok = pcall(function() lib.requestAnimDict(previewAnimDict) end)
     return ok
 end
 
@@ -100,67 +87,53 @@ local function lockPreviewPedToCamera(ped, camX, camY)
     if not ped or ped == 0 or not DoesEntityExist(ped) then return end
 
     local pedCoords = GetEntityCoords(ped)
-    local cameraFacingHeading = headingToward(pedCoords.x, pedCoords.y, camX, camY)
+    local cameraHeading = headingToward(pedCoords.x, pedCoords.y, camX, camY)
 
-    -- The preview animation can visually reorient the actor after heading is
-    -- set. Lock both the entity heading and rotation every frame so the body
-    -- remains pointed at the actual showcase camera.
-    SetEntityHeading(ped, cameraFacingHeading)
-    SetEntityRotation(ped, 0.0, 0.0, cameraFacingHeading, 2, true)
+    -- GTA ped forward is opposite to the heading vector used by the camera
+    -- target calculation here. Add 180 degrees so the actor's face, not its
+    -- back, is presented to the showcase camera.
+    local faceCameraHeading = (cameraHeading + 180.0) % 360.0
+
+    SetEntityHeading(ped, faceCameraHeading)
+    SetEntityRotation(ped, 0.0, 0.0, faceCameraHeading, 2, true)
+    SetEntityAngularVelocity(ped, 0.0, 0.0, 0.0)
 end
 
 local function streamShowcaseScene(coords)
     SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
     local sceneStarted = false
     if NewLoadSceneStartSphere then
         sceneStarted = NewLoadSceneStartSphere(coords.x, coords.y, coords.z, 180.0, 0)
     end
-
     local deadline = GetGameTimer() + 10000
     while GetGameTimer() < deadline do
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
-        if sceneStarted and IsNewLoadSceneLoaded() then
-            break
-        end
-
+        if sceneStarted and IsNewLoadSceneLoaded() then break end
         Wait(0)
     end
-
-    if sceneStarted then
-        NewLoadSceneStop()
-    end
-
+    if sceneStarted then NewLoadSceneStop() end
     Wait(250)
 end
 
 local function createPreviewPed(citizenId)
     destroyPreview()
     local generation = previewGeneration
-
     previewLocation = config.locations[1]
     local coords = previewLocation.pedCoords
     local clothing, model = nil, nil
 
     streamShowcaseScene(coords)
-
     if citizenId then
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     end
-
-    if generation ~= previewGeneration or not inCharacterLobby then
-        return
-    end
+    if generation ~= previewGeneration or not inCharacterLobby then return end
 
     local modelHash = getModelHash(model) or `mp_m_freemode_01`
     if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then
         modelHash = `mp_m_freemode_01`
     end
-
     lib.requestModel(modelHash, config.loadingModelsTimeout)
-
     if generation ~= previewGeneration or not inCharacterLobby then
         SetModelAsNoLongerNeeded(modelHash)
         return
@@ -178,7 +151,6 @@ local function createPreviewPed(citizenId)
         SetModelAsNoLongerNeeded(modelHash)
         return
     end
-
     previewPeds[ped] = true
 
     if generation ~= previewGeneration or not inCharacterLobby then
@@ -204,9 +176,7 @@ local function createPreviewPed(citizenId)
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local appearance = json.decode(clothing)
-            if appearance then
-                exports['illenium-appearance']:setPedAppearance(ped, appearance)
-            end
+            if appearance then exports['illenium-appearance']:setPedAppearance(ped, appearance) end
         end)
     end
 
@@ -222,16 +192,13 @@ local function createPreviewPed(citizenId)
     end
 
     lockPreviewPedToCamera(ped, camX, camY)
-
     if requestPreviewAnimation() then
         TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
     else
         TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
     end
-
     Wait(100)
     lockPreviewPedToCamera(ped, camX, camY)
-
     SetModelAsNoLongerNeeded(modelHash)
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
@@ -244,7 +211,6 @@ local function createPreviewPed(citizenId)
     SetCamFarDof(previewCam, 10.0)
     SetCamDofStrength(previewCam, 0.72)
     RenderScriptCams(true, false, 650, true, true)
-
     SetTimecycleModifier('MP_corona_switch')
     SetTimecycleModifierStrength(0.10)
 end
@@ -277,25 +243,20 @@ local function openCharacterScreen()
     if inCharacterLobby then return end
     inCharacterLobby = true
     setGameplayHudVisible(false)
-
     local playerPed = cache.ped
     if playerPed and DoesEntityExist(playerPed) then
         FreezeEntityPosition(playerPed, true)
         SetEntityCollision(playerPed, false, false)
         SetEntityVisible(playerPed, false, false)
     end
-
     characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
     characters = characters or {}
     maxCharacters = maxCharacters or #characters
     selectedIndex = 1
-
     NetworkStartSoloTutorialSession()
     while not NetworkIsInTutorialSession() do Wait(0) end
-
     local first = characters[1]
     createPreviewPed(first and first.citizenid)
-
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
     DoScreenFadeIn(700)
@@ -318,16 +279,11 @@ RegisterNUICallback('play', function(data, cb)
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
-
     closeCharacterUI()
     DoScreenFadeOut(250)
     Wait(280)
     destroyPreview()
-
-    local ok, err = pcall(function()
-        lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-    end)
-
+    local ok, err = pcall(function() lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid) end)
     if not ok then
         inCharacterLobby = false
         restorePlayer()
@@ -335,7 +291,6 @@ RegisterNUICallback('play', function(data, cb)
         cb({ ok = false, error = tostring(err) })
         return
     end
-
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
     elseif GetResourceState('qbx_spawn'):find('start') then
@@ -350,7 +305,6 @@ RegisterNUICallback('play', function(data, cb)
         restorePlayer()
         DoScreenFadeIn(700)
     end
-
     cb({ ok = true })
 end)
 
@@ -360,19 +314,16 @@ RegisterNUICallback('create', function(data, cb)
         cb({ ok = false, error = 'That character slot is unavailable.' })
         return
     end
-
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
         firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
         nationality = tostring(data.nationality or ''), gender = gender,
         birthdate = tostring(data.birthdate or ''), cid = slot
     })
-
     if not result then
         cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
         return
     end
-
     closeCharacterUI()
     DoScreenFadeOut(250)
     Wait(280)
