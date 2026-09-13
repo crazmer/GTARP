@@ -6,10 +6,10 @@ description 'BotRP custom Qbox character selection and creation experience'
 version '0.5.0'
 author 'BotRP'
 
-ui_page 'web/index.html'
+ui_page 'web/lobby-v050.html'
 
 files {
-    'web/index.html',
+    'web/lobby-v050.html',
     'web/botrp-character-v050.css',
     'web/app.js'
 }
