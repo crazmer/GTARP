@@ -1975,3 +1975,21 @@
 {"level":"info","message":"Executed query (SHOW COLUMNS IN players []) in 25.4429ms'","module":"DBInterface","timestamp":"2026-09-12T23:53:34.446Z"}
 {"level":"debug","message":"Database schema successfully validated","module":"boot","timestamp":"2026-09-12T23:53:34.446Z"}
 {"level":"debug","message":"1 failed to unload, likely was never loaded in the first place.","module":"player","timestamp":"2026-09-12T23:56:09.450Z"}
+{"level":"debug","message":"Marketplace service started","module":"marketplace","timestamp":"2026-09-12T23:59:23.318Z"}
+{"level":"debug","message":"Call service started","module":"calls","timestamp":"2026-09-12T23:59:23.320Z"}
+{"level":"debug","message":"Player Service started","module":"player","timestamp":"2026-09-12T23:59:23.320Z"}
+{"level":"info","message":"Loading QBX bridge....","timestamp":"2026-09-12T23:59:23.320Z"}
+{"level":"info","message":"QBX bridge initialized","timestamp":"2026-09-12T23:59:23.320Z"}
+{"level":"debug","message":"Boot service started","module":"boot","timestamp":"2026-09-12T23:59:23.320Z"}
+{"level":"debug","message":"Messages service started","module":"messages","timestamp":"2026-09-12T23:59:23.321Z"}
+{"level":"debug","message":"Notes service started","module":"notes","timestamp":"2026-09-12T23:59:23.321Z"}
+{"level":"debug","message":"Contacts service started","module":"contact","timestamp":"2026-09-12T23:59:23.321Z"}
+{"level":"debug","message":"Photo service started","module":"photo","timestamp":"2026-09-12T23:59:23.330Z"}
+{"level":"debug","message":"Twitter service started","module":"twitter","timestamp":"2026-09-12T23:59:23.331Z"}
+{"level":"debug","message":"Match service started","module":"match","timestamp":"2026-09-12T23:59:23.331Z"}
+{"level":"debug","message":"Beginning database schema validation","module":"boot","timestamp":"2026-09-12T23:59:24.605Z"}
+{"level":"info","message":"Successfully started","timestamp":"2026-09-12T23:59:24.616Z"}
+{"level":"info","message":"Executed query (SELECT COUNT(*) as count\n                       FROM information_schema.tables\n                       WHERE table_schema = ?\n                         AND table_name = ? [\"Qbox_A4B177\",\"players\"]) in 41.1178ms'","module":"DBInterface","timestamp":"2026-09-12T23:59:24.646Z"}
+{"level":"info","message":"Executed query (SHOW COLUMNS IN players []) in 30.1798ms'","module":"DBInterface","timestamp":"2026-09-12T23:59:24.677Z"}
+{"level":"debug","message":"Database schema successfully validated","module":"boot","timestamp":"2026-09-12T23:59:24.677Z"}
+{"level":"debug","message":"1 failed to unload, likely was never loaded in the first place.","module":"player","timestamp":"2026-09-13T00:03:15.171Z"}
