@@ -46,14 +46,35 @@ local function deletePreviewPed(ped)
     if DoesEntityExist(ped) then DeleteEntity(ped) end
 end
 
-local function destroyPreview()
+-- When replacing a character, keep the existing scripted camera alive. The
+-- previous implementation destroyed the camera and restored focus to the
+-- hidden player ped before the replacement was ready, which exposed unloaded
+-- terrain and made the camera appear to fall under the map for a few seconds.
+local function destroyPreview(preserveCamera)
     previewGeneration = previewGeneration + 1
-    if previewCam then
+
+    if previewCam and not preserveCamera then
         SetCamActive(previewCam, false)
         RenderScriptCams(false, false, 250, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
+    elseif previewCam and preserveCamera and DoesCamExist(previewCam) then
+        -- Keep the camera exactly where it is while the new model/appearance
+        -- is loading. Point it at a stable world position instead of the ped
+        -- that is about to be deleted.
+        local target = nil
+        if previewPedEntity and DoesEntityExist(previewPedEntity) then
+            target = GetEntityCoords(previewPedEntity)
+        elseif previewLocation and previewLocation.pedCoords then
+            target = previewLocation.pedCoords
+        end
+        if target then
+            PointCamAtCoord(previewCam, target.x, target.y, target.z + 0.98)
+        end
+        SetCamActive(previewCam, true)
+        RenderScriptCams(true, false, 0, true, true)
     end
+
     if previewPedEntity then
         deletePreviewPed(previewPedEntity)
         previewPedEntity = nil
@@ -62,8 +83,14 @@ local function destroyPreview()
         deletePreviewPed(ped)
         previewPeds[ped] = nil
     end
-    SetFocusEntity(PlayerPedId())
-    ClearTimecycleModifier()
+
+    -- Never return streaming focus to the hidden player while a preview camera
+    -- is being preserved. createPreviewPed() will establish the showcase focus
+    -- again immediately for the replacement character.
+    if not preserveCamera then
+        SetFocusEntity(PlayerPedId())
+        ClearTimecycleModifier()
+    end
 end
 
 local function getModelHash(model)
@@ -136,7 +163,9 @@ local function waitForPreviewCollision(ped, pedCoords, camCoords)
 end
 
 local function createPreviewPed(citizenId)
-    destroyPreview()
+    -- Keep the existing camera on character switches. Only destroy it when the
+    -- entire character preview is being closed (play/create/exit flow).
+    destroyPreview(inCharacterLobby and previewCam ~= nil)
     local generation = previewGeneration
     previewLocation = config.locations[1]
     local coords = previewLocation.pedCoords
@@ -241,16 +270,31 @@ local function createPreviewPed(citizenId)
     RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
     Wait(150)
 
-    previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-    SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
-    SetCamFov(previewCam, 30.0)
-    PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
-    SetCamActive(previewCam, true)
+    -- Reuse the preserved camera instead of creating a new camera during a
+    -- character switch. This removes the gap where the game camera could fall
+    -- back to the hidden player position.
+    if previewCam and DoesCamExist(previewCam) then
+        SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
+        SetCamFov(previewCam, 30.0)
+        PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
+        SetCamActive(previewCam, true)
+        RenderScriptCams(true, false, 0, true, true)
+    else
+        previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+        SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
+        SetCamFov(previewCam, 30.0)
+        PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
+        SetCamActive(previewCam, true)
+        SetCamUseShallowDofMode(previewCam, true)
+        SetCamNearDof(previewCam, 1.0)
+        SetCamFarDof(previewCam, 10.0)
+        SetCamDofStrength(previewCam, 0.72)
+        RenderScriptCams(true, false, 650, true, true)
+    end
     SetCamUseShallowDofMode(previewCam, true)
     SetCamNearDof(previewCam, 1.0)
     SetCamFarDof(previewCam, 10.0)
     SetCamDofStrength(previewCam, 0.72)
-    RenderScriptCams(true, false, 650, true, true)
     SetTimecycleModifier('MP_corona_switch')
     SetTimecycleModifierStrength(0.10)
 
