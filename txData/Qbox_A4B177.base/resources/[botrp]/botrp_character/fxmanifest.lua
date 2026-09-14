@@ -13,6 +13,7 @@ files {
     'web/botrp-character-v050.css',
     'web/botrp-character-v090.css',
     'web/botrp-character-v091.css',
+    'web/botrp-character-v092.css',
     'web/app.js'
 }
 
