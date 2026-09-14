@@ -9,33 +9,42 @@ const tip=document.getElementById('tip');
 let progress=0;
 const tips=['Use /help in-game if you\'re ever unsure about something.','Your identity is yours. Build your story.','Explore Los Santos and find your place.','Finalizing your session. See you in the city.'];
 
-// User-supplied cinematic backgrounds. No generated artwork is used here.
-const backgrounds=['assets/bg1.jpg','assets/bg2.jpg','assets/bg3.jpg','assets/bg4.jpg','assets/bg5.jpg'];
+// User-supplied cinematic backgrounds. These are real local image files shipped
+// with the resource; no generated artwork or external URLs are used.
 function installCinematicBackgrounds(){
-  const original=document.querySelector('.backdrop');
-  if(!original||!app)return;
-  original.style.background='none';
-  original.style.animation='none';
-  const layers=backgrounds.map((src,i)=>{
-    const layer=document.createElement('div');
-    layer.className='backdrop botrp-user-bg';
-    layer.style.backgroundImage=`url("${src}")`;
-    layer.style.backgroundPosition='center center';
+  if(!app)return;
+  const layers=[...document.querySelectorAll('.botrp-user-bg')];
+  if(!layers.length)return;
+
+  layers.forEach((layer,i)=>{
+    layer.style.position='absolute';
+    layer.style.left='-2%';
+    layer.style.top='-2%';
+    layer.style.width='104%';
+    layer.style.height='104%';
+    layer.style.objectFit='cover';
+    layer.style.objectPosition='center center';
     layer.style.opacity=i===0?'1':'0';
     layer.style.transition='opacity 1.6s ease-in-out';
+    layer.style.transform='scale(1.04)';
+    layer.style.filter='saturate(.92) contrast(1.08) brightness(.76)';
+    layer.style.animation='cinema 22s ease-in-out infinite alternate';
+    layer.style.willChange='transform,opacity';
     layer.style.zIndex='0';
     layer.style.pointerEvents='none';
-    app.insertBefore(layer,app.firstChild);
-    return layer;
+    layer.addEventListener('error',()=>console.error('[BotRP Loading] Failed to load background:',layer.getAttribute('src')));
+    layer.addEventListener('load',()=>console.log('[BotRP Loading] Background loaded:',layer.getAttribute('src')));
   });
-  backgrounds.forEach(src=>{const img=new Image();img.src=src;});
+
   let active=0;
-  setInterval(()=>{
-    const next=(active+1)%layers.length;
-    layers[active].style.opacity='0';
-    layers[next].style.opacity='1';
-    active=next;
-  },8500);
+  if(layers.length>1){
+    setInterval(()=>{
+      const next=(active+1)%layers.length;
+      layers[active].style.opacity='0';
+      layers[next].style.opacity='1';
+      active=next;
+    },8500);
+  }
 }
 
 function setProgress(value){
