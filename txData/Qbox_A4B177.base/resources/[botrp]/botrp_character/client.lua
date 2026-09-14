@@ -8,6 +8,7 @@ local maxCharacters = 1
 local selectedIndex = 1
 local inCharacterLobby = false
 local lobbyActionBusy = false
+local showcaseReady = false
 
 local function hudVisible(visible)
     DisplayRadar(visible)
@@ -18,21 +19,27 @@ local function hudVisible(visible)
     end
 end
 
+local function deletePreviewPed(ped)
+    if ped and DoesEntityExist(ped) then
+        SetEntityAsMissionEntity(ped, true, true)
+        DeletePed(ped)
+        if DoesEntityExist(ped) then DeleteEntity(ped) end
+    end
+end
+
 local function cleanupPreview()
     if previewCam and DoesCamExist(previewCam) then
         SetCamActive(previewCam, false)
-        RenderScriptCams(false, false, 250, true, true)
+        RenderScriptCams(false, false, 200, true, true)
         DestroyCam(previewCam, true)
     end
     previewCam = nil
 
-    if previewPed and DoesEntityExist(previewPed) then
-        SetEntityAsMissionEntity(previewPed, true, true)
-        DeletePed(previewPed)
-        if DoesEntityExist(previewPed) then DeleteEntity(previewPed) end
-    end
+    deletePreviewPed(previewPed)
     previewPed = nil
-    SetFocusEntity(PlayerPedId())
+
+    if NewLoadSceneStop then NewLoadSceneStop() end
+    ClearFocus()
     ClearTimecycleModifier()
     NetworkClearClockTimeOverride()
     SetArtificialLightsState(false)
@@ -52,6 +59,7 @@ local function closeCharacterUI()
     SetNuiFocus(false, false)
     SendNUIMessage({ action = 'hide' })
     inCharacterLobby = false
+    showcaseReady = false
 end
 
 local function sendCharacters()
@@ -92,6 +100,7 @@ local function loadCharacters()
         characters = {}
         maxCharacters = 1
     end
+
     if maxCharacters < 1 then maxCharacters = 1 end
     if selectedIndex > maxCharacters then selectedIndex = maxCharacters end
     sendCharacters()
@@ -102,44 +111,51 @@ local function streamShowcaseScene(pedCoords, camCoords)
     local focusX = (pedCoords.x + camCoords.x) * 0.5
     local focusY = (pedCoords.y + camCoords.y) * 0.5
     local focusZ = (pedCoords.z + camCoords.z) * 0.5
+
     SetFocusPosAndVel(focusX, focusY, focusZ, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+    RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+    RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
 
-    local sceneStarted = false
     if NewLoadSceneStartSphere then
-        sceneStarted = NewLoadSceneStartSphere(focusX, focusY, focusZ, 220.0, 0)
+        pcall(function()
+            NewLoadSceneStartSphere(focusX, focusY, focusZ, 220.0, 0)
+        end)
     end
 
-    local deadline = GetGameTimer() + 12000
+    local deadline = GetGameTimer() + 7000
     while GetGameTimer() < deadline do
         RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
         RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
-        if not sceneStarted or IsNewLoadSceneLoaded() then break end
+
+        if not IsNewLoadSceneActive or not IsNewLoadSceneActive() or IsNewLoadSceneLoaded() then
+            break
+        end
         Wait(0)
     end
 end
 
-local function waitForPreviewCollision(ped, pedCoords, camCoords)
-    local deadline = GetGameTimer() + 8000
+local function waitForPreviewCollision(pedCoords, camCoords)
+    local deadline = GetGameTimer() + 3000
     while GetGameTimer() < deadline do
         RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
         RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
         RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
-        if ped and DoesEntityExist(ped) and HasCollisionLoadedAroundEntity(ped) then return true end
         Wait(0)
     end
-    return false
 end
 
-local function createPreview(citizenId)
-    cleanupPreview()
+local function createOrUpdatePreview(citizenId)
     previewLocation = config.locations and config.locations[1]
-    if not previewLocation or not previewLocation.pedCoords then return end
+    if not previewLocation or not previewLocation.pedCoords then return false end
 
     local coords = previewLocation.pedCoords
     local camCoords = previewLocation.camCoords or vec4(coords.x - 2.8, coords.y, coords.z + 1.2, 0.0)
+
     streamShowcaseScene(coords, camCoords)
 
     local modelHash = `mp_m_freemode_01`
@@ -150,123 +166,179 @@ local function createPreview(citizenId)
             return lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
         end)
         if ok then
-            if type(model) == 'string' then modelHash = joaat(model) elseif type(model) == 'number' then modelHash = model end
+            if type(model) == 'string' then modelHash = joaat(model)
+            elseif type(model) == 'number' then modelHash = model end
             clothing = appearance
         end
     end
 
-    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then modelHash = `mp_m_freemode_01` end
+    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then
+        modelHash = `mp_m_freemode_01`
+    end
+
     RequestModel(modelHash)
-    local deadline = GetGameTimer() + 10000
-    while not HasModelLoaded(modelHash) and GetGameTimer() < deadline do Wait(0) end
+    local modelDeadline = GetGameTimer() + 10000
+    while not HasModelLoaded(modelHash) and GetGameTimer() < modelDeadline do
+        Wait(0)
+    end
+
     if not HasModelLoaded(modelHash) then
         if NewLoadSceneStop then NewLoadSceneStop() end
         ClearFocus()
         print('[BotRP] preview model failed to load')
-        return
+        return false
     end
 
-    previewPed = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w or 0.0, false, false)
+    local oldPed = previewPed
+    local newPed = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w or 0.0, false, false)
     SetModelAsNoLongerNeeded(modelHash)
-    if not previewPed or previewPed == 0 or not DoesEntityExist(previewPed) then
+
+    if not newPed or newPed == 0 or not DoesEntityExist(newPed) then
         if NewLoadSceneStop then NewLoadSceneStop() end
         ClearFocus()
-        return
+        print('[BotRP] preview ped failed to create')
+        return false
     end
 
-    SetEntityAsMissionEntity(previewPed, true, true)
-    SetEntityInvincible(previewPed, true)
-    SetEntityCollision(previewPed, false, false)
-    FreezeEntityPosition(previewPed, true)
-    SetBlockingOfNonTemporaryEvents(previewPed, true)
-    SetPedCanRagdoll(previewPed, false)
+    previewPed = newPed
+    SetEntityAsMissionEntity(newPed, true, true)
+    SetEntityInvincible(newPed, true)
+    SetEntityCollision(newPed, false, false)
+    FreezeEntityPosition(newPed, true)
+    SetBlockingOfNonTemporaryEvents(newPed, true)
+    SetPedCanRagdoll(newPed, false)
+    SetPedFleeAttributes(newPed, 0, false)
+    SetPedCombatAttributes(newPed, 46, true)
 
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local appearance = json.decode(clothing)
-            if appearance then exports['illenium-appearance']:setPedAppearance(previewPed, appearance) end
+            if appearance then exports['illenium-appearance']:setPedAppearance(newPed, appearance) end
         end)
     end
 
     local heading = GetHeadingFromVector_2d(camCoords.x - coords.x, camCoords.y - coords.y)
-    SetEntityHeading(previewPed, heading)
+    SetEntityHeading(newPed, heading)
 
     RequestAnimDict('amb@world_human_stand_impatient@male@base')
     local animDeadline = GetGameTimer() + 4000
-    while not HasAnimDictLoaded('amb@world_human_stand_impatient@male@base') and GetGameTimer() < animDeadline do Wait(0) end
+    while not HasAnimDictLoaded('amb@world_human_stand_impatient@male@base') and GetGameTimer() < animDeadline do
+        Wait(0)
+    end
     if HasAnimDictLoaded('amb@world_human_stand_impatient@male@base') then
-        TaskPlayAnim(previewPed, 'amb@world_human_stand_impatient@male@base', 'base', 2.0, 2.0, -1, 1, 0.0, false, false, false)
+        TaskPlayAnim(newPed, 'amb@world_human_stand_impatient@male@base', 'base', 2.0, 2.0, -1, 1, 0.0, false, false, false)
     end
 
-    waitForPreviewCollision(previewPed, coords, camCoords)
+    waitForPreviewCollision(coords, camCoords)
 
-    previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-    SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
-    SetCamFov(previewCam, 27.0)
-    PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.0, true)
-    SetCamActive(previewCam, true)
-    SetCamUseShallowDofMode(previewCam, true)
-    SetCamNearDof(previewCam, 1.2)
-    SetCamFarDof(previewCam, 18.0)
-    SetCamDofStrength(previewCam, 0.16)
-    RenderScriptCams(true, false, 700, true, true)
+    if not previewCam or not DoesCamExist(previewCam) then
+        previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+        SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
+        SetCamFov(previewCam, 38.0)
+        SetCamActive(previewCam, true)
+        SetCamUseShallowDofMode(previewCam, true)
+        SetCamNearDof(previewCam, 1.2)
+        SetCamFarDof(previewCam, 18.0)
+        SetCamDofStrength(previewCam, 0.18)
+        PointCamAtEntity(previewCam, newPed, 0.0, 0.0, 1.0, true)
+        RenderScriptCams(true, false, 700, true, true)
+    else
+        SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
+        PointCamAtEntity(previewCam, newPed, 0.0, 0.0, 1.0, true)
+        SetCamFov(previewCam, 38.0)
+    end
 
     SetTimecycleModifier('default')
     SetTimecycleModifierStrength(0.0)
-    NetworkOverrideClockTime(18, 50, 0)
+    NetworkOverrideClockTime(19, 45, 0)
     SetArtificialLightsState(false)
 
-    Wait(700)
     if NewLoadSceneStop then NewLoadSceneStop() end
     ClearFocus()
+
+    if oldPed and oldPed ~= newPed then
+        deletePreviewPed(oldPed)
+    end
+
+    return true
 end
 
 local function openCharacterScreen()
     if inCharacterLobby then return end
+
     inCharacterLobby = true
     lobbyActionBusy = false
+    showcaseReady = false
     selectedIndex = 1
 
     hudVisible(false)
+
     local playerPed = PlayerPedId()
     FreezeEntityPosition(playerPed, true)
     SetEntityCollision(playerPed, false, false)
     SetEntityVisible(playerPed, false, false)
 
-    ShutdownLoadingScreen()
-    ShutdownLoadingScreenNui()
-    DoScreenFadeIn(500)
-    SetNuiFocus(true, true)
-    SendNUIMessage({ action = 'open' })
-    SendNUIMessage({ action = 'characters', characters = { { slot = 1, empty = true } }, selected = 1 })
+    -- Keep the game fully hidden while the remote showcase scene streams.
+    DoScreenFadeOut(0)
 
     CreateThread(function()
         loadCharacters()
         local first = characters[selectedIndex]
-        if inCharacterLobby then createPreview(first and first.citizenid) end
+        local ready = createOrUpdatePreview(first and first.citizenid)
+
+        if not inCharacterLobby then
+            cleanupPreview()
+            return
+        end
+
+        ShutdownLoadingScreen()
+        ShutdownLoadingScreenNui()
+        SetNuiFocus(true, true)
+        SendNUIMessage({ action = 'open' })
+        sendCharacters()
+
+        if ready then
+            showcaseReady = true
+            DoScreenFadeIn(650)
+        else
+            -- Never expose the game world in a broken preview state.
+            inCharacterLobby = false
+            restorePlayer()
+            SetNuiFocus(false, false)
+            DoScreenFadeIn(500)
+            SendNUIMessage({ action = 'hide' })
+        end
     end)
 end
 
 RegisterNUICallback('select', function(data, cb)
     local index = tonumber(data.slot) or 1
     if index < 1 or index > maxCharacters then cb({ ok = false }); return end
-    if lobbyActionBusy then cb({ ok = false, error = 'Please wait for the current character preview.' }); return end
+    if lobbyActionBusy or not showcaseReady then
+        cb({ ok = false, error = 'Please wait for the character preview.' })
+        return
+    end
+
     selectedIndex = index
     local character = characters[index]
     if character then
         lobbyActionBusy = true
         CreateThread(function()
-            createPreview(character.citizenid)
+            local ok = createOrUpdatePreview(character.citizenid)
             lobbyActionBusy = false
             sendCharacters()
+            if not ok then
+                print('[BotRP] failed to update character preview')
+            end
         end)
     end
+
     sendCharacters()
     cb({ ok = true })
 end)
 
 RegisterNUICallback('delete', function(data, cb)
-    if lobbyActionBusy then cb({ ok = false, error = 'Please wait for the current action.' }); return end
+    if lobbyActionBusy or not showcaseReady then cb({ ok = false, error = 'Please wait for the current action.' }); return end
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
     if not character or not character.citizenid then cb({ ok = false, error = 'Character not found.' }); return end
@@ -280,15 +352,16 @@ RegisterNUICallback('delete', function(data, cb)
         cb({ ok = false, error = 'Character could not be deleted.' })
         return
     end
+
     loadCharacters()
     local replacement = characters[selectedIndex]
-    createPreview(replacement and replacement.citizenid)
+    createOrUpdatePreview(replacement and replacement.citizenid)
     lobbyActionBusy = false
     cb({ ok = true })
 end)
 
 RegisterNUICallback('play', function(data, cb)
-    if lobbyActionBusy then cb({ ok = false, error = 'Please wait for the current action.' }); return end
+    if lobbyActionBusy or not showcaseReady then cb({ ok = false, error = 'Please wait for the current action.' }); return end
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
@@ -319,18 +392,19 @@ RegisterNUICallback('play', function(data, cb)
     else
         local pos = character.position
         if pos then
-            SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, false, false, false, false)
-            SetEntityHeading(cache.ped, pos.w or 0.0)
+            SetEntityCoords(PlayerPedId(), pos.x, pos.y, pos.z, false, false, false, false)
+            SetEntityHeading(PlayerPedId(), pos.w or 0.0)
         end
         restorePlayer()
         DoScreenFadeIn(700)
     end
+
     lobbyActionBusy = false
     cb({ ok = true })
 end)
 
 RegisterNUICallback('create', function(data, cb)
-    if lobbyActionBusy then cb({ ok = false, error = 'Please wait for the current action.' }); return end
+    if lobbyActionBusy or not showcaseReady then cb({ ok = false, error = 'Please wait for the current action.' }); return end
     local slot = tonumber(data.slot) or 1
     if slot < 1 or slot > maxCharacters or characters[slot] then cb({ ok = false, error = 'That character slot is unavailable.' }); return end
 
@@ -354,6 +428,7 @@ RegisterNUICallback('create', function(data, cb)
     Wait(280)
     cleanupPreview()
     restorePlayer()
+
     if GetResourceState('qbx_properties'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', result)
     elseif GetResourceState('qbx_spawn'):find('start') then
@@ -361,11 +436,15 @@ RegisterNUICallback('create', function(data, cb)
     else
         DoScreenFadeIn(700)
     end
+
     lobbyActionBusy = false
     cb({ ok = true })
 end)
 
-RegisterNUICallback('close', function(_, cb) cb({ ok = false }) end)
+RegisterNUICallback('close', function(_, cb)
+    cb({ ok = false })
+end)
+
 RegisterNetEvent('botrp_character:client:open', openCharacterScreen)
 
 CreateThread(function()
@@ -386,7 +465,7 @@ CreateThread(function()
             DisableControlAction(0, 30, true)
             DisableControlAction(0, 31, true)
             DisableControlAction(0, 75, true)
-            NetworkOverrideClockTime(18, 50, 0)
+            NetworkOverrideClockTime(19, 45, 0)
             Wait(0)
         else
             Wait(500)
@@ -414,4 +493,6 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.9.2 started (stable streamed showcase)') end)
+CreateThread(function()
+    print('[BotRP] character v1.0.2 started (stable handoff + showcase swap)')
+end)
