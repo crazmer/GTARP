@@ -1,37 +1,32 @@
-# BotRP Main v2.0 Security & Enhanced Remediation
+# BotRP Main Security Remediation Status
 
-## Baseline
+Updated: 2026-09-14
 
-Main v2.0 commit: `743d6aafb948e100d861610aa7e0922e433a0c9f`.
+## Current main status
 
-## Confirmed items
+The active `txData/Qbox_A4B177.base/server.cfg` now loads credentials from the untracked `secrets.cfg` file instead of storing the FiveM license key or database password in the tracked startup configuration. `.gitignore` excludes `secrets.cfg`, and the old tracked `server.cfg.bkp` containing credentials has been removed from the current tree.
 
-1. Live server credentials are present in `txData/Qbox_A4B177.base/server.cfg`. Rotate the affected credentials and move them to deployment-time secrets before production use.
-2. The startup configuration contains `sv_enforceGameBuild 3258`, and the 2026-09-12 startup log reports that value as invalid for the running artifact.
-3. The startup configuration ensures `sessionmanager` and `hardcap`, while the 2026-09-12 startup log reports both resources as not found.
-4. The startup configuration ensures `[assets]`, while the repository resource-group listing does not contain an `[assets]` group.
-5. Renewed-Banking transaction callbacks accept client-provided account identifiers; authorization of organization/shared accounts must be enforced server-side before account debits or credits.
+The invalid `sv_enforceGameBuild 3258` setting is no longer present in the active startup configuration. The old `sessionmanager`, `hardcap`, and `[assets]` ensures identified in the historical 2026-09-12 startup configuration are also no longer present in the active configuration.
 
-## Safe operator actions
+Renewed-Banking contains server-side authorization for player-initiated organization/shared-account operations.
 
-- Rotate the exposed FiveM license key.
-- Change the exposed database password and avoid using a privileged database account for normal server operation.
-- Provide the new secrets through an untracked deployment-local configuration mechanism.
-- Do not re-add `sv_enforceGameBuild 3258` unless it is confirmed valid for the exact Enhanced artifact being used.
-- Do not add replacement copies of `sessionmanager` or `hardcap` until the artifact/resource package is verified.
-- Add the intended Enhanced asset group only when its contents are present and tested.
+## Character-system hardening completed
 
-## Runtime gate
+- BotRP character deletion now uses the authenticated `qbx_core:server:deleteCharacter` callback rather than the legacy client-triggerable event.
+- The legacy `qbx_core:server:deleteCharacter` event was removed from the character callback resource.
+- BotRP NUI character actions are serialized so rapid selection, deletion, creation, or play clicks cannot race the preview state.
+- Character preview data is restricted server-side to characters owned by the requesting account.
+- Character creation now validates gender and the configured `YYYY-MM-DD` birth-date format server-side.
+- Character slot/cid assignment remains server-authoritative.
 
-After remediation, perform a clean Enhanced boot and verify:
+## Operator actions still required
 
-- no startup errors for missing resources;
-- valid game build configuration;
-- database connectivity;
-- Qbox/OX initialization;
-- NPWD initialization;
-- voice initialization;
-- banking callbacks and account authorization;
-- appearance persistence;
-- vehicle persistence/keys;
-- weather/time synchronization.
+1. Rotate the previously exposed FiveM license key and database password. Removing them from the current tree does not erase values from Git history.
+2. Keep `secrets.cfg` deployment-local and untracked.
+3. Use a least-privilege database account for production.
+4. Perform a clean Enhanced boot and verify database, Qbox/OX, NPWD, voice, banking authorization, appearance persistence, vehicle persistence/keys, and weather/time synchronization.
+5. Test character create, switch, delete, repeated delete clicks, and reconnect/logout flows in-game after restarting the affected resources.
+
+## Verification note
+
+GitHub source inspection confirms the code/config changes above. A live FiveM client/server runtime test is still required to prove there are no artifact-specific streaming, resource-start, or gameplay regressions.
