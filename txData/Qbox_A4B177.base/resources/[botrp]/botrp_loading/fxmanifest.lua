@@ -3,7 +3,7 @@ game 'gta5'
 
 name 'botrp_loading'
 description 'BotRP cinematic loading and player loading experience'
-version '0.4.0'
+version '0.4.1'
 author 'BotRP'
 
 loadscreen 'web/index.html'
@@ -14,11 +14,12 @@ files {
     'web/style.css',
     'web/app.js',
     'web/assets/botrp_cinematic.svg',
-    'web/assets/bg1.jpg',
-    'web/assets/bg2.jpg',
-    'web/assets/bg3.jpg',
-    'web/assets/bg4.jpg',
-    'web/assets/bg5.jpg',
+    'web/assets/bg1.png',
+    'web/assets/bg2.png',
+    'web/assets/bg3.png',
+    'web/assets/bg4.png',
+    'web/assets/bg5.png',
+    'web/assets/bg6.png',
 }
 
 client_script 'client.lua'
