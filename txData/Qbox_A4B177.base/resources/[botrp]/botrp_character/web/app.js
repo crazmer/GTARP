@@ -12,11 +12,11 @@ let lobbyBusy=false;
 
 const nui=(name,data={})=>fetch(`https://${GetParentResourceName()}/${name}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
   .then(r=>r.json())
-  .catch(e=>{console.error(`[BotRP] NUI ${name} failed`,e);return {ok:false,error:'Connection to the game client failed.'}});
+  .catch(e=>{console.error(`[BotRP] NUI ${name} failed`,e);return {ok:false,error:'Connection to the game client failed.'}})
 
 function setLobbyBusy(busy){
   lobbyBusy=busy;
-  document.querySelectorAll('.delete,.play').forEach(btn=>{btn.disabled=busy;btn.classList.toggle('busy',busy)});
+  document.querySelectorAll('.delete,.play').forEach(btn=>{btn.disabled=busy;btn.classList.toggle('busy',busy)})
 }
 
 function render(list){
@@ -206,12 +206,19 @@ function esc(s){return String(s??'').replace(/[&<>\'\"]/g,m=>({'&':'&amp;','<':'
 
 window.addEventListener('message',e=>{
   const d=e.data||{};
-  if(d.action==='open') app.classList.remove('hidden');
+  if(d.action==='open'){
+    app.classList.remove('hidden');
+    nui('showcaseState',{active:true});
+  }
   if(d.action==='characters') render(d.characters);
   if(d.action==='transition'){
     app.classList.remove('hidden');
+    nui('showcaseState',{active:true});
     const sub=document.querySelector('.sub');
     if(sub) sub.textContent=d.text||'Loading...';
   }
-  if(d.action==='hide') app.classList.add('hidden');
+  if(d.action==='hide'){
+    app.classList.add('hidden');
+    nui('showcaseState',{active:false});
+  }
 });
