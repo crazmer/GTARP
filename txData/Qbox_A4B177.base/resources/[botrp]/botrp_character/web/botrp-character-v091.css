@@ -1,26 +1,36 @@
-:root{--botrp-cyan:#42ddff;--botrp-panel:rgba(2,7,12,.44)}
-/* v0.9.1 visual correction: preserve the 3D showcase as the hero. */
-body:before{background:linear-gradient(90deg,rgba(0,5,10,.34) 0%,rgba(0,5,10,.16) 24%,rgba(0,5,10,.025) 52%,rgba(0,5,10,.04) 100%),linear-gradient(180deg,rgba(0,0,0,.18),transparent 34%,rgba(0,0,0,.22) 100%)!important}
-body:after{box-shadow:inset 0 0 150px rgba(0,0,0,.32),inset 0 -70px 110px rgba(0,0,0,.18)!important}
-main{align-items:flex-end!important;justify-content:flex-start!important;padding-bottom:58px!important}
-.lobby{width:min(520px,35vw)!important;margin-left:1.2vw!important}
-.lobby-head{margin-bottom:11px!important}
-.lobby-head h1{font-size:clamp(38px,2.55vw,46px)!important;text-shadow:0 5px 24px rgba(0,0,0,.72)!important}
-.lobby-head p{color:#d0d6df!important;text-shadow:0 2px 9px rgba(0,0,0,.8)!important}
-.count-block strong{font-size:22px!important}
-.section-rule{margin-bottom:7px!important}
-.card{min-height:76px!important;padding:9px 11px!important;grid-template-columns:34px minmax(0,1fr) 132px!important;gap:9px!important;background:linear-gradient(100deg,rgba(2,7,12,.50),rgba(4,10,16,.25))!important;backdrop-filter:blur(4px)!important;box-shadow:0 10px 25px rgba(0,0,0,.18)!important}
-.card:hover{background:linear-gradient(100deg,rgba(3,10,16,.58),rgba(5,12,19,.30))!important}
-.card.selected{background:linear-gradient(100deg,rgba(3,12,18,.60),rgba(5,13,20,.30))!important;box-shadow:0 12px 30px rgba(0,0,0,.22),0 0 18px rgba(66,221,255,.05)!important}
-.card .name{font-size:16px!important}
-.card .cid{margin-top:3px!important}
+:root{--botrp-cyan:#42ddff;--botrp-panel:rgba(4,10,16,.32)}
+/* v0.9.2: luxury GTA/futuristic presentation. The 3D world is the hero; UI is a restrained glass HUD. */
+body:before{background:linear-gradient(90deg,rgba(0,5,10,.50) 0%,rgba(0,5,10,.20) 24%,rgba(0,5,10,.035) 54%,rgba(0,5,10,.08) 100%),linear-gradient(180deg,rgba(0,0,0,.12),transparent 38%,rgba(0,0,0,.20) 100%)!important}
+body:after{box-shadow:inset 0 0 120px rgba(0,0,0,.28),inset 0 -55px 90px rgba(0,0,0,.14)!important}
+main{align-items:flex-end!important;justify-content:flex-start!important;padding-bottom:54px!important}
+.lobby{width:min(610px,38vw)!important;margin-left:1.45vw!important}
+.lobby-head{margin-bottom:10px!important}
+.lobby-head h1{font-size:clamp(40px,2.7vw,50px)!important;letter-spacing:-2.8px!important;text-shadow:0 6px 26px rgba(0,0,0,.72)!important}
+.lobby-head p{color:#e0e5ec!important;text-shadow:0 2px 10px rgba(0,0,0,.85)!important}
+.count-block strong{font-size:24px!important;text-shadow:0 4px 18px rgba(0,0,0,.7)}
+.section-rule{margin-bottom:6px!important}
+.section-rule i{background:linear-gradient(90deg,rgba(66,221,255,.16),rgba(255,255,255,.09),transparent)!important}
+.cards{gap:6px!important}
+.card{min-height:72px!important;padding:9px 11px!important;grid-template-columns:35px minmax(0,1fr) 148px!important;gap:10px!important;background:linear-gradient(100deg,rgba(3,9,15,.66),rgba(3,9,15,.30))!important;border-color:rgba(210,230,245,.13)!important;backdrop-filter:blur(9px)!important;box-shadow:0 12px 28px rgba(0,0,0,.20)!important}
+.card:before{background:linear-gradient(90deg,rgba(66,221,255,.055),transparent 55%)!important}
+.card:hover{background:linear-gradient(100deg,rgba(5,15,22,.74),rgba(4,11,18,.36))!important;border-color:rgba(66,221,255,.34)!important;transform:translateX(2px)!important}
+.card.selected{background:linear-gradient(100deg,rgba(4,15,22,.78),rgba(4,12,19,.38))!important;border-color:rgba(66,221,255,.48)!important;box-shadow:0 14px 34px rgba(0,0,0,.22),0 0 22px rgba(66,221,255,.06)!important}
+.slot-badge{width:31px!important;height:31px!important;background:rgba(255,255,255,.035)!important}
+.card .name{font-size:17px!important;text-shadow:0 2px 10px rgba(0,0,0,.55)}
 .meta{margin-top:5px!important}
-.pill{padding:3px 5px!important}
+.pill{padding:3px 5px!important;background:rgba(255,255,255,.035)!important}
 .card-side{gap:5px!important}
-.play,.delete{height:27px!important}
-.card-actions{grid-template-columns:52px 1fr!important;gap:4px!important}
-.play{font-size:5px!important}
-.empty{min-height:64px!important;background:rgba(2,7,12,.25)!important}
-footer{padding-top:7px!important}
-@media(max-width:1000px){.lobby{width:min(520px,44vw)!important}}
+.card-actions{grid-template-columns:54px 1fr!important;gap:5px!important}
+.play,.delete{height:28px!important}
+.play{background:linear-gradient(100deg,rgba(66,221,255,.16),rgba(66,221,255,.045))!important}
+.empty{min-height:62px!important;background:rgba(3,9,15,.26)!important}
+.empty:hover{background:rgba(4,12,18,.46)!important}
+footer{padding-top:6px!important}
+
+/* Create screen: same premium HUD language, without hiding the game world. */
+#create.create{background:linear-gradient(90deg,rgba(3,9,15,.72),rgba(3,9,15,.40) 76%,transparent)!important;border-left-color:rgba(66,221,255,.42)!important;box-shadow:-20px 0 65px rgba(0,0,0,.12)!important}
+#create.create h2{font-size:34px!important;text-shadow:0 6px 22px rgba(0,0,0,.72)!important}
+.create-mode #create.create .form input,.create-mode #create.create .form select{background:rgba(2,7,12,.38)!important}
+
+@media(max-width:1100px){.lobby{width:min(590px,42vw)!important}}
 @media(max-width:800px){.lobby{width:86vw!important;margin-left:0!important}main{padding-bottom:30px!important}.card{grid-template-columns:32px minmax(0,1fr) 125px!important}}
