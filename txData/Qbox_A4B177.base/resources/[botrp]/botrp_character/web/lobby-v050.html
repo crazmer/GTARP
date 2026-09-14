@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BotRP — Character Lobby</title>
-<link rel="stylesheet" href="botrp-character-v050.css?v=0.8.0">
+<link rel="stylesheet" href="botrp-character-v050.css?v=0.8.1">
+<link rel="stylesheet" href="botrp-character-v091.css?v=0.9.1">
 </head>
 <body>
 <div id="app" class="hidden">
@@ -24,21 +25,10 @@
       <button id="createBtn" class="primary" type="button">CREATE CHARACTER <span>→</span></button><div id="error" class="error" role="alert"></div>
     </section>
   </section></main>
-  <footer><span>BOTRP © 2026</span><span>IMMERSIVE ROLEPLAY • YOUR CHOICES MATTER</span><span>BUILD 0.8.0</span></footer>
-
+  <footer><span>BOTRP © 2026</span><span>IMMERSIVE ROLEPLAY • YOUR CHOICES MATTER</span><span>BUILD 0.9.1</span></footer>
   <div id="deleteModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
     <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <div class="modal-icon">!</div>
-      <div class="modal-eyebrow">PERMANENT ACTION</div>
-      <h2 id="deleteTitle">Delete character?</h2>
-      <p>You are about to permanently delete <strong id="deleteName">this character</strong>.</p>
-      <p class="modal-note">This action cannot be undone.</p>
-      <div class="modal-actions">
-        <button id="deleteCancel" type="button" class="modal-cancel">CANCEL</button>
-        <button id="deleteConfirm" type="button" class="modal-delete">DELETE CHARACTER</button>
-      </div>
-    </div>
+    <div class="modal-card"><div class="modal-icon">!</div><div class="modal-eyebrow">PERMANENT ACTION</div><h2 id="deleteTitle">Delete character?</h2><p>You are about to permanently delete <strong id="deleteName">this character</strong>.</p><p class="modal-note">This action cannot be undone.</p><div class="modal-actions"><button id="deleteCancel" type="button" class="modal-cancel">CANCEL</button><button id="deleteConfirm" type="button" class="modal-delete">DELETE CHARACTER</button></div></div>
   </div>
 </div>
 <script src="app.js?v=0.8.0"></script>
