@@ -7,7 +7,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main id="app" class="hidden">
+  <!-- Native FiveM loadscreen must be visible immediately. The previous
+       `hidden` class made the page render as a completely black screen
+       because loadProgress does not send our custom `show` action. -->
+  <main id="app">
     <div class="glow"></div>
     <section class="card">
       <div class="brand">BOT<span>RP</span></div>
@@ -15,7 +18,7 @@
       <h1 id="title">Welcome to BotRP</h1>
       <p id="subtitle">Preparing your character...</p>
       <div class="loader"><div class="bar"></div></div>
-      <div class="status"><span class="dot"></span><span id="status">INITIALIZING</span></div>
+      <div class="status"><span class="dot"></span><span id="status">CONNECTING TO SERVER</span></div>
     </section>
     <footer>ROLEPLAY • COMMUNITY • IMMERSION</footer>
   </main>
