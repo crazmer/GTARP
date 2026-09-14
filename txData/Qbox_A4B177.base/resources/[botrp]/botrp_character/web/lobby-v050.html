@@ -3,23 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>BotRP — Character Lobby</title>
-<link rel="stylesheet" href="botrp-character-v050.css?v=0.8.1">
-<style>
-#create.create{width:100%;padding:42px 52px 46px;background:linear-gradient(145deg,rgba(8,12,20,.94),rgba(12,16,26,.82))!important;border:1px solid rgba(235,240,250,.16);box-shadow:0 28px 80px rgba(0,0,0,.46),0 0 55px rgba(110,130,255,.06);backdrop-filter:blur(10px)}
-#create.create .create-title{margin-top:28px}
-#create.create h2{font-size:42px;letter-spacing:-1.4px}
-#create.create p{font-size:12px;margin-top:10px}
-#create.create .form{gap:20px 22px;margin:34px 0 28px}
-#create.create .form label{font-size:8px;letter-spacing:2.4px}
-#create.create .form input,#create.create .form select{margin-top:9px;padding:16px 15px;font-size:13px;min-height:48px}
-#create.create .primary{padding:15px 26px;min-width:220px;font-size:9px;letter-spacing:1.6px}
-#create.create .back{font-size:8px}
-#create.create .error{font-size:10px}
-.create-mode main{justify-content:center;align-items:center;padding-top:0}
-.create-mode .lobby{width:min(1120px,78vw);max-width:1120px}
-@media(max-width:900px){.create-mode main{align-items:center;padding-top:0}.create-mode .lobby{width:94vw}#create.create{padding:30px 26px 34px}#create.create h2{font-size:34px}#create.create .form{margin:26px 0 22px;gap:15px}#create.create .form input,#create.create .form select{padding:13px}}
-</style>
+<link rel="stylesheet" href="botrp-character-v050.css?v=0.8.2">
 </head>
 <body>
 <div id="app" class="hidden">
@@ -39,7 +27,7 @@
       <button id="createBtn" class="primary" type="button">CREATE CHARACTER <span>→</span></button><div id="error" class="error" role="alert"></div>
     </section>
   </section></main>
-  <footer><span>BOTRP © 2026</span><span>IMMERSIVE ROLEPLAY • YOUR CHOICES MATTER</span><span>BUILD 0.8.1</span></footer>
+  <footer><span>BOTRP © 2026</span><span>IMMERSIVE ROLEPLAY • YOUR CHOICES MATTER</span><span>BUILD 0.8.2</span></footer>
 
   <div id="deleteModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
     <div class="modal-backdrop"></div>
@@ -49,10 +37,7 @@
       <h2 id="deleteTitle">Delete character?</h2>
       <p>You are about to permanently delete <strong id="deleteName">this character</strong>.</p>
       <p class="modal-note">This action cannot be undone.</p>
-      <div class="modal-actions">
-        <button id="deleteCancel" type="button" class="modal-cancel">CANCEL</button>
-        <button id="deleteConfirm" type="button" class="modal-delete">DELETE CHARACTER</button>
-      </div>
+      <div class="modal-actions"><button id="deleteCancel" type="button" class="modal-cancel">CANCEL</button><button id="deleteConfirm" type="button" class="modal-delete">DELETE CHARACTER</button></div>
     </div>
   </div>
 </div>
