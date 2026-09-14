@@ -3,24 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BotRP</title>
+  <meta name="color-scheme" content="dark">
+  <title>BotRP — Los Santos Roleplay</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Native FiveM loadscreen must be visible immediately. The previous
-       `hidden` class made the page render as a completely black screen
-       because loadProgress does not send our custom `show` action. -->
   <main id="app">
-    <div class="glow"></div>
-    <section class="card">
-      <div class="brand">BOT<span>RP</span></div>
-      <div class="line"></div>
-      <h1 id="title">Welcome to BotRP</h1>
-      <p id="subtitle">Preparing your character...</p>
-      <div class="loader"><div class="bar"></div></div>
-      <div class="status"><span class="dot"></span><span id="status">CONNECTING TO SERVER</span></div>
+    <div class="background" aria-hidden="true"><div class="aurora aurora-one"></div><div class="aurora aurora-two"></div><div class="grid"></div><div class="scanlines"></div><div class="vignette"></div></div>
+    <header class="topbar">
+      <div class="brand-lockup"><div class="brand-symbol">B</div><div class="brand-copy"><div class="brand">BOT<span>RP</span></div><div class="brand-sub">LOS SANTOS ROLEPLAY</div></div></div>
+      <div class="connection"><span class="pulse"></span><div><b>SERVER ONLINE</b><small>BOTRP / 2026.1</small></div></div>
+    </header>
+    <section class="intro" aria-hidden="true">
+      <div class="intro-kicker">WELCOME TO LOS SANTOS</div>
+      <h2>A new city.<br><em>A new story.</em></h2>
+      <p>Build your identity. Find your place.<br>Make the city remember your name.</p>
+      <div class="intro-rule"><span></span></div>
+      <div class="location"><span>LS</span><div><b>LOS SANTOS</b><small>ROLEPLAY COMMUNITY</small></div></div>
     </section>
-    <footer>ROLEPLAY • COMMUNITY • IMMERSION</footer>
+    <section class="card" aria-live="polite">
+      <div class="card-corner"></div>
+      <div class="eyebrow"><i></i><span id="status">CONNECTING TO SERVER</span></div>
+      <div class="card-heading"><h1 id="title">Welcome to <strong>BotRP</strong></h1><p id="subtitle">Preparing your character...</p></div>
+      <div class="progress-area"><div class="progress-meta"><span>LOADING EXPERIENCE</span><strong id="percent">1%</strong></div><div class="progress-track"><div id="bar" class="progress-bar"></div><div class="progress-glow"></div></div></div>
+      <div class="steps"><div class="step active" id="step1"><span class="step-dot"></span><b>CONNECT</b></div><div class="step" id="step2"><span class="step-dot"></span><b>WORLD</b></div><div class="step" id="step3"><span class="step-dot"></span><b>RESOURCES</b></div><div class="step" id="step4"><span class="step-dot"></span><b>READY</b></div></div>
+      <div class="tip"><span class="tip-label">BOTRP</span><span id="tip">Building your Los Santos experience.</span></div>
+    </section>
+    <footer><span>BOTRP © 2026</span><span>ROLEPLAY</span><span>COMMUNITY</span><span>IMMERSION</span><span class="footer-right">BUILD 2026.1</span></footer>
   </main>
   <script src="app.js"></script>
 </body>
