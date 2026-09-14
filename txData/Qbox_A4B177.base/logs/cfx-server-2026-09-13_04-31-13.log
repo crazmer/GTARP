@@ -1,0 +1,265 @@
+[13-09-2026 04:31:13] [    info] [                ] Scanning resources
+[13-09-2026 04:31:13] [    info] [                ] Found 96 resources
+[13-09-2026 04:31:14] [    info] [         txadmin] ^5[txAdmin]^0 Resource v9.0.0-beta-646aba9a threads and commands set up. All Ready.^0
+[13-09-2026 04:31:14] [    info] [                ] Starting resource mapmanager
+[13-09-2026 04:31:14] [    info] [                ] Started resource mapmanager
+[13-09-2026 04:31:14] [    info] [                ] Starting resource spawnmanager
+[13-09-2026 04:31:14] [    info] [                ] Started resource spawnmanager
+[13-09-2026 04:31:14] [    info] [                ] Stopped resource basic-gamemode
+[13-09-2026 04:31:14] [    info] [                ] Starting resource baseevents
+[13-09-2026 04:31:14] [    info] [                ] Started resource baseevents
+[13-09-2026 04:31:14] [    info] [                ] Starting resource ox_lib
+[13-09-2026 04:31:14] [    info] [                ] Started resource ox_lib
+[13-09-2026 04:31:14] [    info] [                ] Starting resource qbx_core
+[13-09-2026 04:31:14] [    info] [                ] Started resource qbx_core
+[13-09-2026 04:31:14] [    info] [                ] Starting resource ox_target
+[13-09-2026 04:31:14] [    info] [                ] Started resource ox_target
+[13-09-2026 04:31:14] [    info] [                ] Starting resource ox_doorlock
+[13-09-2026 04:31:14] [    info] [                ] Started resource ox_doorlock
+[13-09-2026 04:31:14] [    info] [                ] Starting resource ox_fuel
+[13-09-2026 04:31:14] [    info] [                ] Started resource ox_fuel
+[13-09-2026 04:31:14] [    info] [                ] Starting resource qbx_adminmenu
+[13-09-2026 04:31:14] [    info] [                ] Started resource qbx_adminmenu
+[13-09-2026 04:31:14] [    info] [                ] Starting resource qbx_ambulancejob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_ambulancejob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_bankrobbery
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_bankrobbery
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_binoculars
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_binoculars
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_busjob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_busjob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_carwash
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_carwash
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_chat_theme
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_chat_theme
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_cityhall
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_cityhall
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_customs
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_customs
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_density
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_density
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_divegear
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_divegear
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_diving
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_diving
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_drugs
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_drugs
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_fireworks
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_fireworks
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_garages
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_garages
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_garbagejob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_garbagejob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_houserobbery
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_houserobbery
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_hud
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_hud
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_idcard
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_idcard
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_jewelery
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_jewelery
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_lapraces
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_lapraces
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_management
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_management
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_mechanicjob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_mechanicjob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_newsjob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_newsjob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_pawnshop
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_pawnshop
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_police
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_police
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_properties
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_properties
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_radialmenu
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_radialmenu
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_recyclejob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_recyclejob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_scoreboard
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_scoreboard
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_scrapyard
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_scrapyard
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_seatbelt
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_seatbelt
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_smallresources
+[13-09-2026 04:31:15] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_smallresources
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_spawn
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_spawn
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_storerobbery
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_storerobbery
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_streetraces
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_streetraces
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_taxijob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_taxijob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_towjob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_towjob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_truckerjob
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_truckerjob
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_truckrobbery
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_truckrobbery
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_vehiclekeys
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_vehiclekeys
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_vehicles
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_vehicles
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_vehiclesales
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_vehiclesales
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_vehicleshop
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_vehicleshop
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_vineyard
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_vineyard
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_weed
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_weed
+[13-09-2026 04:31:15] [    info] [                ] Starting resource bob74_ipl
+[13-09-2026 04:31:15] [    info] [                ] Started resource bob74_ipl
+[13-09-2026 04:31:15] [    info] [                ] Starting resource illenium-appearance
+[13-09-2026 04:31:15] [    info] [                ] Started resource illenium-appearance
+[13-09-2026 04:31:15] [    info] [                ] Starting resource loadscreen
+[13-09-2026 04:31:15] [    info] [                ] Started resource loadscreen
+[13-09-2026 04:31:15] [    info] [                ] Starting resource mana_audio
+[13-09-2026 04:31:15] [    info] [                ] Started resource mana_audio
+[13-09-2026 04:31:15] [    info] [                ] Starting resource mhacking
+[13-09-2026 04:31:15] [    info] [                ] Started resource mhacking
+[13-09-2026 04:31:15] [    info] [                ] Starting resource Renewed-Banking
+[13-09-2026 04:31:15] [    info] [                ] Started resource Renewed-Banking
+[13-09-2026 04:31:15] [    info] [                ] Starting resource Renewed-Weathersync
+[13-09-2026 04:31:15] [    info] [                ] Started resource Renewed-Weathersync
+[13-09-2026 04:31:15] [    info] [                ] Starting resource safecracker
+[13-09-2026 04:31:15] [    info] [                ] Started resource safecracker
+[13-09-2026 04:31:15] [    info] [                ] Starting resource screencapture
+[13-09-2026 04:31:15] [    info] [                ] Started resource screencapture
+[13-09-2026 04:31:15] [    info] [                ] Starting resource scully_emotemenu
+[13-09-2026 04:31:15] [    info] [                ] Started resource scully_emotemenu
+[13-09-2026 04:31:15] [    info] [                ] Starting resource ultra-voltlab
+[13-09-2026 04:31:15] [    info] [                ] Started resource ultra-voltlab
+[13-09-2026 04:31:15] [    info] [                ] Starting resource vehiclehandler
+[13-09-2026 04:31:15] [    info] [                ] Started resource vehiclehandler
+[13-09-2026 04:31:15] [    info] [                ] Starting resource xt-prison
+[13-09-2026 04:31:15] [    info] [                ] Started resource xt-prison
+[13-09-2026 04:31:15] [    info] [                ] Starting resource mm_radio
+[13-09-2026 04:31:15] [    info] [                ] Started resource mm_radio
+[13-09-2026 04:31:15] [    info] [                ] Starting resource botrp_core
+[13-09-2026 04:31:15] [    info] [      botrp_core] [BotRP] core v0.1.0 started
+[13-09-2026 04:31:15] [    info] [                ] Started resource botrp_core
+[13-09-2026 04:31:15] [    info] [                ] Starting resource botrp_character
+[13-09-2026 04:31:15] [    info] [                ] Started resource botrp_character
+[13-09-2026 04:31:15] [    info] [                ] Starting resource botrp_identity
+[13-09-2026 04:31:15] [    info] [  botrp_identity] [BotRP] identity v0.4.0 started
+[13-09-2026 04:31:15] [    info] [                ] Started resource botrp_identity
+[13-09-2026 04:31:15] [    info] [                ] Starting resource botrp_audit
+[13-09-2026 04:31:15] [    info] [     botrp_audit] [BotRP Audit] botrp_audit started
+[13-09-2026 04:31:15] [    info] [     botrp_audit] [BotRP Audit] {"action":"started","category":"resource","timestamp":"2026-09-12T23:01:15Z","metadata":[],"id":"20260912230115-4075-8740","resource":"botrp_audit"}
+[13-09-2026 04:31:15] [    info] [                ] Started resource botrp_audit
+[13-09-2026 04:31:15] [    info] [                ] Starting resource botrp_playerstate
+[13-09-2026 04:31:15] [    info] [     botrp_audit] [BotRP Audit] {"action":"started","category":"resource","timestamp":"2026-09-12T23:01:15Z","metadata":[],"id":"20260912230115-4075-2908","resource":"botrp_playerstate"}
+[13-09-2026 04:31:15] [    info] [botrp_playerstate] [BotRP] playerstate v0.1.0 started
+[13-09-2026 04:31:15] [    info] [                ] Started resource botrp_playerstate
+[13-09-2026 04:31:15] [    info] [                ] Starting resource qbx_npwd
+[13-09-2026 04:31:15] [    info] [     botrp_audit] [BotRP Audit] {"action":"started","category":"resource","timestamp":"2026-09-12T23:01:15Z","metadata":[],"id":"20260912230115-4075-0522","resource":"qbx_npwd"}
+[13-09-2026 04:31:15] [    info] [                ] Started resource qbx_npwd
+[13-09-2026 04:31:15] [    info] [                ] Starting resource npwd
+[13-09-2026 04:31:16] [    info] [     botrp_audit] [BotRP Audit] {"action":"started","category":"resource","timestamp":"2026-09-12T23:01:16Z","metadata":[],"id":"20260912230116-4076-7374","resource":"npwd"}
+[13-09-2026 04:31:16] [    info] [                ] Started resource npwd
+[13-09-2026 04:31:16] [ warning] [              js] Unhandled promise rejection in resource npwd
+[13-09-2026 04:31:16] [ warning] [              js] Uncaught Error: Driver not found.
+dist/game/server/server.js(5138,130): getDriver
+dist/game/server/server.js(5199,28): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[13-09-2026 04:31:16] [ warning] [              js] Unhandled promise rejection in resource npwd
+[13-09-2026 04:31:16] [ warning] [              js] Uncaught Error: Driver not found.
+dist/game/server/server.js(5138,130): getDriver
+dist/game/server/server.js(5199,28): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[13-09-2026 04:31:16] [ warning] [              js] Unhandled promise rejection in resource npwd
+[13-09-2026 04:31:16] [ warning] [              js] Uncaught Error: No available storage method found.
+dist/game/server/server.js(5207,27): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[13-09-2026 04:31:16] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": read tcp 10.0.6.193:53080->171.76.82.227:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:31:17] [ warning] [                ] ScheduleResourceTick: This native is deprecated. Script resources in FiveM for GTAV Enhanced are running on the same tick rate as the server main tick.
+[13-09-2026 04:31:17] [    info] [         oxmysql] ^5[12.3.3-MariaDB] ^2Database server connection established!^0
+[13-09-2026 04:31:17] [    info] [       xt-prison] ^5[xt-prison] ^7[INFO] Initializing Table: ^5xt_prison^0^7
+[13-09-2026 04:31:17] [    info] [       xt-prison] ^5[xt-prison] ^7[INFO] Initializing Table: ^5xt_prison_items^0^7
+[13-09-2026 04:31:17] [    info] [        qbx_core] ^7
+^4Welcome to ^3Qbox^4!
+To learn more, please check out the documentation at ^5https://docs.qbox.re/^4.
+To turn this message off, set the ^3qbx:acknowledge^4 convar to true in your server.cfg file.^7
+^7
+[13-09-2026 04:31:17] [    info] [        qbx_core] ^5[qbx_core] ^7[INFO] Removed invalid groups from player_groups table^7
+[13-09-2026 04:31:17] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Inventory has loaded 221 items^7
+[13-09-2026 04:31:17] [    info] [scully_emotemenu] [38;2;46;164;247m[scully_emotemenu]^7 You are currently running the latest version.^7
+[13-09-2026 04:31:47] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": read tcp 10.0.6.193:53080->171.76.82.227:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:32:17] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:32:47] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:33:08] [    info] [     botrp_audit] [BotRP Audit] {"action":"joining","message":"Player connection started","source":1,"category":"player","timestamp":"2026-09-12T23:03:08Z","metadata":[],"id":"20260912230308-4188-7082","resource":"botrp_audit"}
+[13-09-2026 04:33:18] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:33:47] [    info] [     botrp_audit] [BotRP Audit] {"action":"dropped","message":"Game triggered: Shutdown","source":1,"category":"player","timestamp":"2026-09-12T23:03:47Z","metadata":[],"id":"20260912230347-4227-2259","resource":"botrp_audit"}
+[13-09-2026 04:33:47] [ warning] [              js] Unhandled promise rejection in resource npwd
+[13-09-2026 04:33:47] [ warning] [              js] Uncaught TypeError: Cannot read properties of null (reading 'getIdentifier')
+dist/game/server/server.js(51001,35): getIdentifier
+dist/game/server/server.js(51104,29): clearPlayerData
+dist/game/server/server.js(51114,16): handleUnloadPlayerEvent
+dist/game/server/server.js(51758,34): 
+event.js(153,30): 
+
+[13-09-2026 04:33:48] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:34:18] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:34:48] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:35:19] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:35:49] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:36:19] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:36:50] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:37:20] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:39:52] [    info] [         txadmin] ^5[txAdmin]^0 Sending resources list to txAdmin.^0
+[13-09-2026 04:39:52] [    info] [         txadmin] ^5[txAdmin]^0 Sending resources list to txAdmin.^0
+[13-09-2026 04:40:50] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:41:21] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:41:51] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:42:21] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:42:52] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:43:22] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[13-09-2026 04:43:52] [    info] [         txadmin] ^5[txAdmin]^0 Server shutting down. Kicking all players.^0
+[13-09-2026 04:43:52] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.82.227:30120/players.json (Get "https://171.76.82.227:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/info.json (Get "https://171.76.82.227:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.82.227:30120/dynamic.json (Get "https://171.76.82.227:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).

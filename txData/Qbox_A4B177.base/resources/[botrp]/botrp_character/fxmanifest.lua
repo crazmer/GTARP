@@ -3,15 +3,14 @@ game 'gta5'
 
 name 'botrp_character'
 description 'BotRP custom Qbox character selection and creation experience'
-version '0.1.3'
+version '0.6.0'
 author 'BotRP'
 
-ui_page 'web/index.html'
+ui_page 'web/lobby-v050.html'
 
 files {
-    'web/index.html',
-    'web/style.css',
-    'web/botrp-ui.css',
+    'web/lobby-v050.html',
+    'web/botrp-character-v050.css',
     'web/app.js'
 }
 

@@ -14,7 +14,6 @@ local previewAnimName = 'base'
 local function setGameplayHudVisible(visible)
     DisplayRadar(visible)
     DisplayHud(visible)
-
     if GetResourceState('qbx_hud') == 'started' then
         SendNUIMessage({ action = 'hudtick', show = visible })
         SendNUIMessage({ action = 'car', show = visible and cache.vehicle ~= nil })
@@ -29,6 +28,7 @@ local function restorePlayer()
         SetEntityVisible(ped, true, false)
         ResetEntityAlpha(ped)
     end
+    SetFocusEntity(PlayerPedId())
     setGameplayHudVisible(true)
 end
 
@@ -40,40 +40,47 @@ end
 
 local function deletePreviewPed(ped)
     if not ped or ped == 0 or not DoesEntityExist(ped) then return end
-
     SetEntityAsMissionEntity(ped, true, true)
     ClearPedTasksImmediately(ped)
     DeletePed(ped)
-
-    if DoesEntityExist(ped) then
-        DeleteEntity(ped)
-    end
+    if DoesEntityExist(ped) then DeleteEntity(ped) end
 end
 
-local function destroyPreview()
-    -- Invalidate every in-flight preview creation. This is important because
-    -- the server callback is asynchronous: rapidly clicking slots used to let
-    -- several callbacks finish later and each spawn another preview ped.
+local function destroyPreview(preserveCamera)
     previewGeneration = previewGeneration + 1
 
-    if previewCam then
+    if previewCam and not preserveCamera then
         SetCamActive(previewCam, false)
         RenderScriptCams(false, false, 250, true, true)
         DestroyCam(previewCam, true)
         previewCam = nil
+    elseif previewCam and preserveCamera and DoesCamExist(previewCam) then
+        local target = nil
+        if previewPedEntity and DoesEntityExist(previewPedEntity) then
+            target = GetEntityCoords(previewPedEntity)
+        elseif previewLocation and previewLocation.pedCoords then
+            target = previewLocation.pedCoords
+        end
+        if target then
+            PointCamAtCoord(previewCam, target.x, target.y, target.z + 0.98)
+        end
+        SetCamActive(previewCam, true)
+        RenderScriptCams(true, false, 0, true, true)
     end
 
     if previewPedEntity then
         deletePreviewPed(previewPedEntity)
         previewPedEntity = nil
     end
-
     for ped, _ in pairs(previewPeds) do
         deletePreviewPed(ped)
         previewPeds[ped] = nil
     end
 
-    ClearTimecycleModifier()
+    if not preserveCamera then
+        SetFocusEntity(PlayerPedId())
+        ClearTimecycleModifier()
+    end
 end
 
 local function getModelHash(model)
@@ -82,66 +89,90 @@ local function getModelHash(model)
 end
 
 local function requestPreviewAnimation()
-    if not lib then return false end
-    if not lib.requestAnimDict then return false end
-
-    local ok = pcall(function()
-        lib.requestAnimDict(previewAnimDict)
-    end)
+    if not lib or not lib.requestAnimDict then return false end
+    local ok = pcall(function() lib.requestAnimDict(previewAnimDict) end)
     return ok
 end
 
-local function createPreviewPed(citizenId)
-    -- Always destroy the previous preview before starting a new asynchronous
-    -- creation. A generation token prevents an older callback from spawning
-    -- after a newer character selection has already begun.
-    destroyPreview()
-    local generation = previewGeneration
+local function lockPreviewPedToCamera(ped, camX, camY)
+    if not ped or ped == 0 or not DoesEntityExist(ped) then return end
+    local pedCoords = GetEntityCoords(ped)
+    local faceCameraHeading = GetHeadingFromVector_2d(camX - pedCoords.x, camY - pedCoords.y)
+    SetEntityHeading(ped, faceCameraHeading)
+end
 
+local function streamShowcaseScene(pedCoords, camCoords)
+    local focusX = (pedCoords.x + camCoords.x) * 0.5
+    local focusY = (pedCoords.y + camCoords.y) * 0.5
+    local focusZ = (pedCoords.z + camCoords.z) * 0.5
+    SetFocusPosAndVel(focusX, focusY, focusZ, 0.0, 0.0, 0.0)
+    local sceneStarted = false
+    if NewLoadSceneStartSphere then
+        sceneStarted = NewLoadSceneStartSphere(focusX, focusY, focusZ, 220.0, 0)
+    end
+    local deadline = GetGameTimer() + 12000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        if not sceneStarted or IsNewLoadSceneLoaded() then break end
+        Wait(0)
+    end
+end
+
+local function waitForPreviewCollision(ped, pedCoords, camCoords)
+    local deadline = GetGameTimer() + 8000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        if ped and DoesEntityExist(ped) and HasCollisionLoadedAroundEntity(ped) then return true end
+        Wait(0)
+    end
+    return false
+end
+
+local function createPreviewPed(citizenId)
+    destroyPreview(inCharacterLobby and previewCam ~= nil)
+    local generation = previewGeneration
     previewLocation = config.locations[1]
     local coords = previewLocation.pedCoords
+    local cam = previewLocation.camCoords
     local clothing, model = nil, nil
-
     if citizenId then
         clothing, model = lib.callback.await('qbx_core:server:getPreviewPedData', false, citizenId)
     end
-
-    if generation ~= previewGeneration or not inCharacterLobby then
-        return
-    end
-
+    if generation ~= previewGeneration or not inCharacterLobby then return end
+    local camCoords = cam or vec4(coords.x - math.sin(math.rad(coords.w)) * 2.8, coords.y + math.cos(math.rad(coords.w)) * 2.8, coords.z + 1.35, 0.0)
+    streamShowcaseScene(coords, camCoords)
+    if generation ~= previewGeneration or not inCharacterLobby then return end
     local modelHash = getModelHash(model) or `mp_m_freemode_01`
-    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then
-        modelHash = `mp_m_freemode_01`
-    end
-
+    if not IsModelInCdimage(modelHash) or not IsModelValid(modelHash) then modelHash = `mp_m_freemode_01` end
     lib.requestModel(modelHash, config.loadingModelsTimeout)
-
     if generation ~= previewGeneration or not inCharacterLobby then
         SetModelAsNoLongerNeeded(modelHash)
         return
     end
-
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
+    RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
     local ped = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w, false, false)
     if not ped or ped == 0 or not DoesEntityExist(ped) then
         SetModelAsNoLongerNeeded(modelHash)
+        if NewLoadSceneStop then NewLoadSceneStop() end
         return
     end
-
-    -- Register immediately so any later cleanup can remove this exact entity.
     previewPeds[ped] = true
-
-    -- If another selection won the race while CreatePed was executing, remove
-    -- this stale entity instead of ever allowing it to remain in the world.
     if generation ~= previewGeneration or not inCharacterLobby then
         previewPeds[ped] = nil
         deletePreviewPed(ped)
         SetModelAsNoLongerNeeded(modelHash)
+        if NewLoadSceneStop then NewLoadSceneStop() end
         return
     end
-
     previewPedEntity = ped
     SetEntityAsMissionEntity(ped, true, true)
     SetEntityInvincible(ped, true)
@@ -154,48 +185,61 @@ local function createPreviewPed(citizenId)
     SetPedCanRagdoll(ped, false)
     SetPedFleeAttributes(ped, 0, false)
     SetPedCombatAttributes(ped, 46, true)
-
+    waitForPreviewCollision(ped, coords, camCoords)
+    if generation ~= previewGeneration or not inCharacterLobby then
+        previewPeds[ped] = nil
+        deletePreviewPed(ped)
+        previewPedEntity = nil
+        SetModelAsNoLongerNeeded(modelHash)
+        if NewLoadSceneStop then NewLoadSceneStop() end
+        return
+    end
     if clothing and type(clothing) == 'string' and GetResourceState('illenium-appearance') == 'started' then
         pcall(function()
             local appearance = json.decode(clothing)
-            if appearance then
-                exports['illenium-appearance']:setPedAppearance(ped, appearance)
-            end
+            if appearance then exports['illenium-appearance']:setPedAppearance(ped, appearance) end
         end)
     end
-
+    lockPreviewPedToCamera(ped, camCoords.x, camCoords.y)
     if requestPreviewAnimation() then
         TaskPlayAnim(ped, previewAnimDict, previewAnimName, 2.0, 2.0, -1, 1, 0.0, false, false, false)
     else
         TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_STAND_IMPATIENT', 0, true)
     end
-
+    Wait(100)
+    lockPreviewPedToCamera(ped, camCoords.x, camCoords.y)
     SetModelAsNoLongerNeeded(modelHash)
-
-    local cam = previewLocation.camCoords
-    local camX, camY, camZ
-    if cam then
-        camX, camY, camZ = cam.x, cam.y, cam.z
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+    Wait(150)
+    if previewCam and DoesCamExist(previewCam) then
+        SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
+        SetCamFov(previewCam, 30.0)
+        PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
+        SetCamActive(previewCam, true)
+        RenderScriptCams(true, false, 0, true, true)
     else
-        local heading = math.rad(coords.w)
-        camX = coords.x - math.sin(heading) * 2.8
-        camY = coords.y + math.cos(heading) * 2.8
-        camZ = coords.z + 1.35
+        previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+        SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
+        SetCamFov(previewCam, 30.0)
+        PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
+        SetCamActive(previewCam, true)
+        SetCamUseShallowDofMode(previewCam, true)
+        SetCamNearDof(previewCam, 1.0)
+        SetCamFarDof(previewCam, 10.0)
+        SetCamDofStrength(previewCam, 0.72)
+        RenderScriptCams(true, false, 650, true, true)
     end
-
-    previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-    SetCamCoord(previewCam, camX, camY, camZ)
-    SetCamFov(previewCam, 38.0)
-    PointCamAtEntity(previewCam, ped, 0.0, 0.0, 0.98, true)
-    SetCamActive(previewCam, true)
     SetCamUseShallowDofMode(previewCam, true)
     SetCamNearDof(previewCam, 1.0)
     SetCamFarDof(previewCam, 10.0)
     SetCamDofStrength(previewCam, 0.72)
-    RenderScriptCams(true, false, 650, true, true)
-
     SetTimecycleModifier('MP_corona_switch')
     SetTimecycleModifierStrength(0.10)
+    Wait(500)
+    if generation == previewGeneration and inCharacterLobby and NewLoadSceneStop then NewLoadSceneStop() end
 end
 
 local function sendCharacters()
@@ -222,29 +266,33 @@ local function sendCharacters()
     SendNUIMessage({ action = 'characters', characters = payload, selected = selectedIndex })
 end
 
+local function refreshCharacters()
+    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
+    characters = characters or {}
+    maxCharacters = maxCharacters or #characters
+    if maxCharacters < 1 then maxCharacters = 1 end
+    if selectedIndex > maxCharacters then selectedIndex = maxCharacters end
+    sendCharacters()
+end
+
 local function openCharacterScreen()
     if inCharacterLobby then return end
     inCharacterLobby = true
     setGameplayHudVisible(false)
-
     local playerPed = cache.ped
     if playerPed and DoesEntityExist(playerPed) then
         FreezeEntityPosition(playerPed, true)
         SetEntityCollision(playerPed, false, false)
         SetEntityVisible(playerPed, false, false)
     end
-
     characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
     characters = characters or {}
     maxCharacters = maxCharacters or #characters
     selectedIndex = 1
-
     NetworkStartSoloTutorialSession()
     while not NetworkIsInTutorialSession() do Wait(0) end
-
     local first = characters[1]
     createPreviewPed(first and first.citizenid)
-
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
     DoScreenFadeIn(700)
@@ -263,20 +311,42 @@ RegisterNUICallback('select', function(data, cb)
     sendCharacters()
 end)
 
+RegisterNUICallback('delete', function(data, cb)
+    local index = tonumber(data.slot) or selectedIndex
+    local character = characters[index]
+    if not character or not character.citizenid then
+        cb({ ok = false, error = 'Character not found.' })
+        return
+    end
+
+    local citizenId = character.citizenid
+    TriggerServerEvent('qbx_core:server:deleteCharacter', citizenId)
+    Wait(350)
+
+    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
+    characters = characters or {}
+    maxCharacters = maxCharacters or #characters
+
+    if selectedIndex > maxCharacters then selectedIndex = math.max(1, maxCharacters) end
+    local replacement = characters[selectedIndex]
+    if replacement then
+        createPreviewPed(replacement.citizenid)
+    else
+        destroyPreview(inCharacterLobby and previewCam ~= nil)
+    end
+    sendCharacters()
+    cb({ ok = true })
+end)
+
 RegisterNUICallback('play', function(data, cb)
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
-
     closeCharacterUI()
     DoScreenFadeOut(250)
     Wait(280)
     destroyPreview()
-
-    local ok, err = pcall(function()
-        lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
-    end)
-
+    local ok, err = pcall(function() lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid) end)
     if not ok then
         inCharacterLobby = false
         restorePlayer()
@@ -284,7 +354,6 @@ RegisterNUICallback('play', function(data, cb)
         cb({ ok = false, error = tostring(err) })
         return
     end
-
     if GetResourceState('qbx_apartments'):find('start') then
         TriggerEvent('apartments:client:setupSpawnUI', character.citizenid)
     elseif GetResourceState('qbx_spawn'):find('start') then
@@ -299,7 +368,6 @@ RegisterNUICallback('play', function(data, cb)
         restorePlayer()
         DoScreenFadeIn(700)
     end
-
     cb({ ok = true })
 end)
 
@@ -309,19 +377,16 @@ RegisterNUICallback('create', function(data, cb)
         cb({ ok = false, error = 'That character slot is unavailable.' })
         return
     end
-
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
         firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
         nationality = tostring(data.nationality or ''), gender = gender,
         birthdate = tostring(data.birthdate or ''), cid = slot
     })
-
     if not result then
         cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
         return
     end
-
     closeCharacterUI()
     DoScreenFadeOut(250)
     Wait(280)
@@ -370,6 +435,7 @@ CreateThread(function()
                 SetCamCoord(previewCam, cam.x, cam.y, cam.z + bob)
                 if previewPedEntity and DoesEntityExist(previewPedEntity) then
                     PointCamAtEntity(previewCam, previewPedEntity, 0.0, 0.0, 0.98, true)
+                    lockPreviewPedToCamera(previewPedEntity, cam.x, cam.y)
                 end
             end
             Wait(0)
@@ -385,4 +451,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.2.1 started') end)
+CreateThread(function() print('[BotRP] character v0.2.3 started') end)
