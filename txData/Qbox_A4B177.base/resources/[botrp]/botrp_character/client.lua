@@ -98,13 +98,28 @@ local function loadCharacters()
     return characters
 end
 
+local function prepareShowcaseWorld(coords)
+    -- Keep the GTA world visible behind the UI instead of replacing it with an HTML image.
+    -- Focus/collision requests prevent the lobby camera from opening before the scene is streamed.
+    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    local deadline = GetGameTimer() + 4500
+    while GetGameTimer() < deadline and not HasCollisionLoadedAroundEntity(PlayerPedId()) do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        Wait(0)
+    end
+    ClearFocus()
+end
+
 local function createPreview(citizenId)
     cleanupPreview()
     previewLocation = config.locations and config.locations[1]
     if not previewLocation or not previewLocation.pedCoords then return end
 
     local coords = previewLocation.pedCoords
-    local camCoords = previewLocation.camCoords or vec4(coords.x - 2.8, coords.y, coords.z + 1.2, 0.0)
+    local camCoords = previewLocation.camCoords or vec4(coords.x - 2.5, coords.y, coords.z + 1.1, 0.0)
+    prepareShowcaseWorld(coords)
+
     local modelHash = `mp_m_freemode_01`
     local clothing
 
@@ -155,17 +170,19 @@ local function createPreview(citizenId)
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
-    SetCamFov(previewCam, 27.5)
+    SetCamFov(previewCam, 21.0)
     PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.02, true)
     SetCamActive(previewCam, true)
     RenderScriptCams(true, false, 650, true, true)
     SetCamUseShallowDofMode(previewCam, true)
     SetCamNearDof(previewCam, 1.0)
-    SetCamFarDof(previewCam, 16.0)
-    SetCamDofStrength(previewCam, 0.35)
-    SetTimecycleModifier('MP_corona_switch')
-    SetTimecycleModifierStrength(0.04)
-    NetworkOverrideClockTime(20, 15, 0)
+    SetCamFarDof(previewCam, 18.0)
+    SetCamDofStrength(previewCam, 0.18)
+
+    -- Neutral, premium dusk lighting. No heavy cinematic filter: the GTA environment remains visible.
+    SetTimecycleModifier('default')
+    SetTimecycleModifierStrength(0.02)
+    NetworkOverrideClockTime(19, 45, 0)
     SetArtificialLightsState(false)
 end
 
@@ -334,7 +351,7 @@ CreateThread(function()
             DisableControlAction(0, 30, true)
             DisableControlAction(0, 31, true)
             DisableControlAction(0, 75, true)
-            NetworkOverrideClockTime(20, 15, 0)
+            NetworkOverrideClockTime(19, 45, 0)
             Wait(0)
         else
             Wait(500)
@@ -362,4 +379,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.9.1 started (showcase-first visual pass)') end)
+CreateThread(function() print('[BotRP] character v0.9.2 started (3D showcase + premium UI pass)') end)
