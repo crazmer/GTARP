@@ -10,6 +10,25 @@ local function getAllowedAmountOfCharacters(license2, license)
 end
 
 ---@param source Source
+---@return string? license, string? license2
+local function getSourceLicenses(source)
+    return GetPlayerIdentifierByType(source, 'license'), GetPlayerIdentifierByType(source, 'license2')
+end
+
+---@param source Source
+---@param citizenId unknown
+---@return boolean
+local function characterBelongsToSource(source, citizenId)
+    if type(citizenId) ~= 'string' or citizenId == '' or #citizenId > 64 then return false end
+
+    local playerData = storage.fetchPlayerEntity(citizenId)
+    if not playerData then return false end
+
+    local license, license2 = getSourceLicenses(source)
+    return playerData.license == license or playerData.license == license2
+end
+
+---@param source Source
 local function giveStarterItems(source)
     if GetResourceState('ox_inventory') == 'missing' then return end
     while not exports.ox_inventory:GetInventory(source) do
@@ -34,7 +53,11 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
-lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
+lib.callback.register('qbx_core:server:getPreviewPedData', function(source, citizenId)
+    -- Preview data is account-private. Do not let a client probe another
+    -- player's skin/model by supplying a guessed citizenid.
+    if not characterBelongsToSource(source, citizenId) then return end
+
     local ped = storage.fetchPlayerSkin(citizenId)
     if not ped then return end
 
@@ -82,12 +105,19 @@ local function sanitizeNewCharInfo(data)
         return nil
     end
 
+    gender = math.floor(gender)
+    if gender ~= 0 and gender ~= 1 then return nil end
+
+    -- The external BotRP UI uses the configured YYYY-MM-DD format. Keep the
+    -- server authoritative so crafted NUI requests cannot store malformed dates.
+    if not birthdate:match('^%d%d%d%d%-%d%d%-%d%d$') then return nil end
+
     return {
         firstname = firstname,
         lastname = lastname,
         nationality = nationality,
         birthdate = birthdate,
-        gender = math.floor(gender),
+        gender = gender,
         backstory = text(data.backstory, MAX_BACKSTORY) or 'placeholder backstory',
     }
 end
@@ -131,9 +161,7 @@ lib.callback.register('qbx_core:server:createCharacter', function(source, data)
     return newData
 end)
 
---- Deprecated. This event is kept for backward compatibility only and is no longer used internally.
-RegisterNetEvent('qbx_core:server:deleteCharacter', function(citizenId)
-    local src = source
-    DeleteCharacter(src --[[@as number]], citizenId)
-    Notify(src, locale('success.character_deleted'), 'success')
-end)
+-- Character deletion is exposed through the authenticated ox_lib callback in
+-- player.lua. Do not keep a client-triggerable legacy event here: it made it
+-- too easy for old UI code to race the deletion and then hit the anti-cheat
+-- path on a second request.
