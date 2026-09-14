@@ -3,10 +3,9 @@ game 'gta5'
 
 name 'botrp_loading'
 description 'BotRP cinematic loading and player loading experience'
-version '0.3.0'
+version '0.4.0'
 author 'BotRP'
 
--- Native FiveM loading screen. FiveM owns the native lifecycle.
 loadscreen 'web/index.html'
 loadscreen_cursor 'yes'
 
@@ -15,6 +14,11 @@ files {
     'web/style.css',
     'web/app.js',
     'web/assets/botrp_cinematic.svg',
+    'web/assets/bg1.jpg',
+    'web/assets/bg2.jpg',
+    'web/assets/bg3.jpg',
+    'web/assets/bg4.jpg',
+    'web/assets/bg5.jpg',
 }
 
 client_script 'client.lua'
