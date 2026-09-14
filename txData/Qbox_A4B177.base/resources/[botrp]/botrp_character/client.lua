@@ -98,15 +98,39 @@ local function loadCharacters()
     return characters
 end
 
-local function prepareShowcaseWorld(coords)
-    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    local deadline = GetGameTimer() + 4500
-    while GetGameTimer() < deadline and not HasCollisionLoadedAroundEntity(PlayerPedId()) do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+local function streamShowcaseScene(pedCoords, camCoords)
+    local focusX = (pedCoords.x + camCoords.x) * 0.5
+    local focusY = (pedCoords.y + camCoords.y) * 0.5
+    local focusZ = (pedCoords.z + camCoords.z) * 0.5
+    SetFocusPosAndVel(focusX, focusY, focusZ, 0.0, 0.0, 0.0)
+
+    local sceneStarted = false
+    if NewLoadSceneStartSphere then
+        sceneStarted = NewLoadSceneStartSphere(focusX, focusY, focusZ, 220.0, 0)
+    end
+
+    local deadline = GetGameTimer() + 12000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        if not sceneStarted or IsNewLoadSceneLoaded() then break end
         Wait(0)
     end
-    ClearFocus()
+end
+
+local function waitForPreviewCollision(ped, pedCoords, camCoords)
+    local deadline = GetGameTimer() + 8000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        RequestAdditionalCollisionAtCoord(pedCoords.x, pedCoords.y, pedCoords.z)
+        RequestAdditionalCollisionAtCoord(camCoords.x, camCoords.y, camCoords.z)
+        if ped and DoesEntityExist(ped) and HasCollisionLoadedAroundEntity(ped) then return true end
+        Wait(0)
+    end
+    return false
 end
 
 local function createPreview(citizenId)
@@ -115,8 +139,8 @@ local function createPreview(citizenId)
     if not previewLocation or not previewLocation.pedCoords then return end
 
     local coords = previewLocation.pedCoords
-    local camCoords = previewLocation.camCoords or vec4(coords.x - 2.5, coords.y, coords.z + 1.1, 0.0)
-    prepareShowcaseWorld(coords)
+    local camCoords = previewLocation.camCoords or vec4(coords.x - 2.8, coords.y, coords.z + 1.2, 0.0)
+    streamShowcaseScene(coords, camCoords)
 
     local modelHash = `mp_m_freemode_01`
     local clothing
@@ -136,13 +160,19 @@ local function createPreview(citizenId)
     local deadline = GetGameTimer() + 10000
     while not HasModelLoaded(modelHash) and GetGameTimer() < deadline do Wait(0) end
     if not HasModelLoaded(modelHash) then
+        if NewLoadSceneStop then NewLoadSceneStop() end
+        ClearFocus()
         print('[BotRP] preview model failed to load')
         return
     end
 
     previewPed = CreatePed(4, modelHash, coords.x, coords.y, coords.z, coords.w or 0.0, false, false)
     SetModelAsNoLongerNeeded(modelHash)
-    if not previewPed or previewPed == 0 or not DoesEntityExist(previewPed) then return end
+    if not previewPed or previewPed == 0 or not DoesEntityExist(previewPed) then
+        if NewLoadSceneStop then NewLoadSceneStop() end
+        ClearFocus()
+        return
+    end
 
     SetEntityAsMissionEntity(previewPed, true, true)
     SetEntityInvincible(previewPed, true)
@@ -162,25 +192,33 @@ local function createPreview(citizenId)
     SetEntityHeading(previewPed, heading)
 
     RequestAnimDict('amb@world_human_stand_impatient@male@base')
+    local animDeadline = GetGameTimer() + 4000
+    while not HasAnimDictLoaded('amb@world_human_stand_impatient@male@base') and GetGameTimer() < animDeadline do Wait(0) end
     if HasAnimDictLoaded('amb@world_human_stand_impatient@male@base') then
         TaskPlayAnim(previewPed, 'amb@world_human_stand_impatient@male@base', 'base', 2.0, 2.0, -1, 1, 0.0, false, false, false)
     end
 
+    waitForPreviewCollision(previewPed, coords, camCoords)
+
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
-    SetCamFov(previewCam, 21.0)
-    PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.02, true)
+    SetCamFov(previewCam, 27.0)
+    PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.0, true)
     SetCamActive(previewCam, true)
-    RenderScriptCams(true, false, 650, true, true)
     SetCamUseShallowDofMode(previewCam, true)
-    SetCamNearDof(previewCam, 1.0)
+    SetCamNearDof(previewCam, 1.2)
     SetCamFarDof(previewCam, 18.0)
-    SetCamDofStrength(previewCam, 0.18)
+    SetCamDofStrength(previewCam, 0.16)
+    RenderScriptCams(true, false, 700, true, true)
 
     SetTimecycleModifier('default')
-    SetTimecycleModifierStrength(0.02)
-    NetworkOverrideClockTime(19, 45, 0)
+    SetTimecycleModifierStrength(0.0)
+    NetworkOverrideClockTime(18, 50, 0)
     SetArtificialLightsState(false)
+
+    Wait(700)
+    if NewLoadSceneStop then NewLoadSceneStop() end
+    ClearFocus()
 end
 
 local function openCharacterScreen()
@@ -348,7 +386,7 @@ CreateThread(function()
             DisableControlAction(0, 30, true)
             DisableControlAction(0, 31, true)
             DisableControlAction(0, 75, true)
-            NetworkOverrideClockTime(19, 45, 0)
+            NetworkOverrideClockTime(18, 50, 0)
             Wait(0)
         else
             Wait(500)
@@ -362,7 +400,7 @@ CreateThread(function()
             local cam = previewLocation.camCoords
             SetCamCoord(previewCam, cam.x, cam.y, cam.z)
             if previewPed and DoesEntityExist(previewPed) then
-                PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.02, true)
+                PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.0, true)
             end
             Wait(0)
         else
@@ -376,4 +414,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.9.2 started (stable showcase + premium UI pass)') end)
+CreateThread(function() print('[BotRP] character v0.9.2 started (stable streamed showcase)') end)
