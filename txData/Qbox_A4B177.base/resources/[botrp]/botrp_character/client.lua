@@ -34,6 +34,8 @@ local function cleanupPreview()
     previewPed = nil
     SetFocusEntity(PlayerPedId())
     ClearTimecycleModifier()
+    NetworkClearClockTimeOverride()
+    SetArtificialLightsState(false)
 end
 
 local function restorePlayer()
@@ -153,16 +155,18 @@ local function createPreview(citizenId)
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
-    SetCamFov(previewCam, 30.0)
+    SetCamFov(previewCam, 31.0)
     PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 0.95, true)
     SetCamActive(previewCam, true)
     RenderScriptCams(true, false, 650, true, true)
     SetCamUseShallowDofMode(previewCam, true)
     SetCamNearDof(previewCam, 1.0)
-    SetCamFarDof(previewCam, 12.0)
-    SetCamDofStrength(previewCam, 0.7)
+    SetCamFarDof(previewCam, 15.0)
+    SetCamDofStrength(previewCam, 0.55)
     SetTimecycleModifier('MP_corona_switch')
-    SetTimecycleModifierStrength(0.08)
+    SetTimecycleModifierStrength(0.10)
+    NetworkOverrideClockTime(21, 30, 0)
+    SetArtificialLightsState(false)
 end
 
 local function openCharacterScreen()
@@ -177,9 +181,6 @@ local function openCharacterScreen()
     SetEntityCollision(playerPed, false, false)
     SetEntityVisible(playerPed, false, false)
 
-    -- Never wait for preview/camera/tutoring before displaying the NUI.
-    -- The previous implementation could deadlock here and leave the player
-    -- looking at the default world camera indefinitely.
     ShutdownLoadingScreen()
     ShutdownLoadingScreenNui()
     DoScreenFadeIn(500)
@@ -333,6 +334,8 @@ CreateThread(function()
             DisableControlAction(0, 30, true)
             DisableControlAction(0, 31, true)
             DisableControlAction(0, 75, true)
+            -- Keep the showcase consistently cinematic even if the server clock changes.
+            NetworkOverrideClockTime(21, 30, 0)
             Wait(0)
         else
             Wait(500)
@@ -360,4 +363,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.7.0 started (deadlock-safe lobby)') end)
+CreateThread(function() print('[BotRP] character v0.9.0 started (luxury cinematic lobby)') end)
