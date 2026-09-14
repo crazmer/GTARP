@@ -3,14 +3,13 @@ game 'gta5'
 
 name 'botrp_loading'
 description 'BotRP cinematic loading and player loading experience'
-version '0.2.0'
+version '0.2.1'
 author 'BotRP'
 
--- Native FiveM loading screen and in-game NUI share the same page.
+-- Native FiveM loading screen. Do not manually hold this screen open.
+-- FiveM will close the native loadscreen when connection/game loading completes.
 loadscreen 'web/index.html'
-loadscreen_manual_shutdown 'yes'
 loadscreen_cursor 'yes'
-ui_page 'web/index.html'
 
 files {
     'web/index.html',
