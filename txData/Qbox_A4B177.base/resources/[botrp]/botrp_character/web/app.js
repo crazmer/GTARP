@@ -136,7 +136,8 @@ function closeDelete(){
 }
 
 document.getElementById('deleteCancel').onclick=closeDelete;
-document.querySelector('.modal-backdrop')?.onclick=closeDelete;
+const modalBackdrop=document.querySelector('.modal-backdrop');
+if(modalBackdrop) modalBackdrop.onclick=closeDelete;
 deleteConfirm.onclick=async()=>{
   if(pendingDeleteSlot===null||deleteInProgress) return;
   const slot=pendingDeleteSlot;
