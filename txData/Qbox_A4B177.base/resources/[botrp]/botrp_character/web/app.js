@@ -106,6 +106,7 @@ function openCreate(slot){
   cards.classList.add('hidden');
   document.querySelector('.intro')?.classList.add('hidden');
   create.classList.remove('hidden');
+  app.classList.add('create-mode');
   create.dataset.slot=slot;
   error.textContent='';
   document.getElementById('firstname')?.focus();
@@ -169,6 +170,7 @@ document.getElementById('back').onclick=()=>{
   create.classList.add('hidden');
   cards.classList.remove('hidden');
   document.querySelectorAll('.intro').forEach(x=>x.classList.remove('hidden'));
+  app.classList.remove('create-mode');
 };
 
 document.getElementById('createBtn').onclick=async()=>{
