@@ -7,6 +7,7 @@ local characters = {}
 local maxCharacters = 0
 local selectedIndex = 1
 local inCharacterLobby = false
+local lobbyActionBusy = false
 local previewGeneration = 0
 local previewAnimDict = 'amb@world_human_stand_impatient@male@base'
 local previewAnimName = 'base'
@@ -304,14 +305,29 @@ end
 RegisterNUICallback('select', function(data, cb)
     local index = tonumber(data.slot) or 1
     if index < 1 or index > maxCharacters then cb({ ok = false }); return end
+    if lobbyActionBusy then cb({ ok = false, error = 'Please wait for the current character preview.' }); return end
+
     selectedIndex = index
     local character = characters[index]
-    if character then createPreviewPed(character.citizenid) end
-    cb({ ok = true })
+    if not character then
+        sendCharacters()
+        cb({ ok = true })
+        return
+    end
+
+    lobbyActionBusy = true
+    createPreviewPed(character.citizenid)
+    lobbyActionBusy = false
     sendCharacters()
+    cb({ ok = true })
 end)
 
 RegisterNUICallback('delete', function(data, cb)
+    if lobbyActionBusy then
+        cb({ ok = false, error = 'Please wait for the current character action.' })
+        return
+    end
+
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
     if not character or not character.citizenid then
@@ -319,14 +335,17 @@ RegisterNUICallback('delete', function(data, cb)
         return
     end
 
+    lobbyActionBusy = true
     local citizenId = character.citizenid
-    TriggerServerEvent('qbx_core:server:deleteCharacter', citizenId)
-    Wait(350)
+    local deleted = lib.callback.await('qbx_core:server:deleteCharacter', false, citizenId)
+    if not deleted then
+        refreshCharacters()
+        lobbyActionBusy = false
+        cb({ ok = false, error = 'Character could not be deleted. It may already have been removed.' })
+        return
+    end
 
-    characters, maxCharacters = lib.callback.await('qbx_core:server:getCharacters')
-    characters = characters or {}
-    maxCharacters = maxCharacters or #characters
-
+    refreshCharacters()
     if selectedIndex > maxCharacters then selectedIndex = math.max(1, maxCharacters) end
     local replacement = characters[selectedIndex]
     if replacement then
@@ -335,13 +354,21 @@ RegisterNUICallback('delete', function(data, cb)
         destroyPreview(inCharacterLobby and previewCam ~= nil)
     end
     sendCharacters()
+    lobbyActionBusy = false
     cb({ ok = true })
 end)
 
 RegisterNUICallback('play', function(data, cb)
+    if lobbyActionBusy then
+        cb({ ok = false, error = 'Please wait for the current character action.' })
+        return
+    end
+
     local index = tonumber(data.slot) or selectedIndex
     local character = characters[index]
     if not character then cb({ ok = false, error = 'Select a character first.' }); return end
+
+    lobbyActionBusy = true
     closeCharacterUI()
     DoScreenFadeOut(250)
     Wait(280)
@@ -349,6 +376,7 @@ RegisterNUICallback('play', function(data, cb)
     local ok, err = pcall(function() lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid) end)
     if not ok then
         inCharacterLobby = false
+        lobbyActionBusy = false
         restorePlayer()
         DoScreenFadeIn(500)
         cb({ ok = false, error = tostring(err) })
@@ -368,15 +396,23 @@ RegisterNUICallback('play', function(data, cb)
         restorePlayer()
         DoScreenFadeIn(700)
     end
+    lobbyActionBusy = false
     cb({ ok = true })
 end)
 
 RegisterNUICallback('create', function(data, cb)
+    if lobbyActionBusy then
+        cb({ ok = false, error = 'Please wait for the current character action.' })
+        return
+    end
+
     local slot = tonumber(data.slot) or 1
     if slot < 1 or slot > maxCharacters or characters[slot] then
         cb({ ok = false, error = 'That character slot is unavailable.' })
         return
     end
+
+    lobbyActionBusy = true
     local gender = data.gender == 'Female' and 1 or 0
     local result = lib.callback.await('qbx_core:server:createCharacter', false, {
         firstname = tostring(data.firstname or ''), lastname = tostring(data.lastname or ''),
@@ -384,6 +420,7 @@ RegisterNUICallback('create', function(data, cb)
         birthdate = tostring(data.birthdate or ''), cid = slot
     })
     if not result then
+        lobbyActionBusy = false
         cb({ ok = false, error = 'Character creation failed. Check the information and try again.' })
         return
     end
@@ -392,7 +429,14 @@ RegisterNUICallback('create', function(data, cb)
     Wait(280)
     destroyPreview()
     restorePlayer()
-    TriggerEvent('apartments:client:setupSpawnUI', result)
+    if GetResourceState('qbx_properties'):find('start') then
+        TriggerEvent('apartments:client:setupSpawnUI', result)
+    elseif GetResourceState('qbx_spawn'):find('start') then
+        TriggerEvent('qbx_core:client:spawnNoApartments')
+    else
+        DoScreenFadeIn(700)
+    end
+    lobbyActionBusy = false
     cb({ ok = true })
 end)
 
@@ -451,4 +495,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.2.3 started') end)
+CreateThread(function() print('[BotRP] character v0.6.1 started') end)
