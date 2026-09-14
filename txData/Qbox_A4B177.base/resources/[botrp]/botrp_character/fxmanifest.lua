@@ -3,17 +3,14 @@ game 'gta5'
 
 name 'botrp_character'
 description 'BotRP custom Qbox character selection and creation experience'
-version '0.9.2'
+version '1.0.0'
 author 'BotRP'
 
-ui_page 'web/lobby-v050.html'
+ui_page 'web/lobby-v100.html'
 
 files {
-    'web/lobby-v050.html',
-    'web/botrp-character-v050.css',
-    'web/botrp-character-v090.css',
-    'web/botrp-character-v091.css',
-    'web/botrp-character-v092.css',
+    'web/lobby-v100.html',
+    'web/botrp-character-v100.css',
     'web/app.js'
 }
 
@@ -22,7 +19,11 @@ shared_scripts {
     'config.lua'
 }
 
-client_script 'client.lua'
+client_scripts {
+    'client.lua',
+    'showcase_controller.lua'
+}
+
 server_script 'server.lua'
 
 dependencies {
