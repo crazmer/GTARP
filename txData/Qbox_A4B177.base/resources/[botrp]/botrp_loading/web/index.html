@@ -1,48 +1,29 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="dark">
-  <title>BotRP — Los Santos Roleplay</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark">
+  <title>BotRP — Los Santos Roleplay</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main id="app">
-    <div class="background" aria-hidden="true">
-      <div class="aurora aurora-one"></div><div class="aurora aurora-two"></div>
-      <div class="grid"></div><div class="city-glow"></div><div class="scanlines"></div><div class="vignette"></div>
-      <div class="particles"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="sweep"></div>
-    </div>
-
-    <header class="topbar">
-      <div class="brand-lockup"><div class="brand-symbol">B</div><div class="brand-copy"><div class="brand">BOT<span>RP</span></div><div class="brand-sub">LOS SANTOS ROLEPLAY</div></div></div>
-      <div class="connection"><span class="pulse"></span><div><b>SERVER ONLINE</b><small>BOTRP / 2026.1</small></div></div>
-    </header>
-
-    <div class="edge-mark edge-left" aria-hidden="true"><span>BOTRP</span><i></i><span>LOS SANTOS</span></div>
-
-    <section class="intro" aria-hidden="true">
-      <div class="intro-kicker"><span></span>WELCOME TO LOS SANTOS</div>
-      <h2>A new city.<br><em>A new story.</em></h2>
-      <p>Build your identity. Find your place.<br>Make the city remember your name.</p>
-      <div class="intro-rule"><span></span></div>
-      <div class="location"><span>LS</span><div><b>LOS SANTOS</b><small>ROLEPLAY COMMUNITY</small></div></div>
-    </section>
-
-    <section class="card" aria-live="polite">
-      <div class="card-corner"></div><div class="card-number">01 / CONNECT</div>
-      <div class="eyebrow"><i></i><span id="status">CONNECTING TO SERVER</span></div>
-      <div class="card-heading"><h1 id="title">Welcome to <strong>BotRP</strong></h1><p id="subtitle">Preparing your character...</p></div>
-      <div class="progress-area"><div class="progress-meta"><span>LOADING EXPERIENCE</span><strong id="percent">1%</strong></div><div class="progress-track"><div id="bar" class="progress-bar"></div><div class="progress-glow"></div></div></div>
-      <div class="steps"><div class="step active" id="step1"><span class="step-dot"></span><b>CONNECT</b></div><div class="step" id="step2"><span class="step-dot"></span><b>WORLD</b></div><div class="step" id="step3"><span class="step-dot"></span><b>RESOURCES</b></div><div class="step" id="step4"><span class="step-dot"></span><b>READY</b></div></div>
-      <div class="tip"><span class="tip-label">BOTRP</span><span id="tip">Building your Los Santos experience.</span></div>
-      <div class="card-footer"><span>SECURE CONNECTION</span><span>SESSION INITIALIZING</span><span class="signal"><i></i><i></i><i></i><i></i></span></div>
-    </section>
-
-    <footer><span>BOTRP © 2026</span><span>ROLEPLAY</span><span>COMMUNITY</span><span>IMMERSION</span><span class="footer-right">BUILD 2026.1</span></footer>
-  </main>
-  <script src="app.js"></script>
-</body>
-</html>
+<main id="app">
+  <div class="backdrop"></div><div class="shade"></div><div class="grain"></div>
+  <header class="topbar">
+    <div class="brand-lockup"><div class="brand-symbol">B</div><div><div class="brand">BOT<span>RP</span></div><small>LOS SANTOS ROLEPLAY</small></div></div>
+    <nav><a href="#">DISCORD</a><a href="#">STORE</a><a href="#">RULES</a><a href="#">GET STARTED</a></nav>
+    <div class="server"><i></i><div><b>SERVER ONLINE</b><small>PLAYERS <span id="players">0 / 48</span></small></div></div>
+  </header>
+  <aside class="rail"><span>PEOPLE</span><span>STORIES</span><span>BUSINESS</span><span>CRIME</span><span>COMMUNITY</span><span>A NEW YOU</span></aside>
+  <section class="hero"><div class="kicker"><i></i>WELCOME TO LOS SANTOS</div><h1>A NEW CITY.<br><em>A NEW STORY.</em></h1><p>More than a game.<br>A living, breathing world.<br>Write your story in Los Santos.</p><div class="signature">BotRP</div><div class="hero-rule"></div><small>ROLEPLAY &nbsp; COMMUNITY &nbsp; IMMERSION<br>STORIES FOR A LONGER TOMORROW.</small></section>
+  <section class="card">
+    <div class="card-top"><span>LOADING INTO LOS SANTOS</span><b>01 / 04</b></div>
+    <div class="eyebrow"><i></i><span id="status">CONNECTING TO SERVER</span></div>
+    <h2 id="title">CONNECTING TO SERVER</h2><p id="subtitle">Establishing a secure connection to BotRP...</p>
+    <div class="progress-head"><span>LOADING EXPERIENCE</span><strong id="percent">1%</strong></div>
+    <div class="track"><div id="bar"></div><i id="glow"></i></div>
+    <div class="steps"><div id="step1" class="step active"><b>01</b><span>CONNECT</span><small>Connecting...</small></div><div id="step2" class="step"><b>02</b><span>WORLD</span><small>Loading world...</small></div><div id="step3" class="step"><b>03</b><span>RESOURCES</span><small>Initializing...</small></div><div id="step4" class="step"><b>04</b><span>READY</span><small>Almost there...</small></div></div>
+    <div class="tip"><div class="tip-icon">i</div><div><b>DID YOU KNOW?</b><p id="tip">Use /help in-game if you're ever unsure about something.</p></div><div class="arrows">‹ &nbsp;›</div></div>
+    <footer>BOTRP 2026 &nbsp;|&nbsp; LOS SANTOS &nbsp;|&nbsp; ROLEPLAY &nbsp;|&nbsp; COMMUNITY</footer>
+  </section>
+  <section class="tiles"><div class="tile active"><b>LOS SANTOS</b><small>A CITY OF OPPORTUNITY</small></div><div class="tile"><b>BUSINESS</b><small>BUILD YOUR EMPIRE</small></div><div class="tile"><b>STORIES</b><small>MEET UNIQUE PEOPLE</small></div><div class="tile"><b>CRIME</b><small>TAKE THE RISK</small></div><div class="tile"><b>LIFESTYLE</b><small>LIVE DIFFERENTLY</small></div></section>
+  <div class="bottom"><span>BOTRP © 2026 &nbsp;|&nbsp; MADE FOR PLAYERS, BY PLAYERS.</span><em>See You in the City.</em></div>
+</main><script src="app.js"></script></body></html>
