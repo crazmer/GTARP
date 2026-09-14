@@ -1,14 +1,13 @@
 return {
     loadingModelsTimeout = 30000,
     defaultSpawn = vec4(-540.58, -212.02, 37.65, 208.88),
-    -- Outdoor showcase scene for the character lobby.
-    -- Keep the preview in the normal world to avoid interior IPL/streaming issues.
+    -- Premium outdoor showcase: Diamond Casino area gives the lobby a more
+    -- cinematic, luxury Los Santos identity while keeping the ped in the
+    -- normal streamed world.
     locations = {
         {
-            -- Face the preview ped toward the camera instead of showing its back.
-            pedCoords = vec4(-1594.64, -1141.70, 14.29, 132.7),
-            -- Front three-quarter camera: head/chest framing with the scene visible behind.
-            camCoords = vec4(-1591.55, -1144.55, 15.85, 0.0)
+            pedCoords = vec4(-667.15, -1107.42, 14.63, 215.0),
+            camCoords = vec4(-664.15, -1104.25, 16.05, 0.0)
         }
     }
 }
