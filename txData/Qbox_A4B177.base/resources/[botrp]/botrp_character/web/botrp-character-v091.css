@@ -1,0 +1,26 @@
+:root{--botrp-cyan:#42ddff;--botrp-panel:rgba(2,7,12,.44)}
+/* v0.9.1 visual correction: preserve the 3D showcase as the hero. */
+body:before{background:linear-gradient(90deg,rgba(0,5,10,.34) 0%,rgba(0,5,10,.16) 24%,rgba(0,5,10,.025) 52%,rgba(0,5,10,.04) 100%),linear-gradient(180deg,rgba(0,0,0,.18),transparent 34%,rgba(0,0,0,.22) 100%)!important}
+body:after{box-shadow:inset 0 0 150px rgba(0,0,0,.32),inset 0 -70px 110px rgba(0,0,0,.18)!important}
+main{align-items:flex-end!important;justify-content:flex-start!important;padding-bottom:58px!important}
+.lobby{width:min(520px,35vw)!important;margin-left:1.2vw!important}
+.lobby-head{margin-bottom:11px!important}
+.lobby-head h1{font-size:clamp(38px,2.55vw,46px)!important;text-shadow:0 5px 24px rgba(0,0,0,.72)!important}
+.lobby-head p{color:#d0d6df!important;text-shadow:0 2px 9px rgba(0,0,0,.8)!important}
+.count-block strong{font-size:22px!important}
+.section-rule{margin-bottom:7px!important}
+.card{min-height:76px!important;padding:9px 11px!important;grid-template-columns:34px minmax(0,1fr) 132px!important;gap:9px!important;background:linear-gradient(100deg,rgba(2,7,12,.50),rgba(4,10,16,.25))!important;backdrop-filter:blur(4px)!important;box-shadow:0 10px 25px rgba(0,0,0,.18)!important}
+.card:hover{background:linear-gradient(100deg,rgba(3,10,16,.58),rgba(5,12,19,.30))!important}
+.card.selected{background:linear-gradient(100deg,rgba(3,12,18,.60),rgba(5,13,20,.30))!important;box-shadow:0 12px 30px rgba(0,0,0,.22),0 0 18px rgba(66,221,255,.05)!important}
+.card .name{font-size:16px!important}
+.card .cid{margin-top:3px!important}
+.meta{margin-top:5px!important}
+.pill{padding:3px 5px!important}
+.card-side{gap:5px!important}
+.play,.delete{height:27px!important}
+.card-actions{grid-template-columns:52px 1fr!important;gap:4px!important}
+.play{font-size:5px!important}
+.empty{min-height:64px!important;background:rgba(2,7,12,.25)!important}
+footer{padding-top:7px!important}
+@media(max-width:1000px){.lobby{width:min(520px,44vw)!important}}
+@media(max-width:800px){.lobby{width:86vw!important;margin-left:0!important}main{padding-bottom:30px!important}.card{grid-template-columns:32px minmax(0,1fr) 125px!important}}
