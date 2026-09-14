@@ -337,7 +337,7 @@ RegisterNUICallback('delete', function(data, cb)
 
     lobbyActionBusy = true
     local citizenId = character.citizenid
-    local deleted = lib.callback.await('qbx_core:server:deleteCharacter', false, citizenId)
+    local deleted = lib.callback.await('botrp_character:server:deleteCharacter', false, citizenId)
     if not deleted then
         refreshCharacters()
         lobbyActionBusy = false
