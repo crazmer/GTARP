@@ -1,8 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark">
-  <title>BotRP — Los Santos Roleplay</title><link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>BotRP — Los Santos Roleplay</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main id="app">
@@ -12,13 +15,32 @@
   <img class="backdrop botrp-user-bg" src="assets/bg4.png" alt="">
   <img class="backdrop botrp-user-bg" src="assets/bg5.png" alt="">
   <img class="backdrop botrp-user-bg" src="assets/bg6.png" alt="">
-  <div class="light-leak"></div><div class="shade"></div><div class="scanlines"></div><div class="grain"></div>
+
+  <div class="light-leak"></div>
+  <div class="shade"></div>
+  <div class="vignette"></div>
+  <div class="scanlines"></div>
+  <div class="grain"></div>
+
   <header class="topbar">
-    <div class="brand-lockup"><div class="brand-symbol">B</div><div><div class="brand">BOT<span>RP</span></div><small>LOS SANTOS ROLEPLAY</small></div></div>
-    <div class="server"><i></i><div><b>SERVER ONLINE</b><small>BOTRP / 2026</small></div></div>
-    <nav><a href="#">DISCORD</a><a href="#">STORE</a><a href="#">RULES</a><a href="#">GET STARTED</a></nav>
+    <div class="brand-lockup">
+      <div class="brand-symbol">B</div>
+      <div>
+        <div class="brand">BOT<span>RP</span></div>
+        <small>LOS SANTOS ROLEPLAY</small>
+      </div>
+    </div>
+    <nav>
+      <a href="#">DISCORD</a><a href="#">STORE</a><a href="#">RULES</a><a href="#">GET STARTED</a>
+    </nav>
+    <div class="server">
+      <i></i>
+      <div><b>SERVER ONLINE</b><small>BOTRP / 2026</small></div>
+    </div>
   </header>
+
   <div class="location"><span>LOS SANTOS</span><i></i><small>CALIFORNIA / USA</small></div>
+
   <section class="hero">
     <div class="kicker"><i></i>WELCOME TO LOS SANTOS</div>
     <h1>A NEW<br><em>CITY.</em></h1>
@@ -26,15 +48,43 @@
     <p>More than a game. A living world built around<br>your choices, your people and your next move.</p>
     <div class="hero-meta"><span>ROLEPLAY</span><span>COMMUNITY</span><span>IMMERSION</span></div>
   </section>
-  <section class="card">
-    <div class="card-top"><span>BOTRP // CONNECTION</span><b>01 — 04</b></div>
-    <div class="eyebrow"><i></i><span id="status">CONNECTING TO SERVER</span></div>
-    <h2 id="title">CONNECTING TO SERVER</h2><p id="subtitle">Establishing a secure connection to BotRP...</p>
-    <div class="progress-head"><span>SESSION INITIALIZATION</span><strong id="percent">1%</strong></div>
-    <div class="track"><div id="bar"></div><i id="glow"></i></div>
-    <div class="steps"><div id="step1" class="step active"><b>01</b><span>CONNECT</span><small>Connecting...</small></div><div id="step2" class="step"><b>02</b><span>WORLD</span><small>Loading world...</small></div><div id="step3" class="step"><b>03</b><span>RESOURCES</span><small>Initializing...</small></div><div id="step4" class="step"><b>04</b><span>READY</span><small>Almost there...</small></div></div>
-    <div class="tip"><div class="tip-icon">+</div><div><b>BOTRP INTEL</b><p id="tip">Use /help in-game if you're ever unsure about something.</p></div><span class="tip-index">01 / 04</span></div>
+
+  <section class="load-hud" aria-label="Server loading status">
+    <div class="hud-line"></div>
+    <div class="hud-top"><span>BOTRP // CONNECTION</span><b>01 / 04</b></div>
+
+    <div class="hud-status"><i></i><span id="status">CONNECTING TO SERVER</span></div>
+    <h2 id="title">CONNECTING TO SERVER</h2>
+    <p id="subtitle">Establishing a secure connection to BotRP...</p>
+
+    <div class="progress-head">
+      <span>SESSION INITIALIZATION</span>
+      <strong id="percent">1%</strong>
+    </div>
+    <div class="track">
+      <div class="track-ticks"></div>
+      <div id="bar"></div>
+      <i id="glow"></i>
+    </div>
+
+    <div class="steps">
+      <div id="step1" class="step active"><b>01</b><span>CONNECT</span><small>Connecting</small></div>
+      <div id="step2" class="step"><b>02</b><span>WORLD</span><small>Loading world</small></div>
+      <div id="step3" class="step"><b>03</b><span>RESOURCES</span><small>Initializing</small></div>
+      <div id="step4" class="step"><b>04</b><span>READY</span><small>Almost there</small></div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-mark">+</span>
+      <div><b>BOTRP INTEL</b><p id="tip">Use /help in-game if you're ever unsure about something.</p></div>
+      <span class="tip-index">01 / 04</span>
+    </div>
+
     <footer><span>ENCRYPTED SESSION</span><span>BUILD 2026.1</span><span>FIVEM</span></footer>
   </section>
+
   <div class="bottom"><span>BOTRP © 2026 — MADE FOR PLAYERS, BY PLAYERS.</span><em>See you in the city.</em></div>
-</main><script src="app.js"></script></body></html>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
