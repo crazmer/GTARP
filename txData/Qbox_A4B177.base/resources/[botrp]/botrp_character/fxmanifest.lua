@@ -21,7 +21,8 @@ shared_scripts {
 
 client_scripts {
     'client.lua',
-    'showcase_controller.lua'
+    'showcase_controller.lua',
+    'handoff_guard.lua'
 }
 
 server_script 'server.lua'
