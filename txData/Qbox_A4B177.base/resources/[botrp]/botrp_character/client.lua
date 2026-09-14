@@ -155,17 +155,17 @@ local function createPreview(citizenId)
 
     previewCam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(previewCam, camCoords.x, camCoords.y, camCoords.z)
-    SetCamFov(previewCam, 31.0)
-    PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 0.95, true)
+    SetCamFov(previewCam, 27.5)
+    PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.02, true)
     SetCamActive(previewCam, true)
     RenderScriptCams(true, false, 650, true, true)
     SetCamUseShallowDofMode(previewCam, true)
     SetCamNearDof(previewCam, 1.0)
-    SetCamFarDof(previewCam, 15.0)
-    SetCamDofStrength(previewCam, 0.55)
+    SetCamFarDof(previewCam, 16.0)
+    SetCamDofStrength(previewCam, 0.35)
     SetTimecycleModifier('MP_corona_switch')
-    SetTimecycleModifierStrength(0.10)
-    NetworkOverrideClockTime(21, 30, 0)
+    SetTimecycleModifierStrength(0.04)
+    NetworkOverrideClockTime(20, 15, 0)
     SetArtificialLightsState(false)
 end
 
@@ -334,8 +334,7 @@ CreateThread(function()
             DisableControlAction(0, 30, true)
             DisableControlAction(0, 31, true)
             DisableControlAction(0, 75, true)
-            -- Keep the showcase consistently cinematic even if the server clock changes.
-            NetworkOverrideClockTime(21, 30, 0)
+            NetworkOverrideClockTime(20, 15, 0)
             Wait(0)
         else
             Wait(500)
@@ -349,7 +348,7 @@ CreateThread(function()
             local cam = previewLocation.camCoords
             SetCamCoord(previewCam, cam.x, cam.y, cam.z)
             if previewPed and DoesEntityExist(previewPed) then
-                PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 0.95, true)
+                PointCamAtEntity(previewCam, previewPed, 0.0, 0.0, 1.02, true)
             end
             Wait(0)
         else
@@ -363,4 +362,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.9.0 started (luxury cinematic lobby)') end)
+CreateThread(function() print('[BotRP] character v0.9.1 started (showcase-first visual pass)') end)
