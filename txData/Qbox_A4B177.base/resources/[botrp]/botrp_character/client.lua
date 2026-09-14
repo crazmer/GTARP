@@ -99,8 +99,6 @@ local function loadCharacters()
 end
 
 local function prepareShowcaseWorld(coords)
-    -- Keep the GTA world visible behind the UI instead of replacing it with an HTML image.
-    -- Focus/collision requests prevent the lobby camera from opening before the scene is streamed.
     SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
     local deadline = GetGameTimer() + 4500
@@ -179,7 +177,6 @@ local function createPreview(citizenId)
     SetCamFarDof(previewCam, 18.0)
     SetCamDofStrength(previewCam, 0.18)
 
-    -- Neutral, premium dusk lighting. No heavy cinematic filter: the GTA environment remains visible.
     SetTimecycleModifier('default')
     SetTimecycleModifierStrength(0.02)
     NetworkOverrideClockTime(19, 45, 0)
@@ -379,4 +376,4 @@ RegisterNetEvent('qbx_core:client:playerLoggedOut', function()
     openCharacterScreen()
 end)
 
-CreateThread(function() print('[BotRP] character v0.9.2 started (3D showcase + premium UI pass)') end)
+CreateThread(function() print('[BotRP] character v0.9.2 started (stable showcase + premium UI pass)') end)
