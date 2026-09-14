@@ -94,11 +94,17 @@ async function playCharacter(slot,btn){
   }
 }
 
-function select(slot){
+async function select(slot){
   if(lobbyBusy) return;
-  nui('select',{slot});
-  document.querySelectorAll('.card').forEach(x=>x.classList.remove('selected'));
-  document.querySelector(`.card[data-slot="${slot}"]`)?.classList.add('selected');
+  setLobbyBusy(true);
+  const r=await nui('select',{slot:Number(slot)});
+  if(r.ok){
+    document.querySelectorAll('.card').forEach(x=>x.classList.remove('selected'));
+    document.querySelector(`.card[data-slot="${slot}"]`)?.classList.add('selected');
+  }else if(error){
+    error.textContent=r.error||'Unable to preview character.';
+  }
+  setLobbyBusy(false);
 }
 
 function openCreate(slot){
@@ -208,4 +214,3 @@ window.addEventListener('message',e=>{
   }
   if(d.action==='hide') app.classList.add('hidden');
 });
-
