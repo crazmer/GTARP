@@ -22,7 +22,7 @@ local function stopCamera()
 end
 
 local function streamSpawnArea(coords)
-    if not coords then return end
+    if not coords then return false end
 
     SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
     RequestCollisionAtCoord(coords.x, coords.y, coords.z)
@@ -30,33 +30,74 @@ local function streamSpawnArea(coords)
 
     if NewLoadSceneStartSphere then
         pcall(function()
-            NewLoadSceneStartSphere(coords.x, coords.y, coords.z, 220.0, 0)
+            NewLoadSceneStartSphere(coords.x, coords.y, coords.z, 260.0, 0)
         end)
     end
 
+    local deadline = GetGameTimer() + 10000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+
+        local loaded = (not IsNewLoadSceneActive or not IsNewLoadSceneActive()) or IsNewLoadSceneLoaded()
+        if loaded then
+            return true
+        end
+        Wait(0)
+    end
+
+    return false
+end
+
+local function resolveGround(coords)
+    if not coords then return end
+
+    -- Keep asking for the exact destination tile until GTA reports an actual
+    -- ground surface. This is stronger than HasCollisionLoadedAroundEntity(),
+    -- which can succeed before the player-facing floor is available.
     local deadline = GetGameTimer() + 8000
     while GetGameTimer() < deadline do
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
         RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
-        if (not IsNewLoadSceneActive or not IsNewLoadSceneActive()) or IsNewLoadSceneLoaded() then
-            break
+
+        local ok, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z + 120.0, false)
+        if ok and groundZ and groundZ > -100.0 then
+            return groundZ
         end
         Wait(0)
     end
 end
 
 local function waitForSpawnCollision(coords)
-    if not coords then return end
+    if not coords then return false end
 
-    local deadline = GetGameTimer() + 5000
+    local groundZ = resolveGround(coords)
+    if groundZ then return true end
+
+    local deadline = GetGameTimer() + 4000
     while GetGameTimer() < deadline do
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
         RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
         if HasCollisionLoadedAroundEntity(cache.ped) then
-            return
+            return true
         end
         Wait(0)
     end
+
+    return false
+end
+
+local function hardenGameplayPed()
+    local ped = PlayerPedId()
+    SetEntityVisible(ped, true, false)
+    SetEntityAlpha(ped, 255, false)
+    ResetEntityAlpha(ped)
+    SetEntityCollision(ped, true, true)
+    SetEntityCompletelyDisableCollision(ped, false)
+    SetEntityHasGravity(ped, true)
+    SetEntityDynamic(ped, true)
+    SetPedCanRagdoll(ped, true)
+    return ped
 end
 
 local function teleportToSpawn(spawnData)
@@ -64,37 +105,76 @@ local function teleportToSpawn(spawnData)
     if not coords then return false end
 
     streamSpawnArea(coords)
-    SetEntityCollision(cache.ped, true, true)
-    SetEntityCompletelyDisableCollision(cache.ped, false)
-    SetEntityVisible(cache.ped, true, false)
-    SetEntityAlpha(cache.ped, 255, false)
-    FreezeEntityPosition(cache.ped, true)
 
-    SetEntityCoordsNoOffset(cache.ped, coords.x, coords.y, coords.z, false, false, false)
-    SetEntityHeading(cache.ped, coords.w or 0.0)
-    waitForSpawnCollision(coords)
+    local ped = hardenGameplayPed()
+    FreezeEntityPosition(ped, true)
 
-    for _ = 1, 30 do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    local groundZ = resolveGround(coords)
+    local targetZ = groundZ or coords.z
+    SetEntityCoordsNoOffset(ped, coords.x, coords.y, targetZ + 0.05, false, false, false)
+    SetEntityHeading(ped, coords.w or 0.0)
+
+    -- Reassert collision and wait through several physics frames before release.
+    local collisionReady = waitForSpawnCollision(vec4(coords.x, coords.y, targetZ, coords.w or 0.0))
+    for _ = 1, 90 do
+        RequestCollisionAtCoord(coords.x, coords.y, targetZ)
+        RequestAdditionalCollisionAtCoord(coords.x, coords.y, targetZ)
+        SetEntityCollision(ped, true, true)
+        SetEntityCompletelyDisableCollision(ped, false)
+        FreezeEntityPosition(ped, true)
         Wait(0)
     end
 
     if NewLoadSceneStop then NewLoadSceneStop() end
     ClearFocus()
-    return true
+    return collisionReady
+end
+
+local function recoverFromBadSpawn(spawnData)
+    if not spawnData or spawnData.propertyId or not spawnData.coords then return end
+
+    local expected = spawnData.coords
+    CreateThread(function()
+        local deadline = GetGameTimer() + 10000
+        while GetGameTimer() < deadline do
+            local ped = PlayerPedId()
+            local pos = GetEntityCoords(ped)
+
+            if pos.z < expected.z - 8.0 then
+                local groundZ = resolveGround(expected)
+                if groundZ then
+                    FreezeEntityPosition(ped, true)
+                    SetEntityCollision(ped, true, true)
+                    SetEntityCompletelyDisableCollision(ped, false)
+                    SetEntityHasGravity(ped, true)
+                    SetEntityCoordsNoOffset(ped, expected.x, expected.y, groundZ + 0.05, false, false, false)
+                    SetEntityHeading(ped, expected.w or 0.0)
+
+                    for _ = 1, 60 do
+                        RequestCollisionAtCoord(expected.x, expected.y, groundZ)
+                        RequestAdditionalCollisionAtCoord(expected.x, expected.y, groundZ)
+                        SetEntityCollision(ped, true, true)
+                        SetEntityCompletelyDisableCollision(ped, false)
+                        Wait(0)
+                    end
+                    FreezeEntityPosition(ped, false)
+                end
+                break
+            end
+            Wait(50)
+        end
+    end)
 end
 
 local function managePlayer()
     local staging = vec4(-21.58, -583.76, 86.31, 0.0)
-    SetEntityCollision(cache.ped, true, true)
-    SetEntityCompletelyDisableCollision(cache.ped, false)
-    SetEntityVisible(cache.ped, true, false)
-    SetEntityAlpha(cache.ped, 255, false)
-    FreezeEntityPosition(cache.ped, true)
+    local ped = hardenGameplayPed()
+    FreezeEntityPosition(ped, true)
     streamSpawnArea(staging)
-    SetEntityCoordsNoOffset(cache.ped, staging.x, staging.y, staging.z, false, false, false)
-    SetEntityHeading(cache.ped, staging.w)
-    waitForSpawnCollision(staging)
+    local groundZ = resolveGround(staging) or staging.z
+    SetEntityCoordsNoOffset(ped, staging.x, staging.y, groundZ + 0.05, false, false, false)
+    SetEntityHeading(ped, staging.w)
+    waitForSpawnCollision(vec4(staging.x, staging.y, groundZ, staging.w))
     DisplayRadar(false)
 
     SetTimeout(500, function()
@@ -300,14 +380,19 @@ local function inputHandler()
                 TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
                 TriggerEvent('QBCore:Client:OnPlayerLoaded')
                 TriggerServerEvent('qbx_properties:server:enterProperty', { id = spawnData.propertyId, isSpawn = true })
-                Wait(800)
+                Wait(1200)
             else
-                teleportToSpawn(spawnData)
+                local spawnReady = teleportToSpawn(spawnData)
+                if not spawnReady then
+                    print('[qbx_spawn] collision did not fully report ready at selected spawn; keeping recovery guard active')
+                end
                 TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
                 TriggerEvent('QBCore:Client:OnPlayerLoaded')
+                recoverFromBadSpawn(spawnData)
             end
 
-            Wait(250)
+            Wait(750)
+            hardenGameplayPed()
             FreezeEntityPosition(cache.ped, false)
             DisplayRadar(true)
             DoScreenFadeIn(1000)
