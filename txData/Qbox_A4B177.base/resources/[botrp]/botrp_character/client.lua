@@ -457,6 +457,24 @@ end)
 RegisterNetEvent('botrp_character:client:open', openCharacterScreen)
 
 CreateThread(function()
+    while GetResourceState('spawnmanager') ~= 'started' do
+        Wait(250)
+    end
+
+    while not NetworkIsSessionStarted() do
+        Wait(250)
+    end
+
+    -- qbx_core's stock character.lua is disabled when useExternalCharacters=true,
+    -- so BotRP must disable spawnmanager's automatic spawn itself. Otherwise
+    -- spawnmanager can race the character/spawn selection flow and move the
+    -- gameplay ped to its own spawn while qbx_spawn is trying to place it.
+    pcall(function()
+        exports.spawnmanager:setAutoSpawn(false)
+    end)
+end)
+
+CreateThread(function()
     while not NetworkIsSessionStarted() do Wait(250) end
     Wait(1500)
     openCharacterScreen()
