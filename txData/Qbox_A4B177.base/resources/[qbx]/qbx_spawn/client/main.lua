@@ -315,44 +315,47 @@ local function inputHandler()
             local spawnData = spawns[currentButtonId]
             if not spawnData or not spawnData.coords then
                 print('[qbx_spawn] selected spawn has no coordinates')
-                goto continue
-            end
-
-            DoScreenFadeOut(500)
-            while not IsScreenFadedOut() do
-                Wait(0)
-            end
-
-            -- Match the Qbox/FiveM loading contract: mark the character loaded,
-            -- then let the official spawnmanager own the actual player spawn.
-            TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-            TriggerEvent('QBCore:Client:OnPlayerLoaded')
-
-            local spawned = false
-            if spawnData.propertyId then
-                TriggerServerEvent('qbx_properties:server:enterProperty', { id = spawnData.propertyId, isSpawn = true })
-                Wait(1200)
-                spawned = true
             else
-                spawned = spawnWithSpawnmanager(spawnData)
-            end
+                DoScreenFadeOut(500)
+                while not IsScreenFadedOut() do
+                    Wait(0)
+                end
 
-            if not spawned then
-                print('[qbx_spawn] spawn failed; keeping player frozen')
-                restoreGameplayPed()
-                FreezeEntityPosition(PlayerPedId(), true)
+                -- Match Qbox/FiveM's normal lifecycle: the character is marked
+                -- loaded first, then spawnmanager owns the actual world spawn.
+                TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+                TriggerEvent('QBCore:Client:OnPlayerLoaded')
+
+                local spawned = false
+
+                if spawnData.propertyId then
+                    TriggerServerEvent('qbx_properties:server:enterProperty', {
+                        id = spawnData.propertyId,
+                        isSpawn = true
+                    })
+                    Wait(1200)
+                    spawned = true
+                else
+                    spawned = spawnWithSpawnmanager(spawnData)
+                end
+
+                if spawned then
+                    local ped = restoreGameplayPed()
+                    FreezeEntityPosition(ped, true)
+                    Wait(750)
+                    FreezeEntityPosition(ped, false)
+                    DisplayRadar(true)
+                    DoScreenFadeIn(1000)
+                    break
+                end
+
+                print('[qbx_spawn] spawn failed; leaving player frozen rather than dropping them into an unloaded world')
+                local ped = restoreGameplayPed()
+                FreezeEntityPosition(ped, true)
+                DisplayRadar(false)
                 DoScreenFadeIn(500)
-                goto continue
             end
-
-            local ped = restoreGameplayPed()
-            FreezeEntityPosition(ped, true)
-            Wait(750)
-            FreezeEntityPosition(ped, false)
-            DisplayRadar(true)
-            DoScreenFadeIn(1000)
-            break
-        ::continue::d
+        end
 
         Wait(0)
     end
