@@ -21,9 +21,80 @@ local function stopCamera()
     EndScaleformMovieMethod()
 end
 
-local function managePlayer()
-    SetEntityCoords(cache.ped, -21.58, -583.76, 86.31, false, false, false, false)
+local function streamSpawnArea(coords)
+    if not coords then return end
+
+    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+
+    if NewLoadSceneStartSphere then
+        pcall(function()
+            NewLoadSceneStartSphere(coords.x, coords.y, coords.z, 220.0, 0)
+        end)
+    end
+
+    local deadline = GetGameTimer() + 8000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+        if (not IsNewLoadSceneActive or not IsNewLoadSceneActive()) or IsNewLoadSceneLoaded() then
+            break
+        end
+        Wait(0)
+    end
+end
+
+local function waitForSpawnCollision(coords)
+    if not coords then return end
+
+    local deadline = GetGameTimer() + 5000
+    while GetGameTimer() < deadline do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
+        if HasCollisionLoadedAroundEntity(cache.ped) then
+            return
+        end
+        Wait(0)
+    end
+end
+
+local function teleportToSpawn(spawnData)
+    local coords = spawnData.coords
+    if not coords then return false end
+
+    streamSpawnArea(coords)
+    SetEntityCollision(cache.ped, true, true)
+    SetEntityCompletelyDisableCollision(cache.ped, false)
+    SetEntityVisible(cache.ped, true, false)
+    SetEntityAlpha(cache.ped, 255, false)
     FreezeEntityPosition(cache.ped, true)
+
+    SetEntityCoordsNoOffset(cache.ped, coords.x, coords.y, coords.z, false, false, false)
+    SetEntityHeading(cache.ped, coords.w or 0.0)
+    waitForSpawnCollision(coords)
+
+    for _ = 1, 30 do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        Wait(0)
+    end
+
+    if NewLoadSceneStop then NewLoadSceneStop() end
+    ClearFocus()
+    return true
+end
+
+local function managePlayer()
+    local staging = vec4(-21.58, -583.76, 86.31, 0.0)
+    SetEntityCollision(cache.ped, true, true)
+    SetEntityCompletelyDisableCollision(cache.ped, false)
+    SetEntityVisible(cache.ped, true, false)
+    SetEntityAlpha(cache.ped, 255, false)
+    FreezeEntityPosition(cache.ped, true)
+    streamSpawnArea(staging)
+    SetEntityCoordsNoOffset(cache.ped, staging.x, staging.y, staging.z, false, false, false)
+    SetEntityHeading(cache.ped, staging.w)
+    waitForSpawnCollision(staging)
     DisplayRadar(false)
 
     SetTimeout(500, function()
@@ -215,20 +286,30 @@ local function inputHandler()
                 Wait(0)
             end
 
-            TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-            TriggerEvent('QBCore:Client:OnPlayerLoaded')
-            FreezeEntityPosition(cache.ped, false)
-            DisplayRadar(true)
-
             local spawnData = spawns[currentButtonId]
 
+            -- Never release the gameplay ped before its destination collision is loaded.
+            SetEntityCollision(cache.ped, true, true)
+            SetEntityCompletelyDisableCollision(cache.ped, false)
+            SetEntityVisible(cache.ped, true, false)
+            SetEntityAlpha(cache.ped, 255, false)
+            ResetEntityAlpha(cache.ped)
+            FreezeEntityPosition(cache.ped, true)
+
             if spawnData.propertyId then
+                TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+                TriggerEvent('QBCore:Client:OnPlayerLoaded')
                 TriggerServerEvent('qbx_properties:server:enterProperty', { id = spawnData.propertyId, isSpawn = true })
+                Wait(800)
             else
-                SetEntityCoords(cache.ped, spawnData.coords.x, spawnData.coords.y, spawnData.coords.z, false, false, false, false)
-                SetEntityHeading(cache.ped, spawnData.coords.w or 0.0)
+                teleportToSpawn(spawnData)
+                TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+                TriggerEvent('QBCore:Client:OnPlayerLoaded')
             end
 
+            Wait(250)
+            FreezeEntityPosition(cache.ped, false)
+            DisplayRadar(true)
             DoScreenFadeIn(1000)
 
             break
