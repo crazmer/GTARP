@@ -21,165 +21,14 @@ local function stopCamera()
     EndScaleformMovieMethod()
 end
 
-local function hardenGameplayPed()
-    local ped = PlayerPedId()
-    SetEntityVisible(ped, false, false)
-    SetEntityAlpha(ped, 255, false)
-    SetEntityCollision(ped, false, false)
-    SetEntityCompletelyDisableCollision(ped, false)
-    SetEntityLoadCollisionFlag(ped, true, true)
-    SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, false)
-    FreezeEntityPosition(ped, true)
-    return ped
-end
-
-local function restoreGameplayPed()
-    local ped = PlayerPedId()
-    SetEntityVisible(ped, true, false)
-    SetEntityAlpha(ped, 255, false)
-    ResetEntityAlpha(ped)
-    SetEntityCollision(ped, true, true)
-    SetEntityCompletelyDisableCollision(ped, false)
-    SetEntityLoadCollisionFlag(ped, true, true)
-    SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, true)
-    ActivatePhysics(ped)
-    SetPlayerControl(PlayerId(), true, 0)
-    return ped
-end
-
 local function managePlayer()
-    -- Keep the real gameplay ped frozen while the spawn selector/camera is active.
-    -- Do not move it to the remote showcase location.
-    local ped = hardenGameplayPed()
+    SetEntityCoords(cache.ped, -21.58, -583.76, 86.31, false, false, false, false)
+    FreezeEntityPosition(cache.ped, true)
     DisplayRadar(false)
 
-    -- qbx_spawn is a scripted camera UI; keep the game visible while the player
-    -- chooses a destination. The previous pass left the fade-out active here,
-    -- which produced the black screen reported after character selection.
     SetTimeout(500, function()
-        DoScreenFadeIn(1000)
+        DoScreenFadeIn(5000)
     end)
-
-    return ped
-end
-
-local function spawnAtDestination(spawnData)
-    if not spawnData or not spawnData.coords then return false end
-
-    local coords = spawnData.coords
-    local heading = coords.w or 0.0
-    local playerId = PlayerId()
-    local ped = PlayerPedId()
-
-    -- Fully stream the destination before moving the player. FiveM's spawnmanager
-    -- requests collision, but the full load-scene cycle is what prevents a remote
-    -- destination from appearing as an empty grey void.
-    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
-
-    if NewLoadSceneStart then
-        pcall(function()
-            NewLoadSceneStart(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 60.0, 0)
-        end)
-    end
-
-    local sceneDeadline = GetGameTimer() + 15000
-    while GetGameTimer() < sceneDeadline do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
-
-        if NetworkUpdateLoadScene then
-            NetworkUpdateLoadScene()
-        end
-
-        if IsNewLoadSceneLoaded and IsNewLoadSceneLoaded() then
-            break
-        end
-
-        Wait(0)
-    end
-
-    -- Match the normal Qbox/FiveM spawn lifecycle.
-    SetPlayerControl(playerId, false, 0)
-    SetPlayerInvincible(playerId, true)
-    SetEntityVisible(ped, false, false)
-    SetEntityCollision(ped, false, false)
-    SetEntityCompletelyDisableCollision(ped, false)
-    SetEntityLoadCollisionFlag(ped, true, true)
-    SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, false)
-    FreezeEntityPosition(ped, true)
-
-    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, true, false)
-
-    ped = PlayerPedId()
-    SetEntityVisible(ped, false, false)
-    SetEntityCollision(ped, false, false)
-    SetEntityCompletelyDisableCollision(ped, false)
-    SetEntityLoadCollisionFlag(ped, true, true)
-    SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, false)
-    FreezeEntityPosition(ped, true)
-
-    local collisionDeadline = GetGameTimer() + 12000
-    local collisionReady = false
-
-    while GetGameTimer() < collisionDeadline do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
-
-        if NetworkUpdateLoadScene then
-            NetworkUpdateLoadScene()
-        end
-
-        if HasCollisionLoadedAroundEntity(ped) then
-            collisionReady = true
-            break
-        end
-
-        Wait(0)
-    end
-
-    if not collisionReady then
-        print(('[qbx_spawn] collision timeout at %.2f %.2f %.2f'):format(coords.x, coords.y, coords.z))
-        if NewLoadSceneStop then NewLoadSceneStop() end
-        ClearFocus()
-        SetPlayerInvincible(playerId, false)
-        return false
-    end
-
-    SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, false, false, false, true)
-    SetEntityHeading(ped, heading)
-    ClearPedTasksImmediately(ped)
-    RemoveAllPedWeapons(ped)
-    ClearPlayerWantedLevel(playerId)
-
-    -- Keep collision requests active through several physics frames before release.
-    for _ = 1, 120 do
-        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
-        SetEntityCollision(ped, true, true)
-        SetEntityCompletelyDisableCollision(ped, false)
-        SetEntityLoadCollisionFlag(ped, true, true)
-        FreezeEntityPosition(ped, true)
-        Wait(0)
-    end
-
-    SetEntityVisible(ped, true, false)
-    SetEntityAlpha(ped, 255, false)
-    ResetEntityAlpha(ped)
-    SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, true)
-    ActivatePhysics(ped)
-    SetPlayerInvincible(playerId, false)
-
-    if NewLoadSceneStop then NewLoadSceneStop() end
-    ClearFocus()
-
-    return true
 end
 
 local function createSpawnArea()
@@ -360,50 +209,29 @@ local function inputHandler()
 
             updateScaleform()
         elseif IsControlJustReleased(0, 191) then
-            local spawnData = spawns[currentButtonId]
-            if not spawnData or not spawnData.coords then
-                print('[qbx_spawn] selected spawn has no coordinates')
-            else
-                DoScreenFadeOut(500)
-                while not IsScreenFadedOut() do
-                    Wait(0)
-                end
+            DoScreenFadeOut(1000)
 
-                -- Let spawnmanager establish the final world position first.
-                -- Qbox's player-loaded events are fired only after a successful
-                -- spawn so other resources don't initialize against an unloaded
-                -- or invalid player position.
-                local spawned = false
-
-                if spawnData.propertyId then
-                    TriggerServerEvent('qbx_properties:server:enterProperty', {
-                        id = spawnData.propertyId,
-                        isSpawn = true
-                    })
-                    Wait(1200)
-                    spawned = true
-                else
-                    spawned = spawnAtDestination(spawnData)
-                end
-
-                if spawned then
-                    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-                    TriggerEvent('QBCore:Client:OnPlayerLoaded')
-                    local ped = restoreGameplayPed()
-                    FreezeEntityPosition(ped, true)
-                    Wait(750)
-                    FreezeEntityPosition(ped, false)
-                    DisplayRadar(true)
-                    DoScreenFadeIn(1000)
-                    break
-                end
-
-                print('[qbx_spawn] spawn failed; leaving player frozen rather than dropping them into an unloaded world')
-                local ped = restoreGameplayPed()
-                FreezeEntityPosition(ped, true)
-                DisplayRadar(false)
-                DoScreenFadeIn(500)
+            while not IsScreenFadedOut() do
+                Wait(0)
             end
+
+            TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+            TriggerEvent('QBCore:Client:OnPlayerLoaded')
+            FreezeEntityPosition(cache.ped, false)
+            DisplayRadar(true)
+
+            local spawnData = spawns[currentButtonId]
+
+            if spawnData.propertyId then
+                TriggerServerEvent('qbx_properties:server:enterProperty', { id = spawnData.propertyId, isSpawn = true })
+            else
+                SetEntityCoords(cache.ped, spawnData.coords.x, spawnData.coords.y, spawnData.coords.z, false, false, false, false)
+                SetEntityHeading(cache.ped, spawnData.coords.w or 0.0)
+            end
+
+            DoScreenFadeIn(1000)
+
+            break
         end
 
         Wait(0)
