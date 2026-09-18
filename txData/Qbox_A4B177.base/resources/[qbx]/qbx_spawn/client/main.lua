@@ -26,7 +26,7 @@ local function hardenGameplayPed()
     SetEntityVisible(ped, false, false)
     SetEntityAlpha(ped, 255, false)
     SetEntityCollision(ped, false, false)
-    SetEntityCompletelyDisableCollision(ped, true)
+    SetEntityCompletelyDisableCollision(ped, false)
     SetEntityLoadCollisionFlag(ped, true, true)
     SetEntityHasGravity(ped, true)
     SetEntityDynamic(ped, false)
@@ -65,6 +65,15 @@ local function spawnWithSpawnmanager(spawnData)
     local coords = spawnData.coords
     local completed = false
     local callbackData
+    local ped = PlayerPedId()
+
+    -- The character lobby freezes the real player ped. Restore the physics flags
+    -- that spawnmanager expects before handing the final spawn to it.
+    SetEntityCompletelyDisableCollision(ped, false)
+    SetEntityLoadCollisionFlag(ped, true, true)
+    SetEntityHasGravity(ped, true)
+    SetEntityDynamic(ped, true)
+    ActivatePhysics(ped)
 
     local function requestSpawn()
         exports.spawnmanager:spawnPlayer({
