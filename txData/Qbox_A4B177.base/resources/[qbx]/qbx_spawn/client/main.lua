@@ -94,8 +94,10 @@ local function hardenGameplayPed()
     ResetEntityAlpha(ped)
     SetEntityCollision(ped, true, true)
     SetEntityCompletelyDisableCollision(ped, false)
+    SetEntityLoadCollisionFlag(ped, true, true)
     SetEntityHasGravity(ped, true)
     SetEntityDynamic(ped, true)
+    ActivatePhysics(ped)
     SetPedCanRagdoll(ped, true)
     return ped
 end
@@ -111,7 +113,7 @@ local function teleportToSpawn(spawnData)
 
     local groundZ = resolveGround(coords)
     local targetZ = groundZ or coords.z
-    SetEntityCoordsNoOffset(ped, coords.x, coords.y, targetZ + 0.05, false, false, false)
+    SetEntityCoordsNoOffset(ped, coords.x, coords.y, targetZ + 0.9, false, false, false)
     SetEntityHeading(ped, coords.w or 0.0)
 
     -- Reassert collision and wait through several physics frames before release.
@@ -135,32 +137,59 @@ local function recoverFromBadSpawn(spawnData)
 
     local expected = spawnData.coords
     CreateThread(function()
-        local deadline = GetGameTimer() + 10000
+        local deadline = GetGameTimer() + 15000
+        local graceUntil = GetGameTimer() + 2500
+        local fallingSince
+
         while GetGameTimer() < deadline do
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
+            local velocity = GetEntityVelocity(ped)
+            local fallingFast = velocity and velocity.z < -1.5
+            local airborne = IsEntityInAir(ped)
 
-            if pos.z < expected.z - 8.0 then
-                local groundZ = resolveGround(expected)
-                if groundZ then
-                    FreezeEntityPosition(ped, true)
-                    SetEntityCollision(ped, true, true)
-                    SetEntityCompletelyDisableCollision(ped, false)
-                    SetEntityHasGravity(ped, true)
-                    SetEntityCoordsNoOffset(ped, expected.x, expected.y, groundZ + 0.05, false, false, false)
-                    SetEntityHeading(ped, expected.w or 0.0)
+            RequestCollisionAtCoord(expected.x, expected.y, expected.z)
+            RequestAdditionalCollisionAtCoord(expected.x, expected.y, expected.z)
+            SetEntityCollision(ped, true, true)
+            SetEntityCompletelyDisableCollision(ped, false)
+            SetEntityLoadCollisionFlag(ped, true, true)
 
-                    for _ = 1, 60 do
-                        RequestCollisionAtCoord(expected.x, expected.y, groundZ)
-                        RequestAdditionalCollisionAtCoord(expected.x, expected.y, groundZ)
+            if GetGameTimer() > graceUntil and (pos.z < expected.z - 8.0 or fallingFast or airborne) then
+                fallingSince = fallingSince or GetGameTimer()
+
+                if fallingFast or GetGameTimer() - fallingSince > 750 then
+                    local groundZ = resolveGround(expected)
+                    if groundZ then
+                        FreezeEntityPosition(ped, true)
+                        SetEntityVisible(ped, true, false)
+                        SetEntityAlpha(ped, 255, false)
+                        ResetEntityAlpha(ped)
                         SetEntityCollision(ped, true, true)
                         SetEntityCompletelyDisableCollision(ped, false)
-                        Wait(0)
+                        SetEntityLoadCollisionFlag(ped, true, true)
+                        SetEntityHasGravity(ped, true)
+                        SetEntityDynamic(ped, true)
+                        SetEntityCoordsNoOffset(ped, expected.x, expected.y, groundZ + 0.9, false, false, false)
+                        SetEntityHeading(ped, expected.w or 0.0)
+
+                        for _ = 1, 90 do
+                            RequestCollisionAtCoord(expected.x, expected.y, groundZ)
+                            RequestAdditionalCollisionAtCoord(expected.x, expected.y, groundZ)
+                            SetEntityCollision(ped, true, true)
+                            SetEntityCompletelyDisableCollision(ped, false)
+                            SetEntityLoadCollisionFlag(ped, true, true)
+                            Wait(0)
+                        end
+
+                        ActivatePhysics(ped)
+                        FreezeEntityPosition(ped, false)
                     end
-                    FreezeEntityPosition(ped, false)
+                    break
                 end
-                break
+            else
+                fallingSince = nil
             end
+
             Wait(50)
         end
     end)
