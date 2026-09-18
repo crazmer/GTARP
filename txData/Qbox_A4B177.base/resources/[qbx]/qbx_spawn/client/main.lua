@@ -50,12 +50,18 @@ local function restoreGameplayPed()
 end
 
 local function managePlayer()
-    -- Keep the real gameplay ped frozen at its existing safe location while the
-    -- spawn UI/camera runs. Do not teleport it to the remote showcase location:
-    -- doing so makes the player dependent on that area's collision streaming.
+    -- Keep the real gameplay ped frozen while the spawn selector/camera is active.
+    -- Do not move it to the remote showcase location.
     local ped = hardenGameplayPed()
     DisplayRadar(false)
-    SetPlayerControl(PlayerId(), false, 0)
+
+    -- qbx_spawn is a scripted camera UI; keep the game visible while the player
+    -- chooses a destination. The previous pass left the fade-out active here,
+    -- which produced the black screen reported after character selection.
+    SetTimeout(500, function()
+        DoScreenFadeIn(1000)
+    end)
+
     return ped
 end
 
@@ -330,11 +336,10 @@ local function inputHandler()
                     Wait(0)
                 end
 
-                -- Match Qbox/FiveM's normal lifecycle: the character is marked
-                -- loaded first, then spawnmanager owns the actual world spawn.
-                TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
-                TriggerEvent('QBCore:Client:OnPlayerLoaded')
-
+                -- Let spawnmanager establish the final world position first.
+                -- Qbox's player-loaded events are fired only after a successful
+                -- spawn so other resources don't initialize against an unloaded
+                -- or invalid player position.
                 local spawned = false
 
                 if spawnData.propertyId then
@@ -349,6 +354,8 @@ local function inputHandler()
                 end
 
                 if spawned then
+                    TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
+                    TriggerEvent('QBCore:Client:OnPlayerLoaded')
                     local ped = restoreGameplayPed()
                     FreezeEntityPosition(ped, true)
                     Wait(750)
