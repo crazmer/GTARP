@@ -368,9 +368,18 @@ RegisterNUICallback('play', function(data, cb)
 
     lobbyActionBusy = true
     closeCharacterUI()
-    DoScreenFadeOut(250)
-    Wait(280)
+    DoScreenFadeOut(500)
+    Wait(520)
     cleanupPreview()
+
+    -- Restore the real gameplay ped before qbx_spawn takes over.
+    local gameplayPed = PlayerPedId()
+    SetEntityVisible(gameplayPed, true, false)
+    SetEntityAlpha(gameplayPed, 255, false)
+    ResetEntityAlpha(gameplayPed)
+    SetEntityCollision(gameplayPed, true, true)
+    SetEntityCompletelyDisableCollision(gameplayPed, false)
+    FreezeEntityPosition(gameplayPed, true)
 
     local ok, err = pcall(function()
         return lib.callback.await('qbx_core:server:loadCharacter', false, character.citizenid)
