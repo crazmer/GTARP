@@ -30,5 +30,6 @@ server_script 'server.lua'
 dependencies {
     'qbx_core',
     'ox_lib',
-    'oxmysql'
+    'oxmysql',
+    'spawnmanager'
 }
