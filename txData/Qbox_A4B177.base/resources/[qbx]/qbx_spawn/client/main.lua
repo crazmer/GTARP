@@ -22,10 +22,67 @@ local function stopCamera()
 end
 
 local function managePlayer()
-    SetEntityCoords(cache.ped, -21.58, -583.76, 86.31, false, false, false, false)
+    local staging = vec3(-21.58, -583.76, 86.31)
+
+    -- Keep the player locked during spawn selection, but explicitly stream the
+    -- staging area first. The stock qbx_spawn relies on the current client focus;
+    -- with an external character selector that focus can still be elsewhere,
+    -- leaving the rooftop/map scene without collision.
     FreezeEntityPosition(cache.ped, true)
     DisplayRadar(false)
 
+    SetFocusPosAndVel(staging.x, staging.y, staging.z, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(staging.x, staging.y, staging.z)
+    RequestAdditionalCollisionAtCoord(staging.x, staging.y, staging.z)
+
+    if NewLoadSceneStart then
+        pcall(function()
+            NewLoadSceneStart(
+                staging.x, staging.y, staging.z,
+                staging.x, staging.y, staging.z,
+                75.0,
+                0
+            )
+        end)
+    end
+
+    local sceneDeadline = GetGameTimer() + 7000
+    while GetGameTimer() < sceneDeadline do
+        RequestCollisionAtCoord(staging.x, staging.y, staging.z)
+        RequestAdditionalCollisionAtCoord(staging.x, staging.y, staging.z)
+
+        if NetworkUpdateLoadScene then
+            NetworkUpdateLoadScene()
+        end
+
+        if not IsNetworkLoadingScene or not IsNetworkLoadingScene() then
+            break
+        end
+
+        Wait(0)
+    end
+
+    if NewLoadSceneStop then
+        NewLoadSceneStop()
+    end
+
+    SetEntityCoordsNoOffset(cache.ped, staging.x, staging.y, staging.z, false, false, false)
+    SetEntityHeading(cache.ped, 0.0)
+
+    local collisionDeadline = GetGameTimer() + 5000
+    while GetGameTimer() < collisionDeadline do
+        RequestCollisionAtCoord(staging.x, staging.y, staging.z)
+        RequestAdditionalCollisionAtCoord(staging.x, staging.y, staging.z)
+
+        if HasCollisionLoadedAroundEntity(cache.ped) then
+            break
+        end
+
+        Wait(0)
+    end
+
+    -- Keep focus on the staging scene while the selection camera is live.
+    -- setupCamera/setupMap run immediately after this function.
     SetTimeout(500, function()
         DoScreenFadeIn(5000)
     end)
