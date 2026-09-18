@@ -65,86 +65,119 @@ local function managePlayer()
     return ped
 end
 
-local function spawnWithSpawnmanager(spawnData)
+local function spawnAtDestination(spawnData)
     if not spawnData or not spawnData.coords then return false end
 
     local coords = spawnData.coords
-    local completed = false
-    local callbackData
+    local heading = coords.w or 0.0
+    local playerId = PlayerId()
     local ped = PlayerPedId()
 
-    -- The character lobby freezes the real player ped. Restore the physics flags
-    -- that spawnmanager expects before handing the final spawn to it.
-    SetEntityCompletelyDisableCollision(ped, false)
-    SetEntityLoadCollisionFlag(ped, true, true)
-    SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, true)
-    ActivatePhysics(ped)
+    -- Fully stream the destination before moving the player. FiveM's spawnmanager
+    -- requests collision, but the full load-scene cycle is what prevents a remote
+    -- destination from appearing as an empty grey void.
+    SetFocusPosAndVel(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0)
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
 
-    local function requestSpawn()
-        exports.spawnmanager:spawnPlayer({
-            x = coords.x,
-            y = coords.y,
-            z = coords.z,
-            heading = coords.w or 0.0,
-            skipFade = true
-        }, function(spawn)
-            callbackData = spawn
-            completed = true
+    if NewLoadSceneStart then
+        pcall(function()
+            NewLoadSceneStart(coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 60.0, 0)
         end)
     end
 
-    local ok, err = pcall(requestSpawn)
-    if not ok then
-        print(('[qbx_spawn] spawnmanager:spawnPlayer failed: %s'):format(tostring(err)))
-        return false
-    end
+    local sceneDeadline = GetGameTimer() + 15000
+    while GetGameTimer() < sceneDeadline do
+        RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
 
-    local deadline = GetGameTimer() + 12000
-    while not completed and GetGameTimer() < deadline do
+        if NetworkUpdateLoadScene then
+            NetworkUpdateLoadScene()
+        end
+
+        if IsNewLoadSceneLoaded and IsNewLoadSceneLoaded() then
+            break
+        end
+
         Wait(0)
     end
 
-    if not completed then
-        print('[qbx_spawn] spawnmanager did not complete within 12 seconds')
-        return false
-    end
-
-    local ped = PlayerPedId()
-    SetEntityVisible(ped, true, false)
-    SetEntityAlpha(ped, 255, false)
-    ResetEntityAlpha(ped)
-    SetEntityCollision(ped, true, true)
+    -- Match the normal Qbox/FiveM spawn lifecycle.
+    SetPlayerControl(playerId, false, 0)
+    SetPlayerInvincible(playerId, true)
+    SetEntityVisible(ped, false, false)
+    SetEntityCollision(ped, false, false)
     SetEntityCompletelyDisableCollision(ped, false)
     SetEntityLoadCollisionFlag(ped, true, true)
     SetEntityHasGravity(ped, true)
-    SetEntityDynamic(ped, true)
+    SetEntityDynamic(ped, false)
     FreezeEntityPosition(ped, true)
-    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 
-    local collisionDeadline = GetGameTimer() + 5000
+    NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, true, false)
+
+    ped = PlayerPedId()
+    SetEntityVisible(ped, false, false)
+    SetEntityCollision(ped, false, false)
+    SetEntityCompletelyDisableCollision(ped, false)
+    SetEntityLoadCollisionFlag(ped, true, true)
+    SetEntityHasGravity(ped, true)
+    SetEntityDynamic(ped, false)
+    FreezeEntityPosition(ped, true)
+
+    local collisionDeadline = GetGameTimer() + 12000
+    local collisionReady = false
+
     while GetGameTimer() < collisionDeadline do
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
         RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
-        if HasCollisionLoadedAroundEntity(ped) then break end
+
+        if NetworkUpdateLoadScene then
+            NetworkUpdateLoadScene()
+        end
+
+        if HasCollisionLoadedAroundEntity(ped) then
+            collisionReady = true
+            break
+        end
+
         Wait(0)
     end
 
-    -- Keep the final player transform authoritative after spawnmanager completes.
-    SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z + 0.05, false, false, false)
-    SetEntityHeading(ped, coords.w or 0.0)
-    ActivatePhysics(ped)
+    if not collisionReady then
+        print(('[qbx_spawn] collision timeout at %.2f %.2f %.2f'):format(coords.x, coords.y, coords.z))
+        if NewLoadSceneStop then NewLoadSceneStop() end
+        ClearFocus()
+        SetPlayerInvincible(playerId, false)
+        return false
+    end
 
-    for _ = 1, 30 do
+    SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, false, false, false, true)
+    SetEntityHeading(ped, heading)
+    ClearPedTasksImmediately(ped)
+    RemoveAllPedWeapons(ped)
+    ClearPlayerWantedLevel(playerId)
+
+    -- Keep collision requests active through several physics frames before release.
+    for _ = 1, 120 do
         RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+        RequestAdditionalCollisionAtCoord(coords.x, coords.y, coords.z)
         SetEntityCollision(ped, true, true)
         SetEntityCompletelyDisableCollision(ped, false)
+        SetEntityLoadCollisionFlag(ped, true, true)
+        FreezeEntityPosition(ped, true)
         Wait(0)
     end
 
-    if callbackData and callbackData.x and callbackData.y and callbackData.z then
-        print(('[qbx_spawn] player spawned at %.2f %.2f %.2f'):format(callbackData.x, callbackData.y, callbackData.z))
-    end
+    SetEntityVisible(ped, true, false)
+    SetEntityAlpha(ped, 255, false)
+    ResetEntityAlpha(ped)
+    SetEntityHasGravity(ped, true)
+    SetEntityDynamic(ped, true)
+    ActivatePhysics(ped)
+    SetPlayerInvincible(playerId, false)
+
+    if NewLoadSceneStop then NewLoadSceneStop() end
+    ClearFocus()
 
     return true
 end
@@ -350,7 +383,7 @@ local function inputHandler()
                     Wait(1200)
                     spawned = true
                 else
-                    spawned = spawnWithSpawnmanager(spawnData)
+                    spawned = spawnAtDestination(spawnData)
                 end
 
                 if spawned then
