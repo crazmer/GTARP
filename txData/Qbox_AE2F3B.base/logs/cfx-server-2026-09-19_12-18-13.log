@@ -1,0 +1,264 @@
+[19-09-2026 12:18:13] [    info] [                ] Scanning resources
+[19-09-2026 12:18:13] [    info] [                ] Found 93 resources
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'pillbox' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'bob74_ipl' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'qbx_density' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'qbx_customs' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'qbx_properties' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'qbx_hud' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:13] [ warning] [                ] Resource 'ultra-voltlab' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:14] [ warning] [                ] Resource 'scully_emotemenu' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 12:18:14] [   error] [                ] sv_enforceGameBuild is used with an invalid value 3258. Only 1 is supported to remove any game dlcs.
+[19-09-2026 12:18:15] [    info] [         txadmin] ^5[txAdmin]^0 Resource v9.0.0-beta-646aba9a threads and commands set up. All Ready.^0
+[19-09-2026 12:18:15] [    info] [                ] Starting resource mapmanager
+[19-09-2026 12:18:15] [    info] [                ] Started resource mapmanager
+[19-09-2026 12:18:15] [    info] [                ] Starting resource spawnmanager
+[19-09-2026 12:18:15] [    info] [                ] Started resource spawnmanager
+[19-09-2026 12:18:15] [    info] [                ] Starting resource baseevents
+[19-09-2026 12:18:15] [    info] [                ] Started resource baseevents
+[19-09-2026 12:18:15] [    info] [                ] Starting resource ox_lib
+[19-09-2026 12:18:15] [    info] [                ] Started resource ox_lib
+[19-09-2026 12:18:15] [    info] [                ] Starting resource qbx_core
+[19-09-2026 12:18:15] [    info] [                ] Started resource qbx_core
+[19-09-2026 12:18:15] [    info] [                ] Starting resource ox_target
+[19-09-2026 12:18:15] [    info] [                ] Started resource ox_target
+[19-09-2026 12:18:15] [    info] [                ] Starting resource ox_doorlock
+[19-09-2026 12:18:15] [    info] [                ] Started resource ox_doorlock
+[19-09-2026 12:18:15] [    info] [                ] Starting resource ox_fuel
+[19-09-2026 12:18:16] [    info] [                ] Started resource ox_fuel
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_adminmenu
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_adminmenu
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_ambulancejob
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_ambulancejob
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_bankrobbery
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_bankrobbery
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_binoculars
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_binoculars
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_busjob
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_busjob
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_carwash
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_carwash
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_chat_theme
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_chat_theme
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_cityhall
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_cityhall
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_customs
+[19-09-2026 12:18:16] [   error] [                ] Rsc7 file stream/vehicle_paint_ramps.ytd in resource qbx_customs has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_customs
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_density
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_density
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_divegear
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_divegear
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_diving
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_diving
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_drugs
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_drugs
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_fireworks
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_fireworks
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_garages
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_garages
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_garbagejob
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_garbagejob
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_houserobbery
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_houserobbery
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_hud
+[19-09-2026 12:18:16] [   error] [                ] Rsc7 file stream/circlemap.ytd in resource qbx_hud has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:16] [   error] [                ] Rsc7 file stream/minimap.ytd in resource qbx_hud has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:16] [   error] [                ] Rsc7 file stream/squaremap.ytd in resource qbx_hud has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_hud
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_idcard
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_idcard
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_jewelery
+[19-09-2026 12:18:16] [    info] [                ] Started resource qbx_jewelery
+[19-09-2026 12:18:16] [    info] [                ] Starting resource qbx_lapraces
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_lapraces
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_management
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_management
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_mechanicjob
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_mechanicjob
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_newsjob
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_newsjob
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_pawnshop
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_pawnshop
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_police
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_police
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_properties
+[19-09-2026 12:18:17] [   error] [                ] Rsc7 file stream/auto_shop_board.ytd in resource qbx_properties has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:17] [   error] [                ] Rsc7 file stream/auto_shop_board_img.ytd in resource qbx_properties has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_properties
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_radialmenu
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_radialmenu
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_recyclejob
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_recyclejob
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_scoreboard
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_scoreboard
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_scrapyard
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_scrapyard
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_seatbelt
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_seatbelt
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_smallresources
+[19-09-2026 12:18:17] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_smallresources
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_spawn
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_spawn
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_storerobbery
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_storerobbery
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_streetraces
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_streetraces
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_taxijob
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_taxijob
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_towjob
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_towjob
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_truckerjob
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_truckerjob
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_truckrobbery
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_truckrobbery
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_vehiclekeys
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_vehiclekeys
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_vehicles
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_vehicles
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_vehiclesales
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_vehiclesales
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_vehicleshop
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_vehicleshop
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_vineyard
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_vineyard
+[19-09-2026 12:18:17] [    info] [                ] Starting resource qbx_weed
+[19-09-2026 12:18:17] [    info] [                ] Started resource qbx_weed
+[19-09-2026 12:18:17] [    info] [                ] Starting resource bob74_ipl
+[19-09-2026 12:18:17] [   error] [                ] Failed to start resource bob74_ipl. Error: Failed to generate cache for set: resource.rpf
+[19-09-2026 12:18:17] [    info] [                ] Starting resource illenium-appearance
+[19-09-2026 12:18:17] [    info] [                ] Started resource illenium-appearance
+[19-09-2026 12:18:17] [    info] [                ] Starting resource loadscreen
+[19-09-2026 12:18:18] [    info] [                ] Started resource loadscreen
+[19-09-2026 12:18:18] [    info] [                ] Starting resource mana_audio
+[19-09-2026 12:18:18] [    info] [                ] Started resource mana_audio
+[19-09-2026 12:18:18] [    info] [                ] Starting resource mhacking
+[19-09-2026 12:18:18] [    info] [                ] Started resource mhacking
+[19-09-2026 12:18:18] [    info] [                ] Starting resource Renewed-Banking
+[19-09-2026 12:18:18] [    info] [                ] Started resource Renewed-Banking
+[19-09-2026 12:18:18] [    info] [                ] Starting resource Renewed-Weathersync
+[19-09-2026 12:18:18] [    info] [                ] Started resource Renewed-Weathersync
+[19-09-2026 12:18:18] [    info] [                ] Starting resource safecracker
+[19-09-2026 12:18:18] [    info] [                ] Started resource safecracker
+[19-09-2026 12:18:18] [    info] [                ] Starting resource screencapture
+[19-09-2026 12:18:18] [    info] [                ] Started resource screencapture
+[19-09-2026 12:18:18] [    info] [                ] Starting resource scully_emotemenu
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/fgunpose@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/fmodelpose1@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/fmodelpose2@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/fmodelpose3@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/handinpocket@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/lookdown@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/mmodelpose1@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/perspective1@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/perspective2@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/sitonground1@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/stairpose1@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Animations]/[Sharror]/stairpose2@sharror.ycd in resource scully_emotemenu has version 80, expected 46. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_animal_fish002.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_cigarpack_cig001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_cigarpack_cig002.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_cigarpack_cig003.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_dessert_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_gingerbread_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_lollipop_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_lollipop_b.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_lollipop_c.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_lollipop_d.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_lollipop_e.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_macaroon_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_mug_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_mug_b.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_food_xmas_mulled_wine_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_foodpack_croissant001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_foodpack_donut001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_foodpack_donut002.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_cherry.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_chocolate.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_lemon.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_pistachio.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_raspberry.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_stracciatella.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_strawberry.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_icecream_walnut.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_murder_axe001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_murder_durex001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_murder_machete001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_pizzahut_box_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_pizzahut_box_a.ytd in resource scully_emotemenu has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_pizzahut_cup_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_pizzahut_cup_a.ytd in resource scully_emotemenu has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_pizzahut_menu_a.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_pizzahut_menu_a.ytd in resource scully_emotemenu has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_prop_gift_bonbonier.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_prop_gift_jewel.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_prop_gift_orange.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_prop_gift_purple.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[BzZzi]/bzzz_prop_torch_fire001.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[EP]/pprp_icefishing_augur.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[EP]/pprp_icefishing_box_01.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[EP]/pprp_icefishing_box_02.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop01.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop02.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop03.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop04.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop05.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spin01.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spin02.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spin03.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spin04.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spin05.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spiral01.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spiral02.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spiral03.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spiral04.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spiral05.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_lollipop_spiral06.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Natty3d]/natty_props_lollipops.ytd in resource scully_emotemenu has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Rockstar]/p_amb_brolly_01.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Rockstar]/p_cs_clipboard.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag1.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag2.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag3.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag4.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag5.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag6.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag7.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag8.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/lilprideflag9.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/pride_sign_01.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag1.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag2.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag3.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag4.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag5.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag6.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag7.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag8.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[SMGMissy]/prideflag9.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Sam]/prop_lspd_badge+hidr.ytd in resource scully_emotemenu has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Sam]/prop_lspd_badge.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Scully]/scully_blm.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Scully]/scully_boba.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Scully]/scully_boba2.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Scully]/scully_boba3.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Scully]/scully_pho.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Scully]/scully_spoon_pho.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/[Props]/[Ultrahacx]/ultra_ringcase.ydr in resource scully_emotemenu has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [    info] [                ] Started resource scully_emotemenu
+[19-09-2026 12:18:19] [    info] [                ] Starting resource ultra-voltlab
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/mpisland_voltage.ytd in resource ultra-voltlab has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [   error] [                ] Rsc7 file stream/mpisland_voltage_bg.ytd in resource ultra-voltlab has version 13, expected 5. Skipping cache generation for this file.
+[19-09-2026 12:18:19] [    info] [                ] Started resource ultra-voltlab
+[19-09-2026 12:18:19] [    info] [                ] Starting resource vehiclehandler
+[19-09-2026 12:18:19] [    info] [                ] Started resource vehiclehandler
+[19-09-2026 12:18:19] [    info] [                ] Starting resource xt-prison
+[19-09-2026 12:18:19] [   error] [                ] Command jail is already registered.
+[19-09-2026 12:18:19] [   error] [                ] Command unjail is already registered.
+[19-09-2026 12:18:19] [    info] [                ] Started resource xt-prison
+[19-09-2026 12:18:19] [    info] [                ] Starting resource mm_radio
+[19-09-2026 12:18:19] [    info] [                ] Started resource mm_radio
+[19-09-2026 12:18:19] [    info] [                ] Starting resource pillbox
+[19-09-2026 12:18:19] [ warning] [                ] svSync thread warning: timer interval of 237ms milliseconds
+[19-09-2026 12:18:20] [critical] [                ] The application has crashed!

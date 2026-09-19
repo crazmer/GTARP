@@ -1,0 +1,16 @@
+[
+  {
+    "$schema": 1,
+    "name": "NotAGirl",
+    "master": true,
+    "password_hash": "$2b$11$FMlECkOuJKuGts/YYuMR4e0iu9Tjmkfd1hf6aMWToOddl5Tiq8iLe",
+    "providers": {
+      "citizenfx": {
+        "id": "NotAGirl",
+        "identifier": "fivem:8084825",
+        "data": {}
+      }
+    },
+    "permissions": []
+  }
+]

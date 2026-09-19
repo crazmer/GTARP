@@ -1,0 +1,378 @@
+[19-09-2026 13:27:04] [    info] [                ] Scanning resources
+[19-09-2026 13:27:04] [    info] [                ] Found 92 resources
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'bob74_ipl' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'qbx_density' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'qbx_hud' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'qbx_properties' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'qbx_customs' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'ultra-voltlab' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [ warning] [                ] Resource 'scully_emotemenu' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:27:04] [   error] [                ] sv_enforceGameBuild is used with an invalid value 3258. Only 1 is supported to remove any game dlcs.
+[19-09-2026 13:27:05] [    info] [         txadmin] ^5[txAdmin]^0 Resource v9.0.0-beta-646aba9a threads and commands set up. All Ready.^0
+[19-09-2026 13:27:05] [    info] [                ] Starting resource mapmanager
+[19-09-2026 13:27:05] [    info] [                ] Started resource mapmanager
+[19-09-2026 13:27:05] [    info] [                ] Starting resource spawnmanager
+[19-09-2026 13:27:05] [    info] [                ] Started resource spawnmanager
+[19-09-2026 13:27:05] [    info] [                ] Starting resource baseevents
+[19-09-2026 13:27:05] [    info] [                ] Started resource baseevents
+[19-09-2026 13:27:05] [    info] [                ] Starting resource ox_lib
+[19-09-2026 13:27:05] [    info] [                ] Started resource ox_lib
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_core
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_core
+[19-09-2026 13:27:05] [    info] [                ] Starting resource ox_target
+[19-09-2026 13:27:05] [    info] [                ] Started resource ox_target
+[19-09-2026 13:27:05] [    info] [                ] Starting resource ox_doorlock
+[19-09-2026 13:27:05] [    info] [                ] Started resource ox_doorlock
+[19-09-2026 13:27:05] [    info] [                ] Starting resource ox_fuel
+[19-09-2026 13:27:05] [    info] [                ] Started resource ox_fuel
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_adminmenu
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_adminmenu
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_ambulancejob
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_ambulancejob
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_bankrobbery
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_bankrobbery
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_binoculars
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_binoculars
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_busjob
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_busjob
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_carwash
+[19-09-2026 13:27:05] [    info] [                ] Started resource qbx_carwash
+[19-09-2026 13:27:05] [    info] [                ] Starting resource qbx_chat_theme
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_chat_theme
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_cityhall
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_cityhall
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_customs
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_customs
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_density
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_density
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_divegear
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_divegear
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_diving
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_diving
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_drugs
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_drugs
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_fireworks
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_fireworks
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_garages
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_garages
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_garbagejob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_garbagejob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_houserobbery
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_houserobbery
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_hud
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_hud
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_idcard
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_idcard
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_jewelery
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_jewelery
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_lapraces
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_lapraces
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_management
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_management
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_mechanicjob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_mechanicjob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_newsjob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_newsjob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_pawnshop
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_pawnshop
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_police
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_police
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_properties
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_properties
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_radialmenu
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_radialmenu
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_recyclejob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_recyclejob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_scoreboard
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_scoreboard
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_scrapyard
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_scrapyard
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_seatbelt
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_seatbelt
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_smallresources
+[19-09-2026 13:27:06] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_smallresources
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_spawn
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_spawn
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_storerobbery
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_storerobbery
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_streetraces
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_streetraces
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_taxijob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_taxijob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_towjob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_towjob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_truckerjob
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_truckerjob
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_truckrobbery
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_truckrobbery
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_vehiclekeys
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_vehiclekeys
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_vehicles
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_vehicles
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_vehiclesales
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_vehiclesales
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_vehicleshop
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_vehicleshop
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_vineyard
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_vineyard
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_weed
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_weed
+[19-09-2026 13:27:06] [    info] [                ] Starting resource bob74_ipl
+[19-09-2026 13:27:06] [    info] [                ] Started resource bob74_ipl
+[19-09-2026 13:27:06] [    info] [                ] Starting resource illenium-appearance
+[19-09-2026 13:27:06] [    info] [                ] Started resource illenium-appearance
+[19-09-2026 13:27:06] [    info] [                ] Starting resource loadscreen
+[19-09-2026 13:27:06] [    info] [                ] Started resource loadscreen
+[19-09-2026 13:27:06] [    info] [                ] Starting resource mana_audio
+[19-09-2026 13:27:06] [    info] [                ] Started resource mana_audio
+[19-09-2026 13:27:06] [    info] [                ] Starting resource mhacking
+[19-09-2026 13:27:06] [    info] [                ] Started resource mhacking
+[19-09-2026 13:27:06] [    info] [                ] Starting resource Renewed-Banking
+[19-09-2026 13:27:06] [    info] [                ] Started resource Renewed-Banking
+[19-09-2026 13:27:06] [    info] [                ] Starting resource Renewed-Weathersync
+[19-09-2026 13:27:06] [    info] [                ] Started resource Renewed-Weathersync
+[19-09-2026 13:27:06] [    info] [                ] Starting resource safecracker
+[19-09-2026 13:27:06] [    info] [                ] Started resource safecracker
+[19-09-2026 13:27:06] [    info] [                ] Starting resource screencapture
+[19-09-2026 13:27:06] [    info] [                ] Started resource screencapture
+[19-09-2026 13:27:06] [    info] [                ] Starting resource scully_emotemenu
+[19-09-2026 13:27:06] [    info] [                ] Started resource scully_emotemenu
+[19-09-2026 13:27:06] [    info] [                ] Starting resource ultra-voltlab
+[19-09-2026 13:27:06] [    info] [                ] Started resource ultra-voltlab
+[19-09-2026 13:27:06] [    info] [                ] Starting resource vehiclehandler
+[19-09-2026 13:27:06] [    info] [                ] Started resource vehiclehandler
+[19-09-2026 13:27:06] [    info] [                ] Starting resource xt-prison
+[19-09-2026 13:27:06] [   error] [                ] Command jail is already registered.
+[19-09-2026 13:27:06] [   error] [                ] Command unjail is already registered.
+[19-09-2026 13:27:06] [    info] [                ] Started resource xt-prison
+[19-09-2026 13:27:06] [    info] [                ] Starting resource mm_radio
+[19-09-2026 13:27:06] [    info] [                ] Started resource mm_radio
+[19-09-2026 13:27:06] [   error] [                ] No resources found for category [assets]
+[19-09-2026 13:27:06] [    info] [                ] Starting resource npwd_qbx_garages
+[19-09-2026 13:27:06] [    info] [                ] Started resource npwd_qbx_garages
+[19-09-2026 13:27:06] [    info] [                ] Starting resource npwd_qbx_mail
+[19-09-2026 13:27:06] [    info] [                ] Started resource npwd_qbx_mail
+[19-09-2026 13:27:06] [    info] [                ] Starting resource qbx_npwd
+[19-09-2026 13:27:06] [    info] [                ] Started resource qbx_npwd
+[19-09-2026 13:27:06] [    info] [                ] Starting resource npwd
+[19-09-2026 13:27:07] [    info] [                ] Started resource npwd
+[19-09-2026 13:27:08] [ warning] [              js] Unhandled promise rejection in resource npwd
+[19-09-2026 13:27:08] [ warning] [              js] Uncaught Error: Driver not found.
+dist/game/server/server.js(5138,130): getDriver
+dist/game/server/server.js(5199,28): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[19-09-2026 13:27:08] [ warning] [              js] Unhandled promise rejection in resource npwd
+[19-09-2026 13:27:08] [ warning] [              js] Uncaught Error: Driver not found.
+dist/game/server/server.js(5138,130): getDriver
+dist/game/server/server.js(5199,28): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[19-09-2026 13:27:08] [ warning] [              js] Unhandled promise rejection in resource npwd
+[19-09-2026 13:27:08] [ warning] [              js] Uncaught Error: No available storage method found.
+dist/game/server/server.js(5207,27): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[19-09-2026 13:27:08] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:27:09] [ warning] [                ] ScheduleResourceTick: This native is deprecated. Script resources in FiveM for GTAV Enhanced are running on the same tick rate as the server main tick.
+[19-09-2026 13:27:09] [    info] [         oxmysql] ^5[12.3.3-MariaDB] ^2Database server connection established!^0
+[19-09-2026 13:27:09] [    info] [        qbx_core] ^7
+^4Welcome to ^3Qbox^4!
+To learn more, please check out the documentation at ^5https://docs.qbox.re/^4.
+To turn this message off, set the ^3qbx:acknowledge^4 convar to true in your server.cfg file.^7
+^7
+[19-09-2026 13:27:09] [    info] [       xt-prison] ^5[xt-prison] ^7[INFO] Initializing Table: ^5xt_prison^0^7
+[19-09-2026 13:27:09] [    info] [       xt-prison] ^5[xt-prison] ^7[INFO] Initializing Table: ^5xt_prison_items^0^7
+[19-09-2026 13:27:09] [    info] [        qbx_core] ^5[qbx_core] ^7[INFO] Removed invalid groups from player_groups table^7
+[19-09-2026 13:27:09] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Inventory has loaded 301 items^7
+[19-09-2026 13:27:09] [    info] [scully_emotemenu] [38;2;46;164;247m[scully_emotemenu]^7 You are currently running the latest version.^7
+[19-09-2026 13:27:39] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:28:09] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:31:40] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:32:10] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:32:41] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:33:11] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:33:41] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:34:11] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:34:42] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:35:12] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:35:42] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:36:13] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:36:43] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:37:13] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:40:44] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:41:15] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.5.33:50220->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.5.33:50244->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:41:45] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.5.33:50220->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.5.33:50244->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:42:15] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.5.33:50220->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.5.33:50244->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:42:45] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.5.33:50220->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.5.33:50244->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:43:16] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:43:46] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:44:17] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:44:47] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:45:17] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:45:47] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:46:18] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:46:48] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:47:18] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:47:49] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:48:19] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:51:49] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:52:20] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:52:50] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:53:20] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:53:51] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:54:21] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:54:52] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:55:22] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:58:52] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:59:23] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:59:53] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:00:23] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:00:54] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:01:24] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.4.128:54898->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:01:54] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.4.128:54898->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:02:24] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.4.128:54898->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:11:56] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.5.33:56478->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.5.33:56446->171.76.85.36:30120: read: connection reset by peer)
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": read tcp 10.0.5.33:56462->171.76.85.36:30120: read: connection reset by peer).
+[19-09-2026 14:12:26] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:12:56] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:13:27] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:13:57] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:14:27] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.20.46:41876->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:14:58] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.20.46:41876->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:15:28] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.20.46:41876->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:15:58] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.20.46:41876->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:16:28] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.4.128:41214->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:16:59] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.4.128:41214->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:17:29] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.4.128:41214->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:17:59] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.4.128:41214->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:18:30] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.12.120:56530->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.12.120:56536->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:19:00] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.12.120:56530->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.12.120:56536->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:19:30] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": read tcp 10.0.12.120:56530->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.12.120:56536->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 14:19:33] [    info] [         txadmin] ^5[txAdmin]^0 Server shutting down. Kicking all players.^0

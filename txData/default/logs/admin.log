@@ -1,0 +1,36 @@
+================================================================
+======== txAdmin v9.0.0-beta-646aba9a atop fxserver 139 Starting - 19/9/2026, 12:08:40 pm
+================================================================
+[12:09:35][NotAGirl] created admins file
+[12:14:17][NotAGirl] Config changes: general.serverName
+[12:14:17][NotAGirl] Changing global settings via setup stepper and started Deployer.
+[12:15:38][NotAGirl] Setting recipe.
+[12:15:38][NotAGirl] Setting recipe.
+[12:16:18][NotAGirl] Running recipe.
+[12:18:12][NotAGirl] Config changes: server.dataPath
+[12:18:12][NotAGirl] Completed and committed server deploy.
+[12:18:20][MONITOR] Restarting server: Server process close detected.
+[12:18:25][MONITOR] Restarting server: Server process close detected.
+[12:18:30][MONITOR] Restarting server: Server process close detected.
+[12:18:35][MONITOR] Restarting server: Server process close detected.
+[12:18:38][NotAGirl] executed "STOP SERVER"
+[12:18:40][MONITOR] Restarting server: Server process close detected.
+[12:19:03][NotAGirl] executed "START SERVER"
+================================================================
+======== txAdmin v9.0.0-beta-646aba9a atop fxserver 139 Starting - 19/9/2026, 12:34:27 pm
+================================================================
+[12:35:18][NotAGirl] logged in from 127.0.0.1 via cfxre auth
+[12:39:19][NotAGirl] Ensured resource "npwd"
+[12:39:32][NotAGirl] executed "RESTART SERVER"
+[12:41:09][NotAGirl] executed "STOP SERVER"
+[12:41:29][NotAGirl] executed "START SERVER"
+[12:41:50][NotAGirl] Refreshed resources
+[12:41:50][NotAGirl] Refreshed resources
+[12:41:52][NotAGirl] Refreshed resources
+[12:41:52][NotAGirl] Refreshed resources
+[12:41:53][NotAGirl] Refreshed resources
+[12:41:53][NotAGirl] Refreshed resources
+[13:02:48][NotAGirl] executed "STOP SERVER"
+[13:04:00][NotAGirl] executed "START SERVER"
+[13:26:57][NotAGirl] executed "RESTART SERVER"
+[14:19:33][NotAGirl] executed "STOP SERVER"

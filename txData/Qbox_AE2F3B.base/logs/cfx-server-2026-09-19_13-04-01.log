@@ -1,0 +1,293 @@
+[19-09-2026 13:04:01] [    info] [                ] Scanning resources
+[19-09-2026 13:04:01] [    info] [                ] Found 92 resources
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'bob74_ipl' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'qbx_density' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'qbx_hud' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'qbx_properties' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'qbx_customs' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'ultra-voltlab' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [ warning] [                ] Resource 'scully_emotemenu' uses the deprecated 'stream/' folder. Please rename it to 'stream_enhanced/' for future compatibility.
+[19-09-2026 13:04:01] [   error] [                ] sv_enforceGameBuild is used with an invalid value 3258. Only 1 is supported to remove any game dlcs.
+[19-09-2026 13:04:02] [    info] [         txadmin] ^5[txAdmin]^0 Resource v9.0.0-beta-646aba9a threads and commands set up. All Ready.^0
+[19-09-2026 13:04:02] [    info] [                ] Starting resource mapmanager
+[19-09-2026 13:04:02] [    info] [                ] Started resource mapmanager
+[19-09-2026 13:04:02] [    info] [                ] Starting resource spawnmanager
+[19-09-2026 13:04:02] [    info] [                ] Started resource spawnmanager
+[19-09-2026 13:04:02] [    info] [                ] Starting resource baseevents
+[19-09-2026 13:04:02] [    info] [                ] Started resource baseevents
+[19-09-2026 13:04:02] [    info] [                ] Starting resource ox_lib
+[19-09-2026 13:04:02] [    info] [                ] Started resource ox_lib
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_core
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_core
+[19-09-2026 13:04:02] [    info] [                ] Starting resource ox_target
+[19-09-2026 13:04:02] [    info] [                ] Started resource ox_target
+[19-09-2026 13:04:02] [    info] [                ] Starting resource ox_doorlock
+[19-09-2026 13:04:02] [    info] [                ] Started resource ox_doorlock
+[19-09-2026 13:04:02] [    info] [                ] Starting resource ox_fuel
+[19-09-2026 13:04:02] [    info] [                ] Started resource ox_fuel
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_adminmenu
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_adminmenu
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_ambulancejob
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_ambulancejob
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_bankrobbery
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_bankrobbery
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_binoculars
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_binoculars
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_busjob
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_busjob
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_carwash
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_carwash
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_chat_theme
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_chat_theme
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_cityhall
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_cityhall
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_customs
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_customs
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_density
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_density
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_divegear
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_divegear
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_diving
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_diving
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_drugs
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_drugs
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_fireworks
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_fireworks
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_garages
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_garages
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_garbagejob
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_garbagejob
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_houserobbery
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_houserobbery
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_hud
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_hud
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_idcard
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_idcard
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_jewelery
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_jewelery
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_lapraces
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_lapraces
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_management
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_management
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_mechanicjob
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_mechanicjob
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_newsjob
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_newsjob
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_pawnshop
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_pawnshop
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_police
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_police
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_properties
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_properties
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_radialmenu
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_radialmenu
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_recyclejob
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_recyclejob
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_scoreboard
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_scoreboard
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_scrapyard
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_scrapyard
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_seatbelt
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_seatbelt
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_smallresources
+[19-09-2026 13:04:02] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_smallresources
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_spawn
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_spawn
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_storerobbery
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_storerobbery
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_streetraces
+[19-09-2026 13:04:02] [    info] [                ] Started resource qbx_streetraces
+[19-09-2026 13:04:02] [    info] [                ] Starting resource qbx_taxijob
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_taxijob
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_towjob
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_towjob
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_truckerjob
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_truckerjob
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_truckrobbery
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_truckrobbery
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_vehiclekeys
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_vehiclekeys
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_vehicles
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_vehicles
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_vehiclesales
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_vehiclesales
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_vehicleshop
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_vehicleshop
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_vineyard
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_vineyard
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_weed
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_weed
+[19-09-2026 13:04:03] [    info] [                ] Starting resource bob74_ipl
+[19-09-2026 13:04:03] [   error] [                ] Rsc7 file stream/prop_palm_fan_04_d.ydr in resource bob74_ipl has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 13:04:03] [   error] [                ] Rsc7 file stream/v_24_lgb_mesh_sofa_old.ydr in resource bob74_ipl has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 13:04:03] [   error] [                ] Rsc7 file stream/v_24_llga_mesh_coffeetable_old.ydr in resource bob74_ipl has version 165, expected 159. Skipping cache generation for this file.
+[19-09-2026 13:04:03] [    info] [                ] Started resource bob74_ipl
+[19-09-2026 13:04:03] [    info] [                ] Starting resource illenium-appearance
+[19-09-2026 13:04:03] [    info] [                ] Started resource illenium-appearance
+[19-09-2026 13:04:03] [    info] [                ] Starting resource loadscreen
+[19-09-2026 13:04:03] [    info] [                ] Started resource loadscreen
+[19-09-2026 13:04:03] [    info] [                ] Starting resource mana_audio
+[19-09-2026 13:04:03] [    info] [                ] Started resource mana_audio
+[19-09-2026 13:04:03] [    info] [                ] Starting resource mhacking
+[19-09-2026 13:04:03] [    info] [                ] Started resource mhacking
+[19-09-2026 13:04:03] [    info] [                ] Starting resource Renewed-Banking
+[19-09-2026 13:04:03] [    info] [                ] Started resource Renewed-Banking
+[19-09-2026 13:04:03] [    info] [                ] Starting resource Renewed-Weathersync
+[19-09-2026 13:04:03] [    info] [                ] Started resource Renewed-Weathersync
+[19-09-2026 13:04:03] [    info] [                ] Starting resource safecracker
+[19-09-2026 13:04:03] [    info] [                ] Started resource safecracker
+[19-09-2026 13:04:03] [    info] [                ] Starting resource screencapture
+[19-09-2026 13:04:03] [    info] [                ] Started resource screencapture
+[19-09-2026 13:04:03] [    info] [                ] Starting resource scully_emotemenu
+[19-09-2026 13:04:03] [    info] [                ] Started resource scully_emotemenu
+[19-09-2026 13:04:03] [    info] [                ] Starting resource ultra-voltlab
+[19-09-2026 13:04:03] [    info] [                ] Started resource ultra-voltlab
+[19-09-2026 13:04:03] [    info] [                ] Starting resource vehiclehandler
+[19-09-2026 13:04:03] [    info] [                ] Started resource vehiclehandler
+[19-09-2026 13:04:03] [    info] [                ] Starting resource xt-prison
+[19-09-2026 13:04:03] [   error] [                ] Command jail is already registered.
+[19-09-2026 13:04:03] [   error] [                ] Command unjail is already registered.
+[19-09-2026 13:04:03] [    info] [                ] Started resource xt-prison
+[19-09-2026 13:04:03] [    info] [                ] Starting resource mm_radio
+[19-09-2026 13:04:03] [    info] [                ] Started resource mm_radio
+[19-09-2026 13:04:03] [   error] [                ] No resources found for category [assets]
+[19-09-2026 13:04:03] [    info] [                ] Starting resource npwd_qbx_garages
+[19-09-2026 13:04:03] [    info] [                ] Started resource npwd_qbx_garages
+[19-09-2026 13:04:03] [    info] [                ] Starting resource npwd_qbx_mail
+[19-09-2026 13:04:03] [    info] [                ] Started resource npwd_qbx_mail
+[19-09-2026 13:04:03] [    info] [                ] Starting resource qbx_npwd
+[19-09-2026 13:04:03] [    info] [                ] Started resource qbx_npwd
+[19-09-2026 13:04:03] [    info] [                ] Starting resource npwd
+[19-09-2026 13:04:03] [    info] [                ] Started resource npwd
+[19-09-2026 13:04:04] [ warning] [              js] Unhandled promise rejection in resource npwd
+[19-09-2026 13:04:04] [ warning] [              js] Uncaught Error: Driver not found.
+dist/game/server/server.js(5138,130): getDriver
+dist/game/server/server.js(5199,28): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[19-09-2026 13:04:04] [ warning] [              js] Unhandled promise rejection in resource npwd
+[19-09-2026 13:04:04] [ warning] [              js] Uncaught Error: Driver not found.
+dist/game/server/server.js(5138,130): getDriver
+dist/game/server/server.js(5199,28): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[19-09-2026 13:04:04] [ warning] [              js] Unhandled promise rejection in resource npwd
+[19-09-2026 13:04:04] [ warning] [              js] Uncaught Error: No available storage method found.
+dist/game/server/server.js(5207,27): 
+node:internal/process/task_queues(104,5): processTicksAndRejections
+
+[19-09-2026 13:04:04] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.6.196:43936->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": read tcp 10.0.6.196:43934->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:04:05] [ warning] [                ] ScheduleResourceTick: This native is deprecated. Script resources in FiveM for GTAV Enhanced are running on the same tick rate as the server main tick.
+[19-09-2026 13:04:05] [    info] [         oxmysql] ^5[12.3.3-MariaDB] ^2Database server connection established!^0
+[19-09-2026 13:04:05] [    info] [       xt-prison] ^5[xt-prison] ^7[INFO] Initializing Table: ^5xt_prison^0^7
+[19-09-2026 13:04:05] [    info] [        qbx_core] ^7
+^4Welcome to ^3Qbox^4!
+To learn more, please check out the documentation at ^5https://docs.qbox.re/^4.
+To turn this message off, set the ^3qbx:acknowledge^4 convar to true in your server.cfg file.^7
+^7
+[19-09-2026 13:04:05] [    info] [       xt-prison] ^5[xt-prison] ^7[INFO] Initializing Table: ^5xt_prison_items^0^7
+[19-09-2026 13:04:05] [    info] [        qbx_core] ^5[qbx_core] ^7[INFO] Removed invalid groups from player_groups table^7
+[19-09-2026 13:04:05] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Inventory has loaded 301 items^7
+[19-09-2026 13:04:05] [    info] [scully_emotemenu] [38;2;46;164;247m[scully_emotemenu]^7 You are currently running the latest version.^7
+[19-09-2026 13:04:34] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.6.196:43936->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": read tcp 10.0.6.196:43934->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:07:18] [    info] [         txadmin] ^5[txAdmin]^0 Sending resources list to txAdmin.^0
+[19-09-2026 13:07:18] [    info] [         txadmin] ^5[txAdmin]^0 Sending resources list to txAdmin.^0
+[19-09-2026 13:08:05] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:08:35] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:09:06] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:09:36] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:14:02] [    info] [        qbx_core] ^5[qbx_core] ^7[INFO] NotAGirl has created a character^7
+[19-09-2026 13:15:00] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Saving 1 inventories to the database^7
+[19-09-2026 13:15:00] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Saved 1/1 players (31.3199 ms)^7
+[19-09-2026 13:16:06] [critical] [ qbx_vehicleshop] @qbx_core/modules/lib.lua:383: unable to successfully spawn vehicle after 3 attempts
+^3> error^5
+^3> spawnVehicle^5 (qbx_core/modules/lib.lua:383)
+^3> SpawnVehicle^5 (qbx_vehicleshop/server/utils.lua:106)
+^3> [global chunk]^5 (qbx_vehicleshop/server/main.lua:147)
+
+[19-09-2026 13:19:07] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:19:38] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:19:38] [   error] [                ] Failed to ensure resource qbx_core ensure qbx_smallresources. Error: Resource "qbx_core ensure qbx_smallresources" not found
+[19-09-2026 13:19:45] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[19-09-2026 13:19:45] [    info] [        qbx_core] ^5[qbx_core] ^7[INFO] Removed invalid groups from player_groups table^7
+[19-09-2026 13:19:46] [    info] [        qbx_core] ^7
+^4Welcome to ^3Qbox^4!
+To learn more, please check out the documentation at ^5https://docs.qbox.re/^4.
+To turn this message off, set the ^3qbx:acknowledge^4 convar to true in your server.cfg file.^7
+^7
+[19-09-2026 13:20:00] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Saving 1 inventories to the database^7
+[19-09-2026 13:20:00] [    info] [    ox_inventory] ^5[ox_inventory] ^7[INFO] Saved 1/1 players (31.3695 ms)^7
+[19-09-2026 13:20:07] [    info] [        qbx_core] ^5[qbx_core] ^7[INFO] NotAGirl (Citizen ID: BMQPT04O ID: 1) has successfully loaded!^7
+[19-09-2026 13:20:07] [    info] [    ox_inventory] attempted to load active player's inventory a secondary time
+^3> Trace^5
+^3> [global chunk]^5 (scheduler.lua:375)
+^3> [global chunk]^5
+^3> pcall^5
+^3> nonpromisecb^5 (deferred.lua:76)
+^3> promise^5 (deferred.lua:57)
+^3> fire^5 (deferred.lua:66)
+^3> [global chunk]^5 (deferred.lua:112)
+^3> finish^5 (deferred.lua:22)
+^3> nonpromisecb^5 (deferred.lua:102)
+^3> promise^5 (deferred.lua:57)
+^3> nonpromisecb^5 (deferred.lua:97)
+^3> promise^5 (deferred.lua:57)
+^3> fire^5 (deferred.lua:66)
+^3> [global chunk]^5 (deferred.lua:112)
+^3> func^5 (oxmysql/lib/MySQL.lua:23)
+^3> [global chunk]^5 (scheduler.lua:365)
+^3> pcall^5
+^3> [global chunk]^5 (scheduler.lua:364)
+^3> CreateThreadNow^5
+^3> [global chunk]^5 (scheduler.lua:363)
+
+[19-09-2026 13:20:08] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:20:23] [critical] [ qbx_vehicleshop] @qbx_core/modules/lib.lua:383: unable to successfully spawn vehicle after 3 attempts
+^3> error^5
+^3> spawnVehicle^5 (qbx_core/modules/lib.lua:383)
+^3> SpawnVehicle^5 (qbx_vehicleshop/server/utils.lua:106)
+^3> [global chunk]^5 (qbx_vehicleshop/server/main.lua:147)
+
+[19-09-2026 13:20:38] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:21:11] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[19-09-2026 13:21:20] [    info] [qbx_smallresources] ^5[qbx_smallresources] ^3[WARN] [qbx_entitiesblacklist] You have entity blacklist enabled, this means that any entity that is blacklisted in config.lua will not be able to spawn, you can change this in qbx_smallresource/qbx_entitiesblacklist/config.lua^7
+[19-09-2026 13:24:09] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": read tcp 10.0.20.46:37796->171.76.85.36:30120: read: connection reset by peer (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:24:39] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:25:10] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:25:40] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:26:10] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:26:40] [   error] [                ] Server list query returned an error: server request failed: server request failed for endpoint https://171.76.85.36:30120/info.json (Get "https://171.76.85.36:30120/info.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/dynamic.json (Get "https://171.76.85.36:30120/dynamic.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers))
+server request failed: server request failed for endpoint https://171.76.85.36:30120/players.json (Get "https://171.76.85.36:30120/players.json": context deadline exceeded (Client.Timeout exceeded while awaiting headers)).
+[19-09-2026 13:26:57] [    info] [         txadmin] ^5[txAdmin]^0 Server shutting down. Kicking all players.^0

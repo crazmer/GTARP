@@ -1,0 +1,10 @@
+### 2026-09-19 12:39:19.643
+ensure "npwd"
+### 2026-09-19 12:41:53.663
+refresh 
+### 2026-09-19 13:07:18.317
+txaReportResources 
+### 2026-09-19 13:26:57.757
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server restarting (admin request).\"}"
+### 2026-09-19 14:19:33.131
+txaEvent "serverShuttingDown" "{\"delay\":5000,\"author\":\"NotAGirl\",\"message\":\"Server shutting down (admin request).\"}"
