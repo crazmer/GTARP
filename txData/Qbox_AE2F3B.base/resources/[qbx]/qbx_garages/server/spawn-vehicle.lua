@@ -139,7 +139,13 @@ lib.callback.register('qbx_garages:server:spawnVehicle', function (source, vehic
             end
         end
     
-        TriggerClientEvent('vehiclekeys:client:SetOwner', source, playerVehicle.props.plate)
+        -- Garage vehicles are spawned server-side. Grant their keys through the
+        -- trusted qbx_vehiclekeys server export instead of the legacy client bridge.
+        if GetResourceState('qbx_vehiclekeys') == 'started' then
+            exports.qbx_vehiclekeys:GiveKeys(source, veh, true)
+        else
+            TriggerClientEvent('vehiclekeys:client:SetOwner', source, playerVehicle.props.plate)
+        end
     
         Entity(veh).state:set('vehicleid', vehicleId, false)
         setVehicleStateToOut(vehicleId, veh, playerVehicle.modelName)
