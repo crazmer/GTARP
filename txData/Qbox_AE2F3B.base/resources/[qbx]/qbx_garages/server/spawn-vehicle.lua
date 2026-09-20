@@ -102,8 +102,17 @@ lib.callback.register('qbx_garages:server:spawnVehicle', function (source, vehic
             exports.qbx_core:Notify(source, locale('error.not_owned'), 'error')
             return
         end
-        if garageType == GarageType.DEPOT and FindPlateOnServer(playerVehicle.props.plate) then -- If depot, check if vehicle is not already spawned on the map
-            return exports.qbx_core:Notify(source, locale('error.not_impound'), 'error')
+
+        -- Guard against a second request after the first vehicle has already
+        -- been created but before its database state is saved as OUT.
+        local vehicleAlreadySpawned = FindPlateOnServer(playerVehicle.props.plate)
+        if vehicleAlreadySpawned then
+            if garageType == GarageType.DEPOT then
+                return exports.qbx_core:Notify(source, locale('error.not_impound'), 'error')
+            end
+
+            exports.qbx_core:Notify(source, locale('spawn_in_progress'), 'error')
+            return
         end
     
         if garageType == GarageType.DEPOT and playerVehicle.depotPrice then
