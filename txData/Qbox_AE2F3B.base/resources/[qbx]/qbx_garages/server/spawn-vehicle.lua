@@ -139,15 +139,32 @@ lib.callback.register('qbx_garages:server:spawnVehicle', function (source, vehic
             end
         end
     
-        -- Garage vehicles are spawned server-side. Grant their keys through the
-        -- trusted qbx_vehiclekeys server export instead of the legacy client bridge.
+        -- Establish the Qbox session id before granting keys. qbx_vehiclekeys
+        -- stores ownership by sessionId, so this must exist before the key state is
+        -- written to the player's keysList.
+        exports.qbx_core:CreateSessionId(veh)
+        Entity(veh).state:set('vehicleid', vehicleId, false)
+
         if GetResourceState('qbx_vehiclekeys') == 'started' then
             exports.qbx_vehiclekeys:GiveKeys(source, veh, true)
+
+            -- The vehicle entity is created server-side. On some OneSync timing
+            -- paths its statebag may not be fully initialized on the first tick.
+            -- Retry the trusted server export briefly without creating a second
+            -- vehicle or using the proximity-checked client bridge.
+            CreateThread(function()
+                for _ = 1, 10 do
+                    Wait(250)
+                    if not DoesEntityExist(veh) then return end
+                    if exports.qbx_vehiclekeys:GiveKeys(source, veh, true) then
+                        return
+                    end
+                end
+            end)
         else
             TriggerClientEvent('vehiclekeys:client:SetOwner', source, playerVehicle.props.plate)
         end
-    
-        Entity(veh).state:set('vehicleid', vehicleId, false)
+
         setVehicleStateToOut(vehicleId, veh, playerVehicle.modelName)
         TriggerEvent('qbx_garages:server:vehicleSpawned', veh)
         result = netId
