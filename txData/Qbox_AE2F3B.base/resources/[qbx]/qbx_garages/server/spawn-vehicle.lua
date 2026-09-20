@@ -144,7 +144,6 @@ lib.callback.register('qbx_garages:server:spawnVehicle', function (source, vehic
         Entity(veh).state:set('vehicleid', vehicleId, false)
         setVehicleStateToOut(vehicleId, veh, playerVehicle.modelName)
         TriggerEvent('qbx_garages:server:vehicleSpawned', veh)
-        return netId
         result = netId
     end, debug.traceback)
 
