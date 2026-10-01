@@ -11,7 +11,7 @@
           "CitizenFX.Base": "1.0.0",
           "CitizenFX.Bootstrap": "1.0.0",
           "Mono.Cecil": "0.11.6",
-          "CasCore": "0.2.1.0",
+          "CasCore": "0.3.0.0",
           "JitIlVerification": "0.1.4.0"
         },
         "runtime": {
@@ -85,11 +85,11 @@
           }
         }
       },
-      "CasCore/0.2.1.0": {
+      "CasCore/0.3.0.0": {
         "runtime": {
           "CasCore.dll": {
-            "assemblyVersion": "0.2.1.0",
-            "fileVersion": "0.2.1.0"
+            "assemblyVersion": "0.3.0.0",
+            "fileVersion": "0.3.0.0"
           }
         }
       },
@@ -147,7 +147,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "CasCore/0.2.1.0": {
+    "CasCore/0.3.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
