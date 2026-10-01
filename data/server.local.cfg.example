@@ -1,0 +1,7 @@
+# Copy this file to:
+# H:\GTARP\data\server.local.cfg
+#
+# Put your private Cfx.re license key here.
+# NEVER commit server.local.cfg to GitHub.
+
+sv_licenseKey "REPLACE_WITH_YOUR_ROTATED_CFX_LICENSE_KEY"
