@@ -45,10 +45,10 @@ local function notify(message, notifyType)
     return true
 end
 
-exports('GetFramework', function() return framework end)
+exports('GetFramework', function()\n    detectFramework()\n    return framework\nend)\n\nexports('HasResource', function(resourceName)\n    return resourceName and GetResourceState(resourceName) == 'started'\nend)
 exports('Notify', notify)
 
-RegisterNetEvent('botrp:bridge:notify', function(message, notifyType)
+AddEventHandler('onClientResourceStart', function(resourceName)\n    if resourceName == 'qbx_core' or resourceName == 'qb-core' then\n        detectFramework()\n    end\nend)\n\nRegisterNetEvent('botrp:bridge:notify', function(message, notifyType)
     notify(message, notifyType)
 end)
 
