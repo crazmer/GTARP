@@ -37,6 +37,18 @@ local function savePlayers()
 end
 
 local function getPlayerData(identifier)
+    if not players[identifier] then
+        local ok, legacy = pcall(function()
+            return exports.botrp_core:GetLegacyPlayerData(identifier)
+        end)
+
+        if ok and legacy and type(legacy.characters) == 'table' then
+            players[identifier] = { characters = legacy.characters }
+            log(('Migrated %d legacy character(s) for %s'):format(#legacy.characters, identifier))
+            savePlayers()
+        end
+    end
+
     players[identifier] = players[identifier] or { characters = {} }
     players[identifier].characters = players[identifier].characters or {}
     return players[identifier]
