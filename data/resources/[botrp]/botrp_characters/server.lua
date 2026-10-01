@@ -10,7 +10,7 @@ local function loadPlayers()
 
     if not raw or raw == '' then
         players = {}
-        SaveResourceFile(GetCurrentResourceName(), BotRPCharactersConfig.StorageFile, '{}\\n', -1)
+        SaveResourceFile(GetCurrentResourceName(), BotRPCharactersConfig.StorageFile, '{}\n', -1)
         return
     end
 
