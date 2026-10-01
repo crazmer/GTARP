@@ -2,18 +2,10 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'BotRP Development Team'
-description 'BotRP Core Framework'
-version '0.3.0'
+description 'BotRP lightweight session/core services'
+version '1.0.0'
 
-shared_script 'config.lua'
+dependency 'botrp_bridge'
 
-ui_page 'web/index.html'
-
-files {
-    'web/index.html',
-    'web/style.css',
-    'web/app.js'
-}
-
-client_script 'client.lua'
 server_script 'server.lua'
+client_script 'client.lua'
