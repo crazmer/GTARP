@@ -33,9 +33,12 @@ CreateThread(function()
 
     SetModelAsNoLongerNeeded(model)
 
+    -- Freemode peds need a valid component variation before they render reliably.
     Wait(500)
 
     local ped = PlayerPedId()
+    SetPedDefaultComponentVariation(ped)
+    ClearPedBloodDamage(ped)
 
     -- Make absolutely sure the ped is visible
     SetEntityVisible(ped, true, false)
