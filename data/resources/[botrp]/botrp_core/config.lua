@@ -1,6 +1,6 @@
 BotRPConfig = {}
 
-BotRPConfig.Version = '0.2.0'
+BotRPConfig.Version = '0.3.0'
 
 BotRPConfig.Character = {
     MaxCharacters = 3,
