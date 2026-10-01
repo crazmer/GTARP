@@ -17,7 +17,7 @@ local function loadModel(modelName)
     local timeout = 0
     while not HasModelLoaded(model) and timeout < 100 do
         Wait(100)
-        timeout += 1
+        timeout = timeout + 1
     end
 
     if not HasModelLoaded(model) then
