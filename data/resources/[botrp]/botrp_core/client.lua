@@ -161,17 +161,16 @@ RegisterNetEvent('botrp:client:sessionReady', function(data)
         notify(('Welcome back, %s.'):format(GetPlayerName(PlayerId()) or 'Player'))
     end
 
+    -- Keep the player controlled by the character UI until a real
+    -- character is selected. Do not spawn a temporary development ped.
+    local ped = PlayerPedId()
+
+    SetPlayerControl(PlayerId(), false, 0)
+    FreezeEntityPosition(ped, true)
+    SetEntityVisible(ped, false, false)
+    SetEntityAlpha(ped, 0, false)
+
     openCharacterUI(data.characters)
-
-    if not spawned then
-        local tempCharacter = {
-            firstName = 'Development',
-            lastName = 'Player',
-            model = BotRPConfig.Character.DefaultModel
-        }
-
-        spawnCharacter(tempCharacter)
-    end
 end)
 
 RegisterNetEvent('botrp:client:characters', function(characters)
