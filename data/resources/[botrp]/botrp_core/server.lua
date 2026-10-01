@@ -54,6 +54,18 @@ exports('GetIdentifier', function(source)
     return exports.botrp_bridge:GetIdentifier(source)
 end)
 
+exports('GetLegacyPlayerData', function(identifier)
+    if not BotRPConfig.LegacyStorageFile then return nil end
+
+    local raw = LoadResourceFile(GetCurrentResourceName(), BotRPConfig.LegacyStorageFile)
+    if not raw or raw == '' then return nil end
+
+    local decoded = json.decode(raw)
+    if type(decoded) ~= 'table' then return nil end
+
+    return decoded[identifier]
+end)
+
 CreateThread(function()
     print('========================================')
     print('          BotRP Core Initialized')
