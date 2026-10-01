@@ -117,7 +117,15 @@ local function removeMoney(source, moneyType, amount, reason)
     return false
 end
 
-exports('GetFramework', function()\n    detectFramework()\n    return framework\nend)\n\nexports('HasResource', function(resourceName)\n    return resourceName and GetResourceState(resourceName) == 'started'\nend)
+exports('GetFramework', function()
+    detectFramework()
+    return framework
+end)
+
+exports('HasResource', function(resourceName)
+    return resourceName and GetResourceState(resourceName) == 'started'
+end)
+
 exports('GetPlayer', getPlayer)
 exports('GetPlayerData', getPlayerData)
 exports('GetIdentifier', getIdentifier)
@@ -126,8 +134,15 @@ exports('SetJob', setJob)
 exports('AddMoney', addMoney)
 exports('RemoveMoney', removeMoney)
 
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName == 'qbx_core' or resourceName == 'qb-core' then
+        detectFramework()
+    end
+end)
+
 CreateThread(function()
     detectFramework()
+
     print('========================================')
     print('       BotRP Compatibility Bridge')
     print('========================================')
