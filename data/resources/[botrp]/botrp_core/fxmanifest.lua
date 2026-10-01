@@ -7,5 +7,7 @@ version '1.0.0'
 
 dependency 'botrp_bridge'
 
+shared_script 'config.lua'
+
 server_script 'server.lua'
 client_script 'client.lua'
