@@ -117,7 +117,7 @@ local function removeMoney(source, moneyType, amount, reason)
     return false
 end
 
-exports('GetFramework', function() return framework end)
+exports('GetFramework', function()\n    detectFramework()\n    return framework\nend)\n\nexports('HasResource', function(resourceName)\n    return resourceName and GetResourceState(resourceName) == 'started'\nend)
 exports('GetPlayer', getPlayer)
 exports('GetPlayerData', getPlayerData)
 exports('GetIdentifier', getIdentifier)
