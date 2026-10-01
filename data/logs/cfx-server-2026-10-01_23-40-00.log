@@ -1,0 +1,32 @@
+[01-10-2026 23:40:00] [    info] [                ] Scanning resources
+[01-10-2026 23:40:00] [    info] [                ] Found 3 resources
+[01-10-2026 23:40:01] [   error] [                ] Failed to ensure resource mapmanager. Error: Resource "mapmanager" not found
+[01-10-2026 23:40:01] [    info] [                ] Starting resource chat
+[01-10-2026 23:40:01] [    info] [                ] Started resource chat
+[01-10-2026 23:40:01] [   error] [                ] Failed to ensure resource spawnmanager. Error: Resource "spawnmanager" not found
+[01-10-2026 23:40:01] [   error] [                ] Failed to ensure resource sessionmanager. Error: Resource "sessionmanager" not found
+[01-10-2026 23:40:01] [   error] [                ] Failed to ensure resource basic-gamemode. Error: Resource "basic-gamemode" not found
+[01-10-2026 23:40:01] [   error] [                ] Failed to ensure resource hardcap. Error: Resource "hardcap" not found
+[01-10-2026 23:40:01] [   error] [                ] Failed to ensure resource rconlog. Error: Resource "rconlog" not found
+[01-10-2026 23:40:01] [    info] [                ] Starting resource botrp_core
+[01-10-2026 23:40:01] [    info] [                ] Started resource botrp_core
+[01-10-2026 23:40:01] [    info] [      botrp_core] ========================================
+[01-10-2026 23:40:01] [    info] [      botrp_core]         BotRP Core Initializing
+[01-10-2026 23:40:01] [    info] [      botrp_core] ========================================
+[01-10-2026 23:40:01] [    info] [      botrp_core] [BotRP] Framework: Custom
+[01-10-2026 23:40:01] [    info] [      botrp_core] [BotRP] Version: 0.1.0
+[01-10-2026 23:40:01] [    info] [      botrp_core] [BotRP] QBCore: Disabled
+[01-10-2026 23:40:01] [    info] [      botrp_core] [BotRP] Qbox: Disabled
+[01-10-2026 23:40:01] [    info] [      botrp_core] [BotRP] ESX: Disabled
+[01-10-2026 23:40:01] [    info] [      botrp_core] [BotRP] Core initialized successfully.
+[01-10-2026 23:40:01] [    info] [      botrp_core] ========================================
+[01-10-2026 23:40:01] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:40:32] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:41:02] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:41:32] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:42:03] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:42:33] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:43:03] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:43:34] [   error] [                ] Server list query returned an error: Cfx failed to reach the server at 171.76.84.116:30120 - check if the sv_listingIpOverride or sv_listingHostOverride in the server config is correct (https://docs.fivem.net/docs/server-manual/server-commands/#sv_listingipoverride-ip). The server might show as listed but players may not be able to connect..
+[01-10-2026 23:43:45] [    info] [                ] "Ctrl-C pressed in server console."
+[01-10-2026 23:43:45] [    info] [                ] Server shutdown

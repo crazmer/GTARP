@@ -1,0 +1,4 @@
+[01-10-2026 23:25:06] [    info] [                ] Scanning resources
+[01-10-2026 23:25:06] [    info] [                ] Found 3 resources
+[01-10-2026 23:25:06] [   error] [                ] A valid license check is required to run this server. Error: Invalid key format specified.
+[01-10-2026 23:25:07] [    info] [                ] Server shutdown
