@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BotRP Character System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app" class="hidden">
+<section id="selection" class="panel">
+<div class="eyebrow">BOTRP</div>
+<h1>Character Selection</h1>
+<p class="subtitle">Choose your character or create a new one.</p>
+<div id="characterList" class="character-list"></div>
+<button id="newCharacter" class="primary">Create Character</button>
+</section>
+<section id="creation" class="panel hidden">
+<div class="eyebrow">BOTRP</div>
+<h1>Create Character</h1>
+<p class="subtitle">Enter the identity for your new character.</p>
+<form id="characterForm">
+<div class="grid">
+<label>First Name<input id="firstName" maxlength="32" required></label>
+<label>Last Name<input id="lastName" maxlength="32" required></label>
+<label>Date of Birth<input id="dateOfBirth" placeholder="DD/MM/YYYY" maxlength="16" required></label>
+<label>Nationality<input id="nationality" maxlength="32" required></label>
+<label>Gender<select id="gender"><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></label>
+</div>
+<div class="actions"><button type="button" id="back" class="secondary">Back</button><button type="submit" class="primary">Create Character</button></div>
+</form>
+</section>
+<div id="message" class="message"></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
