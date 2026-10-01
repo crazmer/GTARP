@@ -118,6 +118,36 @@ local function printCharacters(characters)
     notify('Use /selectchar ID to enter the city.')
 end
 
+local function openCharacterUI(characters)
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        action = 'open',
+        characters = characters or {}
+    })
+end
+
+local function closeCharacterUI()
+    SetNuiFocus(false, false)
+    SendNUIMessage({ action = 'close' })
+end
+
+RegisterNUICallback('createCharacter', function(data, cb)
+    TriggerServerEvent(
+        'botrp:server:createCharacter',
+        data.firstName,
+        data.lastName,
+        data.dateOfBirth,
+        data.nationality,
+        data.gender
+    )
+    cb({ ok = true })
+end)
+
+RegisterNUICallback('selectCharacter', function(data, cb)
+    TriggerServerEvent('botrp:server:selectCharacter', data.id)
+    cb({ ok = true })
+end)
+
 RegisterNetEvent('botrp:client:sessionReady', function(data)
     session = data
 
@@ -127,11 +157,11 @@ RegisterNetEvent('botrp:client:sessionReady', function(data)
     if #(data.characters or {}) == 0 then
         notify('Welcome to BotRP development.')
         notify('No character exists yet.')
-        notify('Use /createchar First Last DD/MM/YYYY Nationality Gender')
     else
         notify(('Welcome back, %s.'):format(GetPlayerName(PlayerId()) or 'Player'))
-        printCharacters(data.characters)
     end
+
+    openCharacterUI(data.characters)
 
     if not spawned then
         local tempCharacter = {
@@ -154,10 +184,15 @@ end)
 
 RegisterNetEvent('botrp:client:characterResult', function(success, message)
     notify(message)
+    SendNUIMessage({
+        action = 'message',
+        message = message
+    })
 end)
 
 RegisterNetEvent('botrp:client:characterSelected', function(character)
     currentCharacter = character
+    closeCharacterUI()
 
     notify(('Entering as %s %s.'):format(character.firstName, character.lastName))
 
@@ -206,3 +241,11 @@ CreateThread(function()
 
     print('[BotRP] Network session started.')
 end)
+
+
+-- Developer command kept temporarily for testing.
+RegisterCommand('charui', function()
+    if session then
+        openCharacterUI(session.characters or {})
+    end
+end, false)
